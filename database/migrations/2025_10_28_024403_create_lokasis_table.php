@@ -1,0 +1,26 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('lokasis', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama')->unique(); // contoh: Ruang Baca, Ruang Arsip, Ruang Server
+            $table->string('kode')->nullable(); // contoh: RB, RA, RS
+            $table->string('gedung')->nullable();
+            $table->string('lantai')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('lokasis');
+    }
+};
+
