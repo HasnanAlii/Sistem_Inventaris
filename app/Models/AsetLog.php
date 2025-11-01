@@ -10,16 +10,23 @@ class AsetLog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'aset_id', 'user_id', 'type', 'keterangan'
+        'nama_barang', 'jumlah', 'biaya', 'tanggal_pengadaan'
     ];
-
     public function aset()
     {
         return $this->belongsTo(Aset::class);
     }
+     protected $casts = [
+        'tanggal_pengadaan' => 'datetime',
+    ];
 
-    public function user()
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+       public function asets()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Aset::class, 'aset_log_id');
     }
+
 }

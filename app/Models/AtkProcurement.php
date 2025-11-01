@@ -9,19 +9,28 @@ class AtkProcurement extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nama_barang', 'jumlah', 'tanggal_pengadaan', 
+        protected $fillable = [
+        'nama_barang',
+        'jumlah',
+        'biaya',
+        'tanggal_pengadaan',
     ];
 
     protected $dates = [
         'tanggal_pengadaan',
     ];
-     protected $casts = [
+
+    protected $casts = [
         'tanggal_pengadaan' => 'datetime',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function atks()
+    {
+        return $this->hasMany(Atk::class, 'procurement_id');
     }
 }

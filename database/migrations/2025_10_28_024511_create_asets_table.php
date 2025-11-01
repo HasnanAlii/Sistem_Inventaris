@@ -27,6 +27,8 @@ return new class extends Migration
             $table->enum('status', ['aktif', 'dipinjam', 'diperbaiki', 'dihapuskan'])->default('aktif');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('aset_log_id')->constrained('aset_logs')->onDelete('cascade');
+
             $table->timestamps();
             $table->softDeletes();
         });

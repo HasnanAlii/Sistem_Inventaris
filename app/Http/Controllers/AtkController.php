@@ -35,32 +35,41 @@ class AtkController extends Controller
 
 public function store(Request $request)
 {
+    // ✅ Validasi input
     $validated = $request->validate([
-        'nama_barang' => 'required|string|max:255',
-        'stok' => 'required|integer|min:0',
-        'stok_minimum' => 'required|integer|min:0',
-        'harga_satuan' => 'nullable|numeric|min:0',
-        'tanggal_masuk' => 'nullable|date',
-        'keterangan' => 'nullable|string',
+        'nama_barang'     => 'required|string|max:255',
+        'stok'            => 'required|integer|min:0',
+        'stok_minimum'    => 'required|integer|min:0',
+        'harga_satuan'    => 'nullable|numeric|min:0',
+        'tanggal_masuk'   => 'nullable|date',
+        'keterangan'      => 'nullable|string',
     ]);
 
     // 1️⃣ Simpan ke tabel ATK
     $count = Atk::count() + 1;
-    $atkData = $validated;
-    $atkData['kode_barang'] = 'ATK-' . str_pad($count, 4, '0', STR_PAD_LEFT);
-    $atkData['created_by'] = Auth::id();
-
-    $atk = Atk::create($atkData);
+    $atk = Atk::create([
+        'nama_barang'    => $validated['nama_barang'],
+        'stok'           => $validated['stok'],
+        'stok_minimum'   => $validated['stok_minimum'],
+        'harga_satuan'   => $validated['harga_satuan'] ?? 0,
+        'tanggal_masuk'  => $validated['tanggal_masuk'] ?? now(),
+        'keterangan'     => $validated['keterangan'] ?? null,
+        'kode_barang'    => 'ATK-' . str_pad($count, 4, '0', STR_PAD_LEFT),
+        // 'created_by'     => Auth::id(),
+    ]);
 
     // 2️⃣ Simpan ke tabel ATK Procurement
     AtkProcurement::create([
-        'nama_barang' => $atk->nama_barang,
-        'jumlah' => $validated['stok'],
-        'tanggal_pengadaan' => $validated['tanggal_masuk'] ?? now(),
+        'nama_barang'       => $atk->nama_barang,
+        'jumlah'            => $atk->stok,
+        'biaya'             => $atk->harga_satuan , // total biaya
+        'tanggal_pengadaan' => $atk->tanggal_masuk,
     ]);
 
-    return redirect()->route('atks.index')->with('success', 'Barang ATK berhasil ditambahkan dan pengadaan dicatat.');
+    return redirect()->route('atks.index')
+                     ->with('success', 'Barang ATK berhasil ditambahkan dan pengadaan dicatat.');
 }
+
 
 
     public function show(Atk $atk)

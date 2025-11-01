@@ -5,74 +5,100 @@
         </h2>
     </x-slot>
 
-    <!-- 🔹 Navigasi Subpage -->
-    <nav class="bg-white shadow-md border-b border-gray-200 px-6 py-3 flex items-center justify-start gap-4 rounded-lg mb-6">
-        <!-- Riwayat Permintaan ATK -->
+    <!-- 🔹 Navigasi Halaman -->
+    <nav class="bg-white shadow-md border border-gray-200 px-6 py-3 flex flex-wrap items-center gap-3 rounded-xl mb-8">
         <a href="{{ route('logs.atk') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('logs.atk') ? 'bg-green-200 border-green-600 text-green-900' : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('logs.atk') 
+                      ? 'bg-green-200 border-green-600 text-green-900 shadow-sm' 
+                      : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="clipboard" class="w-5 h-5"></i>
-            <span>Riwayat Permintaan ATK</span>
+            Riwayat Permintaan ATK
         </a>
 
-        <!-- Riwayat Pengadaan Aset -->
         <a href="{{ route('logs.aset') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('logs.aset') ? 'bg-blue-200 border-blue-600 text-blue-900' : 'border-blue-400 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-800' }}">
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('logs.aset') 
+                      ? 'bg-blue-200 border-blue-600 text-blue-900 shadow-sm' 
+                      : 'border-blue-400 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-800' }}">
             <i data-feather="package" class="w-5 h-5"></i>
-            <span>Riwayat Pengadaan Aset</span>
+            Riwayat Pengadaan Aset
         </a>
 
-          <a href="{{ route('logs.addatk') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('logs.addatk') ? 'bg-yellow-200 border-yellow-600 text-yellow-900' : 'border-yellow-400 text-yellow-700 bg-yellow-50 hover:bg-yellow-100 hover:border-yellow-500 hover:text-yellow-800' }}">
-            <i data-feather="package" class="w-5 h-5"></i>
-            <span>Riwayat Pengadaan ATK</span>
+        <a href="{{ route('logs.addatk') }}"
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('logs.addatk') 
+                      ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-sm' 
+                      : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
+            <i data-feather="archive" class="w-5 h-5"></i>
+            Riwayat Pengadaan ATK
         </a>
     </nav>
-    <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
 
-                <!-- 📋 Tabel Log -->
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border border-gray-200 text-sm">
-                        <thead class="bg-gray-100">
+    <!-- 🔹 Konten -->
+    <div class="py-6">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white shadow-md rounded-2xl border border-gray-100 overflow-hidden">
+
+                <!-- Header Tabel -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-sky-50">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <i data-feather="clock" class="w-5 h-5 text-blue-600"></i>
+                        Riwayat Pengadaan Aset
+                    </h3>
+                    <a href="{{ route('aset_logs.create') }}" 
+                       class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition font-medium">
+                        <i data-feather="plus-circle" class="w-5 h-5"></i>
+                        Tambah Pengadaan
+                    </a>
+                </div>
+
+                <!-- Tabel Data -->
+                <div class="overflow-x-auto p-6">
+                    <table class="min-w-[900px] w-full border border-gray-200 divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th class="px-4 py-2 border">#</th>
-                                <th class="px-4 py-2 border">Aset</th>
-                                <th class="px-4 py-2 border">Aksi</th>
-                                <th class="px-4 py-2 border">Oleh</th>
-                                <th class="px-4 py-2 border">Keterangan</th>
-                                <th class="px-4 py-2 border">Tanggal</th>
+                                <th class="px-4 py-3 text-left">#</th>
+                                <th class="px-4 py-3 text-left">Nama Pengadaan</th>
+                                <th class="px-4 py-3 text-left">Jumlah</th>
+                                <th class="px-4 py-3 text-left">Biaya</th>
+                                <th class="px-4 py-3 text-center">Tanggal Pengadaan</th>
+                                <th class="px-4 py-3 text-center">Aksi</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse($logs as $log)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-2 border">{{ $log->aset->nama ?? '-' }}</td>
-                                    <td class="px-4 py-2 border capitalize">{{ $log->type }}</td>
-                                    <td class="px-4 py-2 border">{{ $log->user->name ?? '-' }}</td>
-                                    <td class="px-4 py-2 border">{{ $log->keterangan }}</td>
-                                    <td class="px-4 py-2 border">{{ $log->created_at->format('d/m/Y H:i') }}</td>
+                                <tr class="hover:bg-blue-50 transition duration-150">
+                                    <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
+                                    <td class="px-4 py-3">{{ $log->nama_barang }}</td>
+                                    <td class="px-4 py-3">{{ $log->jumlah }}</td>
+                                    <td class="px-4 py-3">{{ number_format($log->biaya, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-3 text-center">{{ $log->tanggal_pengadaan?->format('d/m/Y') ?? '-' }}</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <a href="{{ route('aset_logs.show', $log->id) }}"
+                                         class="text-blue-600 hover:text-blue-800 font-medium">
+                                            Detail
+                                        </a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-4 py-4 text-center text-gray-500">Belum ada riwayat aset.</td>
+                                    <td colspan="6" class="text-center text-gray-500 py-6">
+                                        Belum ada riwayat pengadaan.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <!-- 🔄 Pagination -->
-                <div class="mt-4">
+                <!-- Pagination -->
+                <div class="p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
                     {{ $logs->links() }}
                 </div>
-
-         
             </div>
         </div>
     </div>
+
 </x-app-layout>

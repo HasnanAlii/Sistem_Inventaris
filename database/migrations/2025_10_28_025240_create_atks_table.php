@@ -12,14 +12,14 @@ return new class extends Migration
             $table->id();
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
-            // $table->string('satuan'); // misal: pcs, box, rim
             $table->integer('stok')->default(0);
             $table->integer('stok_minimum')->default(5);
             $table->integer('harga_satuan')->nullable();
-            // $table->string('kondisi')->default('baik'); // baik, rusak
             $table->date('tanggal_masuk')->nullable();
             $table->text('keterangan')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreignId('procurement_id')->constrained('atk_procurements')->onDelete('cascade');
+
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();

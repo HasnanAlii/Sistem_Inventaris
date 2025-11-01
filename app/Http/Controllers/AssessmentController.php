@@ -16,14 +16,22 @@ class AssessmentController extends Controller
         $this->assessmentService = $assessmentService;
     }
 
-   // 🧾 Tampilkan daftar penilaian aset
-public function index()
+  public function index(Request $request)
 {
-    $assessments= Assessment::with('aset')->latest()->paginate(10);
-    $asets = \App\Models\Aset::all(); // Tambahkan ini untuk dropdown/filter di view
+    $query = Assessment::with('aset')->latest();
 
-    return view('assessments.index', compact('assessments','asets'));
+    // Filter berdasarkan nama aset (cari)
+    if ($request->filled('aset_name')) {
+        $query->whereHas('aset', function ($q) use ($request) {
+            $q->where('nama', 'like', '%' . $request->aset_name . '%');
+        });
+    }
+
+    $assessments = $query->paginate(10)->withQueryString();
+
+    return view('assessments.index', compact('assessments'));
 }
+
 
     // ➕ Form tambah penilaian
     public function create()

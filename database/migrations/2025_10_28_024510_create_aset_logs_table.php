@@ -8,9 +8,10 @@ return new class extends Migration {
     {
         Schema::create('aset_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('aset_id')->constrained('asets')->onDelete('cascade');
-            $table->enum('type', ['created', 'updated', 'deleted'])->default('created');
-            $table->text('keterangan')->nullable();
+            $table->string('nama_barang');
+            $table->integer('jumlah');
+            $table->integer('biaya');
+            $table->date('tanggal_pengadaan')->nullable();
             $table->timestamps();
         });
     }

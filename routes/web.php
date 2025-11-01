@@ -84,13 +84,17 @@ Route::middleware('auth')->group(function () {
         Route::put('/{lokasi}', [LokasiController::class, 'update'])->name('lokasis.update');
         Route::delete('/{lokasi}', [LokasiController::class, 'destroy'])->name('lokasis.destroy');
     });
+    Route::prefix('aset-logs')->group(function () {
+        Route::get('/', [AsetLogController::class, 'index'])->name('aset_logs.index');
+        Route::get('/create', [AsetLogController::class, 'create'])->name('aset_logs.create');
+        Route::post('/store', [AsetLogController::class, 'store'])->name('aset_logs.store');
+        Route::get('/{asetLog}', [AsetLogController::class, 'show'])->name('aset_logs.show');
 
+    });
     // ---------- ATK ----------
     Route::prefix('atks')->group(function () {
-        // CRUD ATK
         // Request & pengambilan ATK
         Route::get('/list', [AtkLogController::class, 'list'])->name('logs.list');
-
         Route::get('/request', [AtkController::class, 'requestForm'])->name('atks.take');
         Route::post('/request', [AtkController::class, 'storeRequest'])->name('atks.request.store');
         Route::get('/', [AtkController::class, 'index'])->name('atks.index');
@@ -102,7 +106,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{atk}', [AtkController::class, 'destroy'])->name('atks.destroy');
 
     });
+    Route::prefix('atkprocurements')->name('atkprocurements.')->group(function () {
+        Route::get('/create', [AtkProcurementController::class, 'create'])->name('create');
+        Route::post('/store', [AtkProcurementController::class, 'store'])->name('store');
+        Route::get('/{atkProcurement}', [AtkProcurementController::class, 'show'])->name('show');
 
+    });
     // ---------- LOGS ----------
     Route::prefix('logs')->group(function () {
         // ATK Logs

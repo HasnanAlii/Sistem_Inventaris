@@ -16,7 +16,7 @@ use HasFactory, SoftDeletes;
 protected $fillable = [
 'nomor_inventaris', 'nama', 'kategori_id', 'merek', 'tipe', 'serial_number',
 'tanggal_perolehan', 'umur_ekonomis', 'harga', 'lokasi_id', 'kondisi', 'status',
-'created_by', 'updated_by'
+'created_by', 'updated_by', 'aset_log_id'
 ];
 
 
@@ -32,7 +32,10 @@ public function kategori()
 return $this->belongsTo(Kategori::class);
 }
 
-
+public function asetLog()
+{
+        return $this->belongsTo(AsetLog::class, 'aset_log_id');
+}
 public function lokasi()
 {
 return $this->belongsTo(Lokasi::class);

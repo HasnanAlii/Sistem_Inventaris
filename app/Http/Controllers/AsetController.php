@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aset;
 use App\Models\AsetLog;
+use App\Models\Assessment;
 use App\Models\Kategori;
 use App\Models\Lokasi;
 use App\Services\AssetAssessmentService;
@@ -17,29 +18,31 @@ public function index(Request $request)
 {
     $query = Aset::with(['kategori', 'lokasi']);
 
-    // Filter berdasarkan pencarian nama
+    // Filter pencarian
     if ($request->filled('search')) {
         $query->where('nama', 'like', '%' . $request->search . '%');
     }
 
-    // Filter berdasarkan kategori
+    // Filter kategori
     if ($request->filled('kategori_id')) {
         $query->where('kategori_id', $request->kategori_id);
     }
 
-    // Filter berdasarkan kondisi
+    // Filter lokasi
+    if ($request->filled('lokasi_id')) {
+        $query->where('lokasi_id', $request->lokasi_id);
+    }
+
+    // Filter kondisi
     if ($request->filled('kondisi')) {
         $query->where('kondisi', $request->kondisi);
     }
 
-    // Ambil hasil terbaru dengan pagination
     $asets = $query->latest()->paginate(10)->withQueryString();
 
-    // Ambil data untuk dropdown/filter
     $kategoris = Kategori::orderBy('nama')->get();
     $lokasis = Lokasi::orderBy('nama')->get();
 
-    // Kirim ke view
     return view('asets.index', compact('asets', 'kategoris', 'lokasis'));
 }
 
@@ -104,7 +107,7 @@ public function store(Request $request)
     ]);
 
     // 🔹 Buat Assessment otomatis
-    \App\Models\Assessment::create([
+    Assessment::create([
         'aset_id' => $aset->id,
         'condition' => $aset->kondisi, // bisa ambil kondisi awal dari aset
         'notes' => 'Penilaian awal otomatis',

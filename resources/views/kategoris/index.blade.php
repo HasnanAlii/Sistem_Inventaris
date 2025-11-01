@@ -5,121 +5,112 @@
         </h2>
     </x-slot>
 
-    <!-- 🔹 Menu Navigasi Subpage -->
-    <nav class="bg-white shadow-md border-b border-gray-200 px-6 py-3 flex items-center justify-start gap-4 rounded-lg mb-6">
-        <!-- Kategori -->
+    <!-- 🔹 Navigasi Halaman -->
+    <nav class="bg-white shadow-md border border-gray-200 px-6 py-3 flex flex-wrap items-center gap-3 rounded-xl mb-8">
         <a href="{{ route('kategoris.index') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('kategoris.*') ? 'bg-blue-200 border-blue-600 text-blue-900' : 'border-blue-400 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-800' }}">
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('kategoris.*')
+                      ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-sm'
+                      : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather="layers" class="w-5 h-5"></i>
-            <span>Kategori</span>
+            Kategori
         </a>
 
-        <!-- Lokasi -->
         <a href="{{ route('lokasis.index') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('lokasis.*') ? 'bg-purple-200 border-purple-600 text-purple-900' : 'border-purple-400 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-500 hover:text-purple-800' }}">
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('lokasis.*')
+                      ? 'bg-purple-200 border-purple-600 text-purple-900 shadow-sm'
+                      : 'border-purple-400 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-500 hover:text-purple-800' }}">
             <i data-feather="map-pin" class="w-5 h-5"></i>
-            <span>Lokasi</span>
+            Lokasi
         </a>
     </nav>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-100">
 
-                <!-- 🔹 Tambah Kategori -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200">
-                    @hasrole('petugas')
-                    <a href="{{ route('kategoris.create') }}"
-                       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full sm:w-auto text-center">
-                        + Tambah Kategori
-                    </a>
-                    @endhasrole
+                <!-- Header Tabel -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-yellow-50">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <i data-feather="layers" class="w-5 h-5 text-amber-600"></i>
+                        Daftar Kategori Aset
+                    </h3>
 
-                    @if (session('success'))
-                        <div class="bg-green-100 text-green-700 p-3 rounded w-full sm:w-auto">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <div class="flex flex-col sm:flex-row gap-3 items-center w-full sm:w-auto">
+            
+
+                        @hasrole('petugas')
+                        <a href="{{ route('kategoris.create') }}"
+                           class="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-amber-700 hover:shadow-lg transition-all duration-200">
+                            <i data-feather="plus-circle" class="w-5 h-5"></i>
+                            Tambah Kategori
+                        </a>
+                        @endhasrole
+                    </div>
                 </div>
+
+                <!-- Pesan sukses -->
+                @if(session('success'))
+                    <div class="p-4 mx-6 my-4 text-green-700 bg-green-50 border border-green-200 rounded-lg shadow-sm">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
                 <!-- 📋 Tabel Data -->
                 <div class="overflow-x-auto p-6">
-                    <table class="w-full text-left border border-gray-200 rounded-lg">
-                        <thead class="bg-gray-100 text-gray-700">
+                    <table class="min-w-[700px] w-full border border-gray-200 divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th class="px-4 py-2 border">#</th>
-                                <th class="px-4 py-2 border">Nama</th>
-                                <th class="px-4 py-2 border">Kode</th>
-                                <th class="px-4 py-2 border">Deskripsi</th>
+                                <th class="px-4 py-3 text-left">#</th>
+                                <th class="px-4 py-3 text-left">Nama</th>
+                                <th class="px-4 py-3 text-left">Kode</th>
+                                <th class="px-4 py-3 text-left">Deskripsi</th>
                                 @hasrole('petugas')
-                                <th class="px-4 py-2 border text-center w-48">Aksi</th>
+                                <th class="px-4 py-3 text-center">Aksi</th>
                                 @endhasrole
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($kategoris as $i => $kategori)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">{{ $i + 1 }}</td>
-                                    <td class="px-4 py-2 border">{{ $kategori->nama }}</td>
-                                    <td class="px-4 py-2 border">{{ $kategori->kode }}</td>
-                                    <td class="px-4 py-2 border">{{ $kategori->deskripsi ?? '-' }}</td>
+                                <tr class="hover:bg-amber-50 transition duration-150">
+                                    <td class="px-4 py-3">{{ $i + 1 + ($kategoris->currentPage() - 1) * $kategoris->perPage() }}</td>
+                                    <td class="px-4 py-3 font-medium text-gray-800">{{ $kategori->nama }}</td>
+                                    <td class="px-4 py-3">{{ $kategori->kode }}</td>
+                                    <td class="px-4 py-3 text-gray-600">{{ $kategori->deskripsi ?? '-' }}</td>
+
                                     @hasrole('petugas')
-                                    <td class="px-4 py-2 border text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <a href="{{ route('kategoris.edit', $kategori) }}" class="text-yellow-600 hover:underline">Edit</a>
-                                            <button type="button" 
-                                                    onclick="openDeleteModal('{{ route('kategoris.destroy', $kategori) }}')" 
-                                                    class="text-red-600 hover:underline">
+                                    <td class="px-4 py-3 text-center flex justify-center gap-3">
+                                        <a href="{{ route('kategoris.edit', $kategori) }}"
+                                           class="text-yellow-600 hover:text-yellow-800 font-medium transition">Edit</a>
+                                        <form action="{{ route('kategoris.destroy', $kategori) }}" method="POST"
+                                              onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium transition">
                                                 Hapus
                                             </button>
-                                        </div>
+                                        </form>
                                     </td>
                                     @endhasrole
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-4 py-4 text-center text-gray-500">Belum ada kategori.</td>
+                                    <td colspan="5" class="text-center text-gray-500 py-6">Belum ada data kategori aset.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <!-- 🔄 Pagination -->
-                <div class="p-6 border-t border-gray-200">
+                <!-- Pagination -->
+                <div class="p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
                     {{ $kategoris->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 🗑️ Modal Konfirmasi Hapus -->
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
-            <h3 class="text-lg font-semibold mb-3">Hapus Kategori?</h3>
-            <p class="text-gray-600 mb-4">Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="flex justify-end space-x-2">
-                <button onclick="toggleModal(false)" class="px-4 py-2 border rounded-lg">Batal</button>
-                <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Hapus</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function openDeleteModal(url) {
-            document.getElementById('deleteForm').action = url;
-            toggleModal(true);
-        }
-        function toggleModal(show) {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.toggle('hidden', !show);
-            modal.classList.toggle('flex', show);
-        }
+        feather.replace();
     </script>
 </x-app-layout>

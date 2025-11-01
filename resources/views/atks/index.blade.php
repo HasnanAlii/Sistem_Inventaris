@@ -5,137 +5,137 @@
         </h2>
     </x-slot>
 
-    <!-- 🔹 Menu Navigasi Subpage -->
-    <nav class="bg-white shadow-md border-b border-gray-200 px-6 py-3 flex items-center justify-start gap-4 rounded-lg mb-6">
-        <!-- List ATK -->
+    <!-- 🔹 Navigasi Halaman -->
+    <nav class="bg-white shadow-md border border-gray-200 px-6 py-3 flex flex-wrap items-center gap-3 rounded-xl mb-8">
         <a href="{{ route('atks.index') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('atks.*') ? 'bg-amber-200 border-amber-600 text-amber-900' : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
-            <i data-feather="package" class="w-5 h-5"></i>
-            <span>List ATK</span>
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('atks.*') 
+                      ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-sm' 
+                      : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
+            <i data-feather='package' class="w-5 h-5"></i>
+            List ATK
         </a>
 
-        <!-- Permintaan ATK -->
         <a href="{{ route('logs.list') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold text-sm
-                  {{ request()->routeIs('logs.*') ? 'bg-green-200 border-green-600 text-green-900' : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
+           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+                  {{ request()->routeIs('logs.*') 
+                      ? 'bg-green-200 border-green-600 text-green-900 shadow-sm' 
+                      : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="tool" class="w-5 h-5"></i>
-            <span>Permintaan ATK</span>
+            Permintaan ATK
         </a>
     </nav>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-md rounded-xl overflow-hidden">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-100">
 
-                <!-- 🔍 Filter & Tambah -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200">
-                    <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama barang..." 
-                               class="border rounded-lg px-3 py-2 w-full sm:w-auto focus:ring-blue-500 focus:border-blue-500">
+                <!-- Header Tabel -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-yellow-50">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <i data-feather="package" class="w-5 h-5 text-amber-600"></i>
+                        Data ATK (Alat Tulis Kantor)
+                    </h3>
 
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    <div class="flex flex-wrap items-center gap-3">
+                     <form method="GET" class="flex items-center gap-2">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama barang..."
+                            class="border rounded-full px-3 py-2 w-56 focus:ring-amber-500 focus:border-amber-500 text-sm"
+                            autocomplete="off">
+
+                        <button type="submit"
+                                class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full font-medium 
+                                    hover:bg-blue-700 hover:shadow-md transition-all duration-200">
+                            {{-- <i data-feather="search" class="w-5 h-5"></i> --}}
                             Cari
                         </button>
                     </form>
 
-                    @hasrole('petugas')
-                    <a href="{{ route('atks.create') }}" 
-                       class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 w-full sm:w-auto text-center">
-                        + Tambah ATK
-                    </a>
-                    @endhasrole
+                        {{-- @hasrole('petugas')
+                        <a href="{{ route('atks.create') }}"
+                            class="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-medium 
+                             hover:bg-amber-700 hover:shadow-lg shadow-md transition-all duration-200">
+                        <i data-feather="plus-circle" class="w-5 h-5"></i>
+                        <span>Tambah ATK</span>
+                        </a>
 
+                        @endhasrole --}}
+                    </div>
                 </div>
+
+                <!-- Pesan sukses -->
+                @if(session('success'))
+                    <div class="p-4 mx-6 my-4 text-green-700 bg-green-50 border border-green-200 rounded-lg shadow-sm">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
                 <!-- 📋 Tabel Data -->
                 <div class="overflow-x-auto p-6">
-                    <table class="w-full text-left border border-gray-200 rounded-lg">
-                        <thead class="bg-gray-100">
+                    <table class="min-w-[800px] w-full border border-gray-200 divide-y divide-gray-200 text-sm">
+                        <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                             <tr>
-                                <th class="px-4 py-2 border">Kode</th>
-                                <th class="px-4 py-2 border">Nama Barang</th>
-                                <th class="px-4 py-2 border">Stok</th>
-                                <th class="px-4 py-2 border text-right">Harga</th>
-                                <th class="px-4 py-2 border">Tanggal Masuk</th>
+                                <th class="px-4 py-3 text-left">Kode</th>
+                                <th class="px-4 py-3 text-left">Nama Barang</th>
+                                <th class="px-4 py-3 text-left">Stok</th>
+                                <th class="px-4 py-3 text-right">Harga</th>
+                                <th class="px-4 py-3 text-left">Tanggal Masuk</th>
                                 @hasrole('petugas')
-                                <th class="px-4 py-2 border text-center w-48">Aksi</th>
+                                <th class="px-4 py-3 text-center">Aksi</th>
                                 @endhasrole
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse ($atks as $atk)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">{{ $atk->kode_barang }}</td>
-                                    <td class="px-4 py-2 border">{{ $atk->nama_barang }}</td>
-                                    <td class="px-4 py-2 border">
-                                        <div class="flex items-center space-x-2 {{ $atk->stok <= $atk->stok_minimum ? 'text-red-600 font-bold' : '' }}">
+                                <tr class="hover:bg-amber-50 transition duration-150">
+                                    <td class="px-4 py-3 font-medium text-gray-800">{{ $atk->kode_barang }}</td>
+                                    <td class="px-4 py-3">{{ $atk->nama_barang }}</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2 {{ $atk->stok <= $atk->stok_minimum ? 'text-red-600 font-semibold' : '' }}">
                                             <span>{{ $atk->stok }}</span>
                                             @if($atk->stok <= $atk->stok_minimum)
-                                                <span class="text-xs text-red-600">⚠️ Stok hampir habis!</span>
+                                                <span class="text-xs text-red-600">⚠️ Stok rendah</span>
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="px-4 py-2 border text-right">Rp {{ number_format($atk->harga_satuan, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-2 border">{{ $atk->tanggal_masuk }}</td>
-                                      @hasrole('petugas')
+                                    <td class="px-4 py-3 text-right">Rp {{ number_format($atk->harga_satuan, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-3 text-gray-600">{{ $atk->tanggal_masuk }}</td>
 
-                                    <td class="px-4 py-2 border text-center">
-                                        <div class="flex justify-center space-x-2">
-                                            <a href="{{ route('atks.show', $atk) }}" class="text-blue-600 hover:underline">Lihat</a>
-                                            <a href="{{ route('atks.edit', $atk) }}" class="text-yellow-600 hover:underline">Edit</a>
-                                            <button type="button" 
-                                                    onclick="openDeleteModal('{{ route('atks.destroy', $atk) }}')" 
-                                                    class="text-red-600 hover:underline">
+                                    @hasrole('petugas')
+                                    <td class="px-4 py-3 text-center flex justify-center gap-3">
+                                        <a href="{{ route('atks.show', $atk) }}"
+                                           class="text-blue-600 hover:text-blue-800 font-medium transition">Lihat</a>
+                                        <a href="{{ route('atks.edit', $atk) }}"
+                                           class="text-yellow-600 hover:text-yellow-800 font-medium transition">Edit</a>
+
+                                        <form action="{{ route('atks.destroy', $atk) }}" method="POST"
+                                              onsubmit="return confirm('Yakin ingin menghapus ATK ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium transition">
                                                 Hapus
                                             </button>
-                                        </div>
+                                        </form>
                                     </td>
                                     @endhasrole
-
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="px-4 py-4 text-center text-gray-500">Tidak ada data ATK.</td>
+                                    <td colspan="6" class="text-center text-gray-500 py-6">
+                                        Tidak ada data ATK ditemukan.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <!-- 🔄 Pagination -->
-                <div class="p-6 border-t border-gray-200">
+                <!-- Pagination -->
+                <div class="p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
                     {{ $atks->links() }}
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- 🗑️ Modal Konfirmasi Hapus -->
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
-            <h3 class="text-lg font-semibold mb-3">Hapus ATK?</h3>
-            <p class="text-gray-600 mb-4">Tindakan ini tidak dapat dibatalkan.</p>
-            <div class="flex justify-end space-x-2">
-                <button onclick="toggleModal(false)" class="px-4 py-2 border rounded-lg">Batal</button>
-                <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Hapus</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openDeleteModal(url) {
-            document.getElementById('deleteForm').action = url;
-            toggleModal(true);
-        }
-        function toggleModal(show) {
-            const modal = document.getElementById('deleteModal');
-            modal.classList.toggle('hidden', !show);
-            modal.classList.toggle('flex', show);
-        }
-    </script>
 </x-app-layout>

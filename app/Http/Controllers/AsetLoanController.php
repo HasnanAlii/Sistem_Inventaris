@@ -12,16 +12,21 @@ class AsetLoanController extends Controller
     // 📝 Daftar peminjaman
     public function index()
     {
-        if (Auth::user()->hasRole('petugas')) {
-            // Petugas/Admin bisa melihat semua peminjaman
-            $loans = AsetLoan::with('aset', 'user')->latest()->paginate(10);
-        } else {
-            // Pegawai hanya melihat peminjaman sendiri
-            $loans = AsetLoan::with('aset')->where('user_id', Auth::id())->latest()->paginate(10);
+        $query = AsetLoan::with('aset', 'user');
+
+        // Filter berdasarkan role
+        if (!Auth::user()->hasRole('petugas')) {
+            $query->where('user_id', Auth::id());
         }
+
+        // Urutkan agar 'Menunggu Konfirmasi' muncul di atas
+        $loans = $query->orderByRaw("FIELD(status, 'Menunggu Konfirmasi') DESC")
+                    ->latest()
+                    ->paginate(10);
 
         return view('aset_loans.index', compact('loans'));
     }
+
 
     // ➕ Form pengajuan peminjaman
     public function create()

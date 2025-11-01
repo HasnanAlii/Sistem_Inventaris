@@ -31,7 +31,7 @@ class MaintenanceLogController extends Controller
         ]);
 
         MaintenanceLog::create($request->all());
-        return redirect()->route('maintenance-logs.index')->with('success', 'Data perbaikan berhasil ditambahkan.');
+        return redirect()->route('maintenance.index')->with('success', 'Data perbaikan berhasil ditambahkan.');
     }
 
     public function show(MaintenanceLog $maintenanceLog)

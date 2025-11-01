@@ -12,7 +12,6 @@ class Atk extends Model
     protected $fillable = [
         'kode_barang',
         'nama_barang',
-        // 'satuan',
         'stok',
         'stok_minimum',
         'harga_satuan',
@@ -20,29 +19,43 @@ class Atk extends Model
         'tanggal_masuk',
         'keterangan',
         'created_by',
-    ];
-    protected $casts = [
-        'stok' => 'integer',
+        'procurement_id', // relasi ke pengadaan
     ];
 
-    // Relasi ke user (jika ada login user)
+    protected $casts = [
+        'stok' => 'integer',
+        'stok_minimum' => 'integer',
+        'harga_satuan' => 'integer',
+        'tanggal_masuk' => 'date',
+    ];
+
+    // 🔹 Relasi ke user (creator)
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-        public function logs()
+
+    // 🔹 Relasi ke log ATK
+    public function logs()
     {
         return $this->hasMany(AtkLog::class);
     }
 
-    // Scope untuk stok menipis
+    // 🔹 Relasi ke permintaan ATK (jika ada)
+    public function permintaanAtks()
+    {
+        return $this->hasMany(PermintaanAtk::class);
+    }
+
+    // 🔹 Relasi ke pengadaan
+    public function procurement()
+    {
+        return $this->belongsTo(AtkProcurement::class, 'procurement_id');
+    }
+
+    // 🔹 Scope stok menipis
     public function scopeMenipis($query)
     {
         return $query->whereColumn('stok', '<=', 'stok_minimum');
     }
-    public function permintaanAtks()
-{
-    return $this->hasMany(PermintaanAtk::class);
-}
-
 }
