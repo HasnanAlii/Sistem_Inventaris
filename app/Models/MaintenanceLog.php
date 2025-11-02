@@ -14,7 +14,6 @@ class MaintenanceLog extends Model
         'tanggal',
         'jenis_perbaikan',
         'biaya',
-        'keterangan',
     ];
     protected $casts = [
         'tanggal' => 'date',

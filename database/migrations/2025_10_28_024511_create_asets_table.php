@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('tipe')->nullable();
             $table->string('serial_number')->nullable();
             $table->date('tanggal_perolehan');
-            $table->integer('umur_ekonomis')->default(5);
+            $table->integer('umur_ekonomis')->default(0);
             $table->decimal('harga', 15, 2);
             $table->foreignId('lokasi_id')->constrained('lokasis')->onDelete('cascade');
             $table->enum('kondisi', ['baru', 'baik', 'rusak_ringan', 'rusak_berat'])->default('baik');

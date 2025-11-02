@@ -21,19 +21,18 @@
         </div>
 
         <!-- 🔔 NOTIFIKASI PEMINJAMAN -->
-        <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded-2xl shadow-md">
-            <div class="flex items-center gap-3">
-                <i data-feather="bell" class="w-6 h-6 text-yellow-600"></i>
-                <h3 class="font-semibold text-yellow-800">Notifikasi</h3>
-            </div>
-            <p class="mt-2 text-gray-800">
-                @if($belumDikembalikan > 0)
+        @if($belumDikembalikan > 0)
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded-2xl shadow-md">
+                <div class="flex items-center gap-3">
+                    <i data-feather="bell" class="w-6 h-6 text-yellow-600"></i>
+                    <h3 class="font-semibold text-yellow-800">Notifikasi</h3>
+                </div>
+                <p class="mt-2 text-gray-800">
                     Anda memiliki <strong>{{ $belumDikembalikan }}</strong> aset yang belum dikembalikan.
-                @else
-                    Tidak ada aset yang perlu dikembalikan saat ini.
-                @endif
-            </p>
-        </div>
+                </p>
+            </div>
+        @endif
+
 
         <!-- 📦 TABEL PEMINJAMAN ASET & PERMINTAAN ATK -->
         <div class="flex flex-col lg:flex-row gap-6">

@@ -61,7 +61,7 @@
                         </a>
                         <button type="submit"
                                 class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 shadow-md transition">
-                            Update
+                            Simpan
                         </button>
                     </div>
                 </form>

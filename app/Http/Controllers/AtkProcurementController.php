@@ -34,7 +34,6 @@ public function store(Request $request)
         'atk_items.*.stok' => 'required|integer|min:1',
         'atk_items.*.harga_satuan' => 'nullable|numeric|min:0',
         'atk_items.*.tanggal_masuk' => 'nullable|date',
-        'atk_items.*.keterangan' => 'nullable|string|max:1000',
     ]);
 
     DB::transaction(function () use ($request) {
@@ -42,7 +41,7 @@ public function store(Request $request)
         $procurement = AtkProcurement::create([
             'nama_barang' => $request->nama_pengadaan,
             'jumlah' => array_sum(array_column($request->atk_items, 'stok')),
-            'biaya' => array_sum(array_map(fn($item) => ($item['harga_satuan'] ?? 0) * $item['stok'], $request->atk_items)),
+            'biaya' => $request->biaya,
             'tanggal_pengadaan' => now()->toDateString(),
         ]);
 
@@ -62,7 +61,6 @@ public function store(Request $request)
                 'harga_satuan' => $hargaSatuan,
                 'total_harga' => $stok * $hargaSatuan, 
                 'tanggal_masuk' => $item['tanggal_masuk'] ?? now()->toDateString(),
-                'keterangan' => $item['keterangan'] ?? null,
                 'created_by' => Auth::id(),
                 'procurement_id' => $procurement->id,
             ]);
@@ -94,17 +92,18 @@ public function store(Request $request)
     public function print(AtkProcurement $atkProcurement)
     {
    {
-    $atkProcurement->load('atks'); // Load data ATK
+    $atkProcurement->load('atks');
 
     $pdf = Pdf::loadView('atks.procurements.pdf', [
         'procurement' => $atkProcurement
-    ])->setPaper('a4', 'portrait'); // ukuran kertas A4
+    ])->setPaper('a4', 'portrait'); 
 
-    // Bisa langsung download
     return $pdf->download('Laporan_Pengadaan_ATK_'.$atkProcurement->id.'.pdf');
 
     
 }
     }
+
+    
 
 }

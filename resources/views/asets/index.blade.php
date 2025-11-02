@@ -111,7 +111,7 @@
                                 <th class="px-5 py-3 text-left">Kategori</th>
                                 <th class="px-5 py-3 text-left">Lokasi</th>
                                 <th class="px-5 py-3 text-left">Kondisi</th>
-                                <th class="px-5 py-3 text-center">Umur</th>
+                                {{-- <th class="px-5 py-3 text-center">Umur</th> --}}
                                 <th class="px-5 py-3 text-center">Tanggal Perolehan</th>
                                 <th class="px-5 py-3 text-right">Harga</th>
                                 @hasrole('petugas')
@@ -128,7 +128,7 @@
                                     <td class="px-5 py-4">{{ $aset->kategori->nama ?? '-' }}</td>
                                     <td class="px-5 py-4">{{ $aset->lokasi->nama ?? '-' }}</td>
                                     <td class="px-5 py-4 capitalize">{{ str_replace('_', ' ', $aset->kondisi) }}</td>
-                                    <td class="px-5 py-4 text-center">{{ $aset->umur_ekonomis }} thn</td>
+                                    {{-- <td class="px-5 py-4 text-center">{{ $aset->umur_ekonomis }} Bulan</td> --}}
                                     <td class="px-5 py-4 text-center">{{ $aset->tanggal_perolehan->format('d/m/Y') }}</td>
                                     <td class="px-5 py-4 text-right font-medium">Rp {{ number_format($aset->harga, 0, ',', '.') }}</td>
 

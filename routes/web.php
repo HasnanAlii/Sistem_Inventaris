@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 // =========================
 Route::middleware('auth')->group(function () {
 
+        Route::get('/asets/{aset}/label', [AsetController::class, 'printLabel'])->name('asets.printLabel');
         Route::get('/aset-loans', [AsetLoanController::class, 'index'])->name('aset_loans.index');
         Route::get('/aset-loans/create', [AsetLoanController::class, 'create'])->name('aset_loans.create');
         Route::post('/aset-loans', [AsetLoanController::class, 'store'])->name('aset_loans.store');
@@ -55,18 +56,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
         Route::get('/maintenance', [MaintenanceLogController::class, 'index'])->name('maintenance.index');
         Route::get('/', [AsetController::class, 'index'])->name('asets.index');
-        Route::get('/create', [AsetController::class, 'create'])->name('asets.create');
-        Route::post('/', [AsetController::class, 'store'])->name('asets.store');
         Route::get('/{aset}', [AsetController::class, 'show'])->name('asets.show');
         Route::get('/{aset}/edit', [AsetController::class, 'edit'])->name('asets.edit');
         Route::put('/{aset}', [AsetController::class, 'update'])->name('asets.update');
         Route::delete('/{aset}', [AsetController::class, 'destroy'])->name('asets.destroy');
 
-        // Maintenance per aset
-        Route::get('/{aset}/maintenance', [MaintenanceLogController::class, 'byAset'])->name('maintenance.Aset');
 
-        // Assess
-        Route::get('/{aset}/assess', [AsetController::class, 'assess'])->name('asets.assess');
     });
 
     // ---------- KATEGORI & LOKASI ----------
@@ -102,13 +97,10 @@ Route::middleware('auth')->group(function () {
     });
     // ---------- ATK ----------
     Route::prefix('atks')->group(function () {
-        // Request & pengambilan ATK
         Route::get('/list', [AtkLogController::class, 'list'])->name('logs.list');
         Route::get('/request', [AtkController::class, 'requestForm'])->name('atks.take');
         Route::post('/request', [AtkController::class, 'storeRequest'])->name('atks.request.store');
         Route::get('/', [AtkController::class, 'index'])->name('atks.index');
-        Route::get('/create', [AtkController::class, 'create'])->name('atks.create');
-        Route::post('/', [AtkController::class, 'store'])->name('atks.store');
         Route::get('/{atk}', [AtkController::class, 'show'])->name('atks.show');
         Route::get('/{atk}/edit', [AtkController::class, 'edit'])->name('atks.edit');
         Route::put('/{atk}', [AtkController::class, 'update'])->name('atks.update');
@@ -124,7 +116,7 @@ Route::middleware('auth')->group(function () {
     });
     // ---------- LOGS ----------
     Route::prefix('logs')->group(function () {
-        // ATK Logs
+        Route::get('/atk/pdf', [AtkLogController::class, 'exportAtkPdf'])->name('logs.atk.pdf');
         Route::get('addatk', [AtkProcurementController::class, 'index'])->name('logs.addatk');
         Route::get('/atk', [AtkLogController::class, 'allLogs'])->name('logs.atk');
         Route::get('/atk/{atkLog}', [AtkLogController::class, 'show'])->name('logs.atk.show');
@@ -132,8 +124,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/{atkLog}/reject', [AtkLogController::class, 'reject'])->name('atk_logs.reject');
         Route::post('/atk/return', [AtkLogController::class, 'returnItem'])->name('atk_logs.return');
         Route::post('/atk/return', [AtkLogController::class, 'returnAtk'])->name('logs.atk.return');
-
-        // Aset Logs
         Route::get('/aset', [AsetLogController::class, 'index'])->name('logs.aset');
     });
 
@@ -149,13 +139,15 @@ Route::middleware('auth')->group(function () {
 
     // ---------- ASSESSMENT ----------
     Route::prefix('assessments')->group(function () {
-        Route::get('/create', [AssessmentController::class, 'create'])->name('assessments.create');
-        Route::post('/', [AssessmentController::class, 'store'])->name('assessments.store');
+        Route::get('/print', [AssessmentController::class, 'print'])->name('assessments.print');
         Route::get('/{assessment}', [AssessmentController::class, 'show'])->name('assessments.show');
-        Route::get('/{assessment}/edit', [AssessmentController::class, 'edit'])->name('assessments.edit');
-        Route::put('/{assessment}', [AssessmentController::class, 'update'])->name('assessments.update');
         Route::delete('/{assessment}', [AssessmentController::class, 'destroy'])->name('assessments.destroy');
     });
+    
 });
 
 require __DIR__.'/auth.php';
+
+
+
+

@@ -42,14 +42,19 @@
             <div class="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-100">
 
                 <!-- Header Tabel -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 border-b border-gray-200 
-                    bg-gradient-to-r from-green-50 to-emerald-50 rounded-t-2xl shadow-sm">
+           <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200 
+            bg-gradient-to-r from-green-50 to-emerald-50 rounded-t-2xl shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <i data-feather="clipboard" class="w-6 h-6 text-green-600"></i>
+                Riwayat Permintaan ATK
+            </h3>
+            <a href="{{ route('logs.atk.pdf') }}" target="_blank"
+            class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition shadow-sm">
+                <i data-feather="printer" class="w-4 h-4"></i>
+                Cetak PDF
+            </a>
+        </div>
 
-                    <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                        <i data-feather="clipboard" class="w-6 h-6 text-green-600"></i>
-                        Riwayat Permintaan ATK
-                    </h3>
-                </div>
 
                 <!-- ✅ Pesan Sukses -->
                 @if(session('success'))

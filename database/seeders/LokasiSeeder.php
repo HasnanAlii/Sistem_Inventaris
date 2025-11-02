@@ -10,10 +10,10 @@ class LokasiSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['nama' => 'Ruang Arsip', 'kode' => 'RA', 'gedung' => 'A', 'lantai' => '1', 'keterangan' => 'Tempat penyimpanan dokumen'],
-            ['nama' => 'Ruang Baca', 'kode' => 'RB', 'gedung' => 'B', 'lantai' => '2', 'keterangan' => 'Area membaca dan riset'],
-            ['nama' => 'Ruang Server', 'kode' => 'RS', 'gedung' => 'C', 'lantai' => '1', 'keterangan' => 'Tempat penyimpanan server dan jaringan'],
-            ['nama' => 'Ruang Rapat', 'kode' => 'RR', 'gedung' => 'B', 'lantai' => '2', 'keterangan' => 'Tempat rapat staf'],
+            ['nama' => 'Ruang Arsip', 'kode' => 'RA', 'keterangan' => 'Tempat penyimpanan dokumen'],
+            ['nama' => 'Ruang Baca', 'kode' => 'RB', 'keterangan' => 'Area membaca dan riset'],
+            ['nama' => 'Ruang Server', 'kode' => 'RS', 'keterangan' => 'Tempat penyimpanan server dan jaringan'],
+            ['nama' => 'Ruang Rapat', 'kode' => 'RR', 'keterangan' => 'Tempat rapat staf'],
         ];
 
         foreach ($data as $lokasi) {

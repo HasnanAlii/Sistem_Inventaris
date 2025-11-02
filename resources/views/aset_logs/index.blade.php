@@ -113,7 +113,5 @@
         </div>
     </div>
 
-    <script>
-        feather.replace();
-    </script>
+  
 </x-app-layout>

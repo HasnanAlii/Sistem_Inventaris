@@ -83,10 +83,9 @@
                             <tr>
                                 <th class="px-5 py-3 text-left">#</th>
                                 <th class="px-5 py-3 text-left">Nama Aset</th>
-                                <th class="px-5 py-3 text-left">Tanggal Perbaikan</th>
                                 <th class="px-5 py-3 text-left">Jenis Perbaikan</th>
                                 <th class="px-5 py-3 text-left">Biaya</th>
-                                <th class="px-5 py-3 text-left">Keterangan</th>
+                                <th class="px-5 py-3 text-left">Tanggal Perbaikan</th>
                                 <th class="px-5 py-3 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -95,16 +94,14 @@
                                 <tr class="hover:bg-green-50 transition duration-150">
                                     <td class="px-5 py-3">{{ $loop->iteration + ($logs->currentPage() - 1) * $logs->perPage() }}</td>
                                     <td class="px-5 py-3 font-semibold text-gray-800">{{ $log->aset->nama ?? '-' }}</td>
-                                    <td class="px-5 py-3 text-gray-600">{{ $log->tanggal->format('d/m/Y') }}</td>
                                     <td class="px-5 py-3 text-gray-700">{{ $log->jenis_perbaikan ?? '-' }}</td>
                                     <td class="px-5 py-3 text-gray-700">Rp{{ number_format($log->biaya, 0, ',', '.') }}</td>
-                                    <td class="px-5 py-3 text-gray-600">{{ $log->keterangan ?? '-' }}</td>
+                                    <td class="px-5 py-3 text-gray-600">{{ $log->tanggal->format('d/m/Y') }}</td>
                                     <td class="px-5 py-3 text-center">
                                         <div class="flex justify-center gap-3">
                                             <a href="{{ route('maintenance.show', $log->id) }}" 
                                                class="text-blue-600 hover:text-blue-800 font-medium transition">Detail</a>
-                                            <a href="{{ route('maintenance.edit', $log->id) }}" 
-                                               class="text-yellow-600 hover:text-yellow-800 font-medium transition">Edit</a>
+                                          
                                             <form action="{{ route('maintenance.destroy', $log->id) }}" 
                                                   method="POST" 
                                                   onsubmit="return confirm('Yakin ingin menghapus data perbaikan ini?')">

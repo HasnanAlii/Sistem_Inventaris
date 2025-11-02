@@ -64,10 +64,8 @@
                             <tr>
                                 <th class="px-5 py-3 text-left">#</th>
                                 <th class="px-5 py-3 text-left">Nama Lokasi</th>
-                                {{-- <th class="px-5 py-3 text-left">Kode</th> --}}
-                                {{-- <th class="px-5 py-3 text-left">Gedung</th>
-                                <th class="px-5 py-3 text-center">Lantai</th> --}}
-                                <th class="px-5 py-3 text-left">Keterangan</th>
+                                <th class="px-5 py-3 text-center">Kode</th> 
+                                <th class="px-5 py-3 text-left">Deskripsi</th>
                                 @hasrole('petugas')
                                     <th class="px-5 py-3 text-center">Aksi</th>
                                 @endhasrole
@@ -79,9 +77,7 @@
                                 <tr class="hover:bg-purple-50 transition duration-150">
                                     <td class="px-5 py-3 font-medium text-gray-800">{{ $i + 1 + ($lokasis->currentPage() - 1) * $lokasis->perPage() }}</td>
                                     <td class="px-5 py-3 text-gray-700">{{ $lokasi->nama }}</td>
-                                    {{-- <td class="px-5 py-3 text-gray-700">{{ $lokasi->kode }}</td> --}}
-                                    {{-- <td class="px-5 py-3 text-gray-700">{{ $lokasi->gedung }}</td>
-                                    <td class="px-5 py-3 text-center text-gray-700">{{ $lokasi->lantai }}</td> --}}
+                                    <td class="px-5 py-3 text-gray-700 text-center">{{ $lokasi->kode }}</td>
                                     <td class="px-5 py-3 text-gray-600">{{ $lokasi->keterangan ?? '-' }}</td>
 
                                     @hasrole('petugas')

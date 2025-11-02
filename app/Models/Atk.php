@@ -16,11 +16,9 @@ class Atk extends Model
         'stok_minimum',
         'harga_satuan',
         'total_harga',
-        'kondisi',
         'tanggal_masuk',
-        'keterangan',
         'created_by',
-        'procurement_id', // relasi ke pengadaan
+        'procurement_id',
     ];
 
     protected $casts = [
@@ -30,31 +28,26 @@ class Atk extends Model
         'tanggal_masuk' => 'date',
     ];
 
-    // 🔹 Relasi ke user (creator)
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    // 🔹 Relasi ke log ATK
     public function logs()
     {
         return $this->hasMany(AtkLog::class);
     }
 
-    // 🔹 Relasi ke permintaan ATK (jika ada)
     public function permintaanAtks()
     {
         return $this->hasMany(PermintaanAtk::class);
     }
 
-    // 🔹 Relasi ke pengadaan
     public function procurement()
     {
         return $this->belongsTo(AtkProcurement::class, 'procurement_id');
     }
 
-    // 🔹 Scope stok menipis
     public function scopeMenipis($query)
     {
         return $query->whereColumn('stok', '<=', 'stok_minimum');

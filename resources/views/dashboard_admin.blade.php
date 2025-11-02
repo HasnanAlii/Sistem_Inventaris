@@ -7,32 +7,32 @@
 
     <div class="py-6 space-y-8">
         <!-- 🔔 NOTIFIKASI DETAIL -->
-@if($stokMenipis > 0 || $asetRusak > 0)
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-2xl shadow-md mx-2">
-        <h3 class="text-lg font-bold text-yellow-800 mb-3 flex items-center gap-2">
-            <i data-feather="alert-triangle" class="w-6 h-6 text-yellow-600"></i>
-            Peringatan!
-        </h3>
+        @if($stokMenipis > 0 || $asetRusak > 0)
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-2xl shadow-md mx-2">
+                <h3 class="text-lg font-bold text-yellow-800 mb-3 flex items-center gap-2">
+                    <i data-feather="alert-triangle" class="w-6 h-6 text-yellow-600"></i>
+                    Peringatan!
+                </h3>
 
-        @if($stokMenipis > 0)
-            <p class="text-gray-700 font-semibold mb-2">📦 Barang ATK dengan stok menipis:</p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                @foreach($daftarStokMenipis as $atk)
-                    <li>{{ $atk->nama_barang }} — Stok: {{ $atk->stok }} (Min: {{ $atk->stok_minimum }})</li>
-                @endforeach
-            </ul>
-        @endif
+                @if($stokMenipis > 0)
+                    <p class="text-gray-700 font-semibold mb-2"> Barang ATK dengan stok menipis:</p>
+                    <ul class="list-disc list-inside text-gray-700 mb-4">
+                        @foreach($daftarStokMenipis as $atk)
+                            <li>{{ $atk->nama_barang }} — Stok: {{ $atk->stok }} (Min: {{ $atk->stok_minimum }})</li>
+                        @endforeach
+                    </ul>
+                @endif
 
-        @if($asetRusak > 0)
-            <p class="text-gray-700 font-semibold mb-2">💢 Aset yang sedang rusak:</p>
-            <ul class="list-disc list-inside text-gray-700">
-                @foreach($daftarAsetRusak as $aset)
-                    <li>{{ $aset->nama }} — Kondisi: {{ $aset->kondisi }}</li>
-                @endforeach
-            </ul>
+                @if($asetRusak > 0)
+                    <p class="text-gray-700 font-semibold mb-2">💢 Aset yang sedang rusak:</p>
+                    <ul class="list-disc list-inside text-gray-700">
+                        @foreach($daftarAsetRusak as $aset)
+                            <li>{{ $aset->nama }} — Kondisi: {{ $aset->kondisi }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
         @endif
-    </div>
-@endif
 
 
         <!-- ========== KARTU STATISTIK ========== -->
@@ -56,12 +56,12 @@
             <div class="flex-1 bg-green-100 p-6 rounded-3xl shadow-lg flex items-center justify-between min-w-[180px]">
                 <div class="flex items-center gap-3">
                     <i data-feather="shopping-cart" class="w-8 h-8 text-green-600"></i>
-                    <h3 class="text-lg font-bold text-green-700">Peminjaman</h3>
+                    <h3 class="text-lg font-bold text-green-700">Peminjaman Aset</h3>
                 </div>
                 <p class="text-4xl font-extrabold text-gray-900">{{ $totalPeminjaman }}</p>
             </div>
 
-            <div class="flex-[2] bg-red-100 p-8 rounded-3xl shadow-lg flex flex-col justify-center min-w-[300px]">
+            {{-- <div class="flex-[2] bg-red-100 p-8 rounded-3xl shadow-lg flex flex-col justify-center min-w-[300px]">
                 <div class="flex items-center gap-3 mb-2">
                     <i data-feather="bell" class="w-8 h-8 text-red-600"></i>
                     <h3 class="text-xl font-bold text-red-700">Notifikasi</h3>
@@ -73,7 +73,7 @@
                         Tidak ada notifikasi.
                     @endif
                 </p>
-            </div>
+            </div> --}}
         </div>
 
         <!-- ========== TABEL PENGADAAN ========== -->

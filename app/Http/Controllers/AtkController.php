@@ -16,9 +16,7 @@ class AtkController extends Controller
     $stokMenipis = Atk::whereColumn('stok', '<=', 'stok_minimum')->count();
 
     $query = Atk::query();
-    // if ($request->filled('kondisi')) {
-    //     $query->where('kondisi', $request->kondisi);
-    // }
+
     if ($request->filled('search')) {
         $query->where('nama_barang', 'like', '%' . $request->search . '%');
     }
@@ -27,48 +25,6 @@ class AtkController extends Controller
     return view('atks.index', compact('atks', 'stokMenipis'));
 }
 
-
-    public function create()
-    {
-        return view('atks.create');
-    }
-
-public function store(Request $request)
-{
-    // ✅ Validasi input
-    $validated = $request->validate([
-        'nama_barang'     => 'required|string|max:255',
-        'stok'            => 'required|integer|min:0',
-        'stok_minimum'    => 'required|integer|min:0',
-        'harga_satuan'    => 'nullable|numeric|min:0',
-        'tanggal_masuk'   => 'nullable|date',
-        'keterangan'      => 'nullable|string',
-    ]);
-
-    // 1️⃣ Simpan ke tabel ATK
-    $count = Atk::count() + 1;
-    $atk = Atk::create([
-        'nama_barang'    => $validated['nama_barang'],
-        'stok'           => $validated['stok'],
-        'stok_minimum'   => $validated['stok_minimum'],
-        'harga_satuan'   => $validated['harga_satuan'] ?? 0,
-        'tanggal_masuk'  => $validated['tanggal_masuk'] ?? now(),
-        'keterangan'     => $validated['keterangan'] ?? null,
-        'kode_barang'    => 'ATK-' . str_pad($count, 4, '0', STR_PAD_LEFT),
-        // 'created_by'     => Auth::id(),
-    ]);
-
-    // 2️⃣ Simpan ke tabel ATK Procurement
-    AtkProcurement::create([
-        'nama_barang'       => $atk->nama_barang,
-        'jumlah'            => $atk->stok,
-        'biaya'             => $atk->harga_satuan , // total biaya
-        'tanggal_pengadaan' => $atk->tanggal_masuk,
-    ]);
-
-    return redirect()->route('atks.index')
-                     ->with('success', 'Barang ATK berhasil ditambahkan dan pengadaan dicatat.');
-}
 
 
 
@@ -86,13 +42,10 @@ public function store(Request $request)
     {
         $validated = $request->validate([
             'nama_barang' => 'required|string|max:255',
-            'satuan' => 'required|string|max:50',
             'stok' => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
-            // 'harga_satuan' => 'nullable|numeric|min:0',
-            'kondisi' => 'required|in:baik,rusak',
+            'harga_satuan' => 'nullable|numeric|min:0',
             'tanggal_masuk' => 'nullable|date',
-            'keterangan' => 'nullable|string',
         ]);
 
         $atk->update($validated);
@@ -119,7 +72,6 @@ public function store(Request $request)
             $validated = $request->validate([
                 'atk_id' => 'required|exists:atks,id',
                 'jumlah' => 'required|integer|min:1',
-                'keterangan' => 'nullable|string|max:255',
             ]);
 
             $atk = \App\Models\Atk::findOrFail($validated['atk_id']);
@@ -128,7 +80,7 @@ public function store(Request $request)
                 return back()->withErrors(['jumlah' => 'Jumlah melebihi stok yang tersedia.'])->withInput();
             }
 
-            \App\Models\AtkLog::create([
+            AtkLog::create([
                 'atk_id' => $atk->id,
                 'user_id' => auth::id(),
                 'jumlah' => $validated['jumlah'],

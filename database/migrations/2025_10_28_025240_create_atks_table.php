@@ -17,12 +17,9 @@ return new class extends Migration
             $table->integer('harga_satuan')->nullable();
             $table->integer('total_harga')->default(0);
             $table->date('tanggal_masuk')->nullable();
-            $table->text('keterangan')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreignId('procurement_id')->constrained('atk_procurements')->onDelete('cascade');
-
             $table->timestamps();
-
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
         });
     }

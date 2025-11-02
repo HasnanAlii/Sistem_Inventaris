@@ -72,7 +72,7 @@
                             <tr>
                                 <th class="px-5 py-3 text-left">#</th>
                                 <th class="px-5 py-3 text-left">Nama Pengadaan</th>
-                                <th class="px-5 py-3 text-center">Jumlah</th>
+                                <th class="px-5 py-3 text-center">Jumlah Barang</th>
                                 <th class="px-5 py-3 text-center">Biaya</th>
                                 <th class="px-5 py-3 text-center">Tanggal Pengadaan</th>
                                 <th class="px-5 py-3 text-center">Aksi</th>

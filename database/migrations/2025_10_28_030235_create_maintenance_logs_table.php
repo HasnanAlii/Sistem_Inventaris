@@ -14,7 +14,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('jenis_perbaikan')->nullable();
             $table->integer('biaya')->nullable();
-            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

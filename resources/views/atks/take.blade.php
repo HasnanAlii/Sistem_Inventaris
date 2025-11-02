@@ -11,8 +11,7 @@
 
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
-                                    <h3 class="text-xl font-semibold text-gray-800 mb-6 pl-4 border-l-4 border-blue-500">
-
+                     <h3 class="text-xl font-semibold text-gray-800 mb-6 pl-4 border-l-4 border-blue-500">
                         Form Permintaan Alat Tulis Kantor
                     </h3>
                     <p class="text-sm text-gray-500 mt-1">
@@ -30,7 +29,7 @@
                             Pilih Barang
                         </label>
                         <select name="atk_id" id="atkSelect"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                            class="w-full text-base border-gray-300 rounded-lg py-2.5  focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                             required>
                             <option value="">-- Pilih atau cari barang --</option>
                             @foreach ($atks as $atk)
@@ -76,18 +75,7 @@
                         @enderror
                     </div>
 
-                    {{-- Keterangan --}}
-                    <div>
-                        <label for="keterangan" class="block text-base font-semibold text-gray-700 mb-2">
-                            Keterangan (Opsional)
-                        </label>
-                        <textarea name="keterangan" id="keterangan" rows="3"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                            placeholder="Contoh: Untuk kebutuhan kantor bagian administrasi..."></textarea>
-                        @error('keterangan')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                 
 
                     {{-- Tombol Aksi --}}
                     <div class="flex justify-between items-center pt-6 border-t">

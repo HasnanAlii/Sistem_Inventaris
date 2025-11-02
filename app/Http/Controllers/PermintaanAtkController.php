@@ -30,7 +30,6 @@ class PermintaanAtkController extends Controller
         $validated = $request->validate([
             'atk_id' => 'required|exists:atks,id',
             'jumlah' => 'required|integer|min:1',
-            'keterangan' => 'nullable|string',
         ]);
 
         $atk = Atk::findOrFail($request->atk_id);
@@ -46,7 +45,6 @@ class PermintaanAtkController extends Controller
             'jumlah' => $request->jumlah,
             'status' => 'menunggu',
             'tanggal_permintaan' => now(),
-            'keterangan' => $request->keterangan,
         ]);
 
         return redirect()->route('permintaan_atks.index')

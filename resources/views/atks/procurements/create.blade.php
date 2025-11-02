@@ -31,7 +31,7 @@
                 @endif
 
                 {{-- 📋 Form --}}
-                <form action="{{ route('atkprocurements.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('atkprocurements.store') }}" method="POST" class="space-y-6" id="atk-form">
                     @csrf
 
                     {{-- Nama Pengadaan & Jumlah --}}
@@ -44,9 +44,7 @@
                         </div>
                         <div>
                             <label class="block text-base font-semibold text-gray-700 mb-2">Jumlah Barang</label>
-                            <input type="number" name="jumlah"
-                                class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                required>
+                            <input type="text" name="jumlah" class="jumlah-ribuan w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                         </div>
                     </div>
 
@@ -54,7 +52,7 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="block text-base font-semibold text-gray-700 mb-2">Biaya (Rp)</label>
-                            <input type="number" name="biaya"
+                            <input type="text" name="biaya" id="biaya"
                                 class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                 required>
                         </div>
@@ -91,15 +89,15 @@
 
                                 <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Stok</label>
-                                        <input type="number" name="atk_items[0][stok]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah</label>
+                                        <input type="text" name="atk_items[0][stok]"
+                                            class="stok-ribuan w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                             required>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Harga Satuan (Rp)</label>
-                                        <input type="number" name="atk_items[0][harga_satuan]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                                        <input type="text" name="atk_items[0][harga_satuan]"
+                                            class="harga-ribuan w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                             required>
                                     </div>
                                 </div>
@@ -112,11 +110,7 @@
                                             class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                             required>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
-                                        <input type="text" name="atk_items[0][keterangan]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
-                                    </div>
+                                 
                                 </div>
                             </div>
                         </div>
@@ -152,12 +146,26 @@
         let atkIndex = 1;
         const container = document.getElementById('atks-container');
 
-        // Generate kode barang otomatis
-        function generateKodeBarang(input) {
-            const year = new Date().getFullYear();
-            const seq = String(container.querySelectorAll('.atk-item').length).padStart(4, '0');
-            input.value = `ATK-${year}-${seq}`;
+        // Format ribuan
+        function formatRibuan(input) {
+            input.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            });
         }
+
+        // Terapkan format ribuan pada input awal
+        document.querySelectorAll('.jumlah-ribuan, .stok-ribuan, .harga-ribuan, #biaya').forEach(el => formatRibuan(el));
+
+        // Hapus titik sebelum submit
+        document.getElementById('atk-form').addEventListener('submit', function(e) {
+            const cleanNumber = (str) => str.replace(/\./g, '');
+            this.querySelector('[name="jumlah"]').value = cleanNumber(this.querySelector('[name="jumlah"]').value);
+            this.querySelector('[name="biaya"]').value = cleanNumber(this.querySelector('[name="biaya"]').value);
+
+            this.querySelectorAll('.stok-ribuan').forEach(el => el.value = cleanNumber(el.value));
+            this.querySelectorAll('.harga-ribuan').forEach(el => el.value = cleanNumber(el.value));
+        });
 
         // Tambah ATK
         document.getElementById('add-atk').addEventListener('click', function() {
@@ -175,6 +183,10 @@
                 }
             });
             container.appendChild(template);
+
+            // Terapkan format ribuan pada input baru
+            template.querySelectorAll('.stok-ribuan, .harga-ribuan').forEach(el => formatRibuan(el));
+
             atkIndex++;
         });
 

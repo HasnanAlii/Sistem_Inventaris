@@ -9,7 +9,7 @@ class Lokasi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'kode', 'gedung', 'lantai', 'keterangan'];
+    protected $fillable = ['nama', 'kode',  'keterangan'];
 
     public function asets()
     {

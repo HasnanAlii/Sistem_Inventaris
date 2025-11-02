@@ -15,7 +15,6 @@ class PermintaanAtk extends Model
         'jumlah',
         'status',
         'tanggal_permintaan',
-        'keterangan',
     ];
 
     public function atk()

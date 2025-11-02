@@ -2,7 +2,7 @@
     {{-- 🏷️ Header --}}
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-            🏷️ {{ __('Detail Aset') }}
+             {{ __('Detail Aset') }}
         </h2>
     </x-slot>
 
@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <th class="text-left py-3 text-gray-600 font-semibold">Umur Ekonomis</th>
-                            <td class="py-3 text-gray-900">{{ $aset->umur_ekonomis ?? '-' }} Tahun</td>
+                            <td class="py-3 text-gray-900">{{ $aset->umur_ekonomis ?? '-' }} Bulan</td>
                         </tr>
                         <tr>
                             <th class="text-left py-3 text-gray-600 font-semibold">Harga</th>
@@ -83,37 +83,21 @@
                             <thead class="bg-gray-100 text-gray-700 uppercase text-sm">
                                 <tr>
                                     <th class="px-5 py-3 text-left">#</th>
-                                    <th class="px-5 py-3 text-left">Tanggal</th>
                                     <th class="px-5 py-3 text-left">Jenis Perbaikan</th>
                                     <th class="px-5 py-3 text-left">Biaya</th>
-                                    <th class="px-5 py-3 text-left">Keterangan</th>
-                                    <th class="px-5 py-3 text-center">Aksi</th>
+                                    <th class="px-5 py-3 text-left">Tanggal Perbaikan</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
                                 @foreach($aset->maintenanceLogs as $log)
                                     <tr class="hover:bg-blue-50 transition duration-150">
                                         <td class="px-5 py-3 text-gray-800">{{ $loop->iteration }}</td>
-                                        <td class="px-5 py-3 text-gray-800">{{ $log->tanggal->translatedFormat('d F Y') }}</td>
                                         <td class="px-5 py-3 text-gray-800">{{ $log->jenis_perbaikan ?? '-' }}</td>
                                         <td class="px-5 py-3 text-green-700 font-semibold">
                                             Rp{{ number_format($log->biaya, 0, ',', '.') }}
                                         </td>
-                                        <td class="px-5 py-3 text-gray-800">{{ $log->keterangan ?? '-' }}</td>
-                                        <td class="px-5 py-3 text-center space-x-3">
-                                            <a href="{{ route('maintenance.show', $log->id) }}"
-                                                class="text-blue-600 hover:text-blue-800 font-medium">Lihat</a>
-                                            <a href="{{ route('maintenance.edit', $log->id) }}"
-                                                class="text-yellow-600 hover:text-yellow-700 font-medium">Edit</a>
-                                            <form action="{{ route('maintenance.destroy', $log->id) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirm('Yakin ingin menghapus riwayat ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-800 font-medium">Hapus</button>
-                                            </form>
-                                        </td>
+                                        <td class="px-5 py-3 text-gray-800">{{ $log->tanggal->translatedFormat('d F Y') }}</td>
+                                    
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -122,16 +106,23 @@
                 @endif
 
                 {{-- 🔘 Tombol Navigasi --}}
-                <div class="flex justify-between items-center mt-8">
-                    <a href="{{ route('asets.index') }}"
-                        class="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-base font-medium transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Kembali
-                    </a>
-                </div>
+            <div class="flex justify-between items-center mt-8">
+        <a href="{{ route('asets.index') }}"
+            class="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-base font-medium transition">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali
+        </a>
+
+        {{-- Tombol Cetak Label --}}
+        <a href="{{ route('asets.printLabel', $aset->id) }}" target="_blank"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm">
+            🖨️ Cetak Label
+        </a>
+    </div>
+
 
             </div>
         </div>

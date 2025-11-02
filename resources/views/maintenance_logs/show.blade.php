@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800 flex items-center gap-3">
-            🧾 {{ __('Detail Riwayat Perbaikan Aset') }}
+             {{ __('Detail Riwayat Perbaikan Aset') }}
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
                 {{-- 🧩 Informasi Perbaikan --}}
                 <div class="mb-8 border-b pb-5">
                     <h3 class="text-2xl font-semibold text-blue-700 flex items-center gap-3">
-                        🧰 Informasi Perbaikan
+                         Informasi Perbaikan
                     </h3>
                     <p class="text-base text-gray-500 mt-2">
                         Detail lengkap riwayat perbaikan aset yang telah dilakukan.
@@ -25,12 +25,6 @@
                             <th class="text-left w-1/3 py-4 text-gray-600 font-medium text-lg">Nama Aset</th>
                             <td class="py-4 text-gray-900 font-semibold text-lg">
                                 {{ $maintenanceLog->aset->nama ?? '-' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="text-left py-4 text-gray-600 font-medium text-lg">Tanggal Perbaikan</th>
-                            <td class="py-4 text-gray-800 text-base">
-                                {{ \Carbon\Carbon::parse($maintenanceLog->tanggal)->translatedFormat('d F Y') }}
                             </td>
                         </tr>
                         <tr>
@@ -50,11 +44,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="text-left py-4 text-gray-600 font-medium text-lg">Keterangan</th>
-                            <td class="py-4 text-gray-800 text-base leading-relaxed">
-                                {{ $maintenanceLog->keterangan ?? '-' }}
+                            <th class="text-left py-4 text-gray-600 font-medium text-lg">Tanggal Perbaikan</th>
+                            <td class="py-4 text-gray-800 text-base">
+                                {{ \Carbon\Carbon::parse($maintenanceLog->tanggal)->translatedFormat('d F Y') }}
                             </td>
                         </tr>
+                     
                     </tbody>
                 </table>
 

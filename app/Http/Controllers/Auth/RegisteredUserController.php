@@ -41,6 +41,11 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Beri role otomatis "pegawai"
+        if (method_exists($user, 'assignRole')) {
+            $user->assignRole('pegawai'); // pastikan role "pegawai" sudah dibuat di database
+        }
+
         event(new Registered($user));
 
         Auth::login($user);

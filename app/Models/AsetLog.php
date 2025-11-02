@@ -20,10 +20,7 @@ class AsetLog extends Model
         'tanggal_pengadaan' => 'datetime',
     ];
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+ 
        public function asets()
     {
         return $this->hasMany(Aset::class, 'aset_log_id');

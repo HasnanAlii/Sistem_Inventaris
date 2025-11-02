@@ -13,9 +13,8 @@ return new class extends Migration
             $table->foreignId('atk_id')->constrained('atks')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->integer('jumlah')->default(1);
-            $table->string('status')->default('menunggu'); // menunggu, disetujui, ditolak
+            $table->string('status')->default('menunggu'); 
             $table->date('tanggal_permintaan')->default(now());
-            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

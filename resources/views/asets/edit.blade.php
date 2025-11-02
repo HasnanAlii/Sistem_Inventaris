@@ -16,71 +16,23 @@
 
                 <form method="POST" action="{{ route('asets.update', $aset) }}" class="space-y-6">
                     @csrf
-                    @method('PUT')
-
-                    {{-- Nama Aset --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Nama Aset</label>
-                        <input type="text" name="nama" value="{{ old('nama', $aset->nama) }}"
-                            class="w-full border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                            required>
-                    </div>
-
-                    {{-- Kategori --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Kategori</label>
-                        <select name="kategori_id"
-                            class="w-full border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                            required>
-                            @foreach ($kategoris as $kategori)
-                                <option value="{{ $kategori->id }}" {{ $aset->kategori_id == $kategori->id ? 'selected' : '' }}>
-                                    {{ $kategori->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Lokasi --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Lokasi</label>
-                        <select name="lokasi_id"
-                            class="w-full border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                            required>
-                            @foreach ($lokasis as $lokasi)
-                                <option value="{{ $lokasi->id }}" {{ $aset->lokasi_id == $lokasi->id ? 'selected' : '' }}>
-                                    {{ $lokasi->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    {{-- Grid: Tanggal & Umur Ekonomis --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block font-semibold text-gray-700 mb-2">Tanggal Perolehan</label>
-                            <input type="date" name="tanggal_perolehan"
-                                value="{{ old('tanggal_perolehan', $aset->tanggal_perolehan ? $aset->tanggal_perolehan->format('Y-m-d') : '') }}"
-                                class="w-full border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                                required>
-                        </div>
-
-                        <div>
-                            <label class="block font-semibold text-gray-700 mb-2">Umur Ekonomis (tahun)</label>
-                            <input type="number" name="umur_ekonomis"
-                                value="{{ old('umur_ekonomis', $aset->umur_ekonomis) }}" min="1"
-                                class="w-full border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                                required>
-                        </div>
-                    </div>
-
+                    @method('PUT')                    
                     {{-- Grid: Harga & Kondisi --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block font-semibold text-gray-700 mb-2">Harga (Rp)</label>
-                            <input type="number" name="harga" value="{{ old('harga', $aset->harga) }}"
-                                class="w-full border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                                required>
-                        </div>
+                           {{-- Lokasi --}}
+                           <div>
+                               <label class="block font-semibold text-gray-700 mb-2">Lokasi</label>
+                               <select name="lokasi_id"
+                                   class="w-full border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                                   required>
+                                   @foreach ($lokasis as $lokasi)
+                                       <option value="{{ $lokasi->id }}" {{ $aset->lokasi_id == $lokasi->id ? 'selected' : '' }}>
+                                           {{ $lokasi->nama }}
+                                       </option>
+                                   @endforeach
+                               </select>
+                           </div>
+                        
 
                         <div>
                             <label class="block font-semibold text-gray-700 mb-2">Kondisi</label>
@@ -104,7 +56,7 @@
                         </a>
                         <button type="submit"
                             class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 shadow-md transition">
-                            Update
+                            Simpan
                         </button>
                     </div>
                 </form>

@@ -5,15 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class=" min-h-screen ">
+    <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-2xl p-8 border border-gray-100">
                 
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-6 pl-4 border-l-4 border-blue-500">
-
-                         Form Tambah Perbaikan Aset
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2 pl-4 border-l-4 border-blue-500">
+                        Form Tambah Perbaikan Aset
                     </h3>
                     <p class="text-sm text-gray-500 mt-1">
                         Lengkapi data berikut untuk mencatat riwayat perbaikan aset.
@@ -30,13 +29,12 @@
                             Pilih Aset
                         </label>
                         <select name="aset_id" id="asetSelect"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5  focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
+                            class="w-full text-base border-gray-300 rounded-lg py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
                             <option value="">-- Pilih Aset --</option>
                             @foreach($asets as $aset)
                                 <option value="{{ $aset->id }}">{{ $aset->nama }}</option>
                             @endforeach
                         </select>
-
                         @error('aset_id')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -68,7 +66,9 @@
                             Tanggal Perbaikan
                         </label>
                         <input type="date" name="tanggal" id="tanggal"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
+                            value="{{ old('tanggal', date('Y-m-d')) }}"
+                            class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" 
+                            required>
                     </div>
 
                     {{-- Jenis Perbaikan --}}
@@ -86,19 +86,9 @@
                         <label for="biaya" class="block text-base font-semibold text-gray-700 mb-2">
                             Biaya (Rp)
                         </label>
-                        <input type="number" name="biaya" id="biaya" step="0.01"
+                        <input type="text" name="biaya" id="biaya"
                             class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                             placeholder="Masukkan biaya perbaikan">
-                    </div>
-
-                    {{-- Keterangan --}}
-                    <div>
-                        <label for="keterangan" class="block text-base font-semibold text-gray-700 mb-2">
-                            Keterangan
-                        </label>
-                        <textarea name="keterangan" id="keterangan" rows="3"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                            placeholder="Tambahkan catatan mengenai perbaikan (opsional)..."></textarea>
                     </div>
 
                     {{-- Tombol Aksi --}}
@@ -114,11 +104,25 @@
 
                         <button type="submit"
                             class="bg-blue-600 text-white text-base font-semibold px-6 py-2.5 rounded-lg hover:bg-blue-700 shadow-md transition">
-                            💾 Simpan
+                            Simpan
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    {{-- Script Format Biaya --}}
+    @push('scripts')
+    <script>
+        const biayaInput = document.getElementById('biaya');
+
+        biayaInput.addEventListener('input', function(e) {
+            // Hapus semua karakter kecuali angka
+            let value = this.value.replace(/\D/g, '');
+            // Format ribuan
+            this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        });
+    </script>
+    @endpush
 </x-app-layout>

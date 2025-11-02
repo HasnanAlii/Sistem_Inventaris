@@ -7,24 +7,19 @@ use App\Models\Aset;
 class AssetAssessmentService
 {
     /**
-     * Hitung skor dan status kelayakan aset.
+     * Hitung skor dan status kelayakan aset tanpa mempertimbangkan usia.
      */
     public function assess(Aset $aset): array
     {
-        $usia = now()->diffInYears($aset->tanggal_perolehan);
-        $umurEkonomis = $aset->umur_ekonomis ?? 5;
         $jumlahPerbaikan = $aset->maintenanceLogs()->count();
 
-        // Bobot penilaian
-        $bobotUsia = 0.4;
-        $bobotKondisi = 0.4;
+        $bobotKondisi = 0.8;
         $bobotPerbaikan = 0.2;
 
-        $nilaiUsia = max(0, 100 - (($usia / $umurEkonomis) * 100));
         $nilaiKondisi = match ($aset->kondisi) {
             'baru' => 100,
             'baik' => 85,
-            'rusak_ringan' => 60,
+            'rusak_ringan' => 70,
             'rusak_berat' => 30,
             default => 50,
         };
@@ -37,15 +32,13 @@ class AssetAssessmentService
         };
 
         $skor = round(
-            ($nilaiUsia * $bobotUsia) +
             ($nilaiKondisi * $bobotKondisi) +
             ($nilaiPerbaikan * $bobotPerbaikan),
             2
         );
 
         $status = match (true) {
-            $skor >= 80 => 'Layak',
-            $skor >= 60 => 'Perlu Perbaikan',
+            $skor >= 65 => 'Layak',
             default => 'Tidak Layak',
         };
 
@@ -54,7 +47,6 @@ class AssetAssessmentService
             'nama' => $aset->nama,
             'skor' => $skor,
             'status' => $status,
-            'usia' => $usia,
             'jumlah_perbaikan' => $jumlahPerbaikan,
         ];
     }

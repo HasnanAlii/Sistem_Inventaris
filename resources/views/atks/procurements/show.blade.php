@@ -41,11 +41,10 @@
                                 <th class="px-6 py-4 text-left">#</th>
                                 <th class="px-6 py-4 text-left">Kode Barang</th>
                                 <th class="px-6 py-4 text-left">Nama Barang</th>
-                                {{-- <th class="px-6 py-4 text-left">Kategori</th> --}}
+                                <th class="px-6 py-4 text-left">Jumlah</th>
                                 <th class="px-6 py-4 text-left">Harga Satuan</th>
                                 <th class="px-6 py-4 text-left">Total Harga</th>
                                 <th class="px-6 py-4 text-left">Tanggal Masuk</th>
-                                <th class="px-6 py-4 text-left">Keterangan</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -54,11 +53,10 @@
                                     <td class="px-6 py-4 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 text-gray-800">{{ $atk->kode_barang }}</td>
                                     <td class="px-6 py-4 text-gray-800">{{ $atk->nama_barang }}</td>
-                                    {{-- <td class="px-6 py-4 text-gray-700">{{ $atk->kategori->nama ?? '-' }}</td> --}}
+                                    <td class="px-6 py-4 text-gray-800">{{ $atk->stok }}</td>
                                     <td class="px-6 py-4 text-green-700 font-semibold">Rp {{ number_format($atk->harga_satuan ?? 0,0,',','.') }}</td>
                                     <td class="px-6 py-4 text-green-700 font-semibold">Rp {{ number_format($atk->total_harga ?? 0,0,',','.') }}</td>
                                     <td class="px-6 py-4 text-gray-700">{{ $atk->tanggal_masuk ? $atk->tanggal_masuk->format('d F Y') : '-' }}</td>
-                                    <td class="px-6 py-4 text-gray-700">{{ $atk->keterangan ?? '-' }}</td>
                                 </tr>
                             @empty
                                 <tr>

@@ -56,10 +56,7 @@
                                 {{ \Carbon\Carbon::parse($atk->tanggal_masuk)->translatedFormat('d F Y') }}
                             </td>
                         </tr>
-                        <tr>
-                            <th class="text-left py-4 text-gray-600 font-medium">Keterangan</th>
-                            <td class="py-4 text-gray-800">{{ $atk->keterangan ?? '-' }}</td>
-                        </tr>
+                       
                     </tbody>
                 </table>
 

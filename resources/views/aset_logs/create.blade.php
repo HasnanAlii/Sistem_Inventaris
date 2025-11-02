@@ -5,14 +5,14 @@
         </h2>
     </x-slot>
 
-    <div class=" min-h-screen">
+    <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-2xl p-8 border border-gray-100">
 
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
                     <h3 class="text-xl font-semibold text-gray-800 mb-6 pl-4 border-l-4 border-blue-500">
-                         Form Tambah Pengadaan Aset
+                        Form Tambah Pengadaan Aset
                     </h3>
                     <p class="text-sm text-gray-500 mt-1">
                         Lengkapi data berikut untuk menambahkan pengadaan aset baru.
@@ -31,7 +31,7 @@
                 @endif
 
                 {{-- 📋 Form --}}
-                <form action="{{ route('aset_logs.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('aset_logs.store') }}" method="POST" class="space-y-6" id="pengadaan-form">
                     @csrf
 
                     {{-- Nama Pengadaan & Jumlah --}}
@@ -44,9 +44,7 @@
                         </div>
                         <div>
                             <label class="block text-base font-semibold text-gray-700 mb-2">Jumlah Barang</label>
-                            <input type="number" name="jumlah"
-                                class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                required>
+                            <input type="text" name="jumlah" class="jumlah-ribuan w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                         </div>
                     </div>
 
@@ -54,7 +52,7 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="block text-base font-semibold text-gray-700 mb-2">Biaya (Rp)</label>
-                            <input type="number" name="biaya"
+                            <input type="text" name="biaya" id="biaya"
                                 class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                 required>
                         </div>
@@ -71,60 +69,43 @@
                         <label class="block text-base font-semibold text-gray-700 mb-2">Daftar Aset</label>
                         <div id="asets-container" class="space-y-5">
                             <div class="aset-item border border-gray-200 p-5 rounded-xl relative bg-gray-50">
-                                <button type="button"
-                                    class="remove-aset absolute top-2 right-3 text-red-500 font-bold text-xl">×</button>
+                                <button type="button" class="remove-aset absolute top-2 right-3 text-red-500 font-bold text-xl">×</button>
 
                                 <div class="grid grid-cols-2 gap-6">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
-                                        <input type="text" name="asets[0][nama]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                            required>
+                                        <input type="text" name="asets[0][nama]" class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Inventaris</label>
-                                        <input type="text" name="asets[0][nomor_inventaris]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 bg-gray-100 text-gray-600 cursor-not-allowed shadow-sm"
-                                            readonly placeholder="Otomatis">
+                                        <input type="text" name="asets[0][nomor_inventaris]" class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 bg-gray-100 text-gray-600 cursor-not-allowed shadow-sm" readonly placeholder="Otomatis">
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                                        <select name="asets[0][kategori_id]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm kategori-select"
-                                            required>
+                                        <select name="asets[0][kategori_id]" class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm kategori-select" required>
                                             <option value="">-- Pilih Kategori --</option>
                                             @foreach ($kategoris as $kategori)
-                                                <option value="{{ $kategori->id }}"
-                                                    data-code="{{ strtoupper(substr($kategori->nama, 0, 3)) }}">
-                                                    {{ $kategori->nama }}
-                                                </option>
+                                                <option value="{{ $kategori->id }}" data-code="{{ strtoupper(substr($kategori->nama, 0, 3)) }}">{{ $kategori->nama }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp)</label>
-                                        <input type="number" name="asets[0][harga]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                            required>
+                                        <input type="text" name="asets[0][harga]" class="aset-harga w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Perolehan</label>
-                                        <input type="date" name="asets[0][tanggal_perolehan]"
-                                            value="{{ old('asets.0.tanggal_perolehan', \Carbon\Carbon::now()->toDateString()) }}"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                            required>
+                                        <input type="date" name="asets[0][tanggal_perolehan]" value="{{ old('asets.0.tanggal_perolehan', \Carbon\Carbon::now()->toDateString()) }}" class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi</label>
-                                        <select name="asets[0][lokasi_id]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                                            required>
+                                        <select name="asets[0][lokasi_id]" class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
                                             <option value="">-- Pilih Lokasi --</option>
                                             @foreach ($lokasis as $lokasi)
                                                 <option value="{{ $lokasi->id }}">{{ $lokasi->nama }}</option>
@@ -135,25 +116,21 @@
                             </div>
                         </div>
 
-                        <button type="button" id="add-aset"
-                            class="mt-3 px-5 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md transition text-base font-semibold">
+                        <button type="button" id="add-aset" class="mt-3 px-5 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md transition text-base font-semibold">
                             + Tambah Aset
                         </button>
                     </div>
 
                     {{-- Tombol Simpan --}}
                     <div class="flex justify-between items-center pt-6 border-t">
-                        <a href="{{ route('logs.aset') }}"
-                            class="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-base px-4 py-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                        <a href="{{ route('logs.aset') }}" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-base px-4 py-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                             </svg>
                             Kembali
                         </a>
 
-                        <button type="submit"
-                            class="bg-blue-600 text-white text-base font-semibold px-6 py-2.5 rounded-lg hover:bg-blue-700 shadow-md transition">
+                        <button type="submit" class="bg-blue-600 text-white text-base font-semibold px-6 py-2.5 rounded-lg hover:bg-blue-700 shadow-md transition">
                             Simpan Pengadaan
                         </button>
                     </div>
@@ -166,20 +143,26 @@
         let asetIndex = 1;
         const container = document.getElementById('asets-container');
 
-        function generateNomorInventaris(select) {
-            const code = select.selectedOptions[0].dataset.code || 'XXX';
+            function generateNomorInventaris(select) {
+            const code = select.selectedOptions[0]?.dataset.code || 'XXX';
             const year = new Date().getFullYear();
             const input = select.closest('.aset-item').querySelector('input[readonly]');
+
+            // Hitung sementara di frontend (tampilan saja)
             const items = document.querySelectorAll('.aset-item');
             let count = 0;
             items.forEach(item => {
                 const kategoriSelect = item.querySelector('.kategori-select');
                 if (kategoriSelect && kategoriSelect.value === select.value) count++;
             });
+
+            // Nomor sementara
             const seq = String(count).padStart(4, '0');
-            input.value = `INV-${code}/${year}/${seq}`;
+            input.value = `INV-${code}/${year}/${seq} (sementara)`;
         }
 
+
+        // Tambah aset baru
         document.getElementById('add-aset').addEventListener('click', function() {
             const template = container.querySelector('.aset-item').cloneNode(true);
             template.querySelectorAll('input, select').forEach(el => {
@@ -199,8 +182,11 @@
             });
             container.appendChild(template);
             asetIndex++;
+
+            template.querySelectorAll('.aset-harga').forEach(el => formatRibuan(el));
         });
 
+        // Hapus aset
         container.addEventListener('click', function(e) {
             if (e.target.classList.contains('remove-aset')) {
                 const items = container.querySelectorAll('.aset-item');
@@ -208,8 +194,33 @@
             }
         });
 
+        // Generate nomor inventaris otomatis
         container.addEventListener('change', function(e) {
             if (e.target.classList.contains('kategori-select')) generateNomorInventaris(e.target);
+        });
+
+        // 🔹 Format ribuan untuk input
+        function formatRibuan(input) {
+            input.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            });
+        }
+
+        // Terapkan format ribuan pada input awal
+        formatRibuan(document.getElementById('biaya'));
+        document.querySelectorAll('.jumlah-ribuan').forEach(el => formatRibuan(el));
+        document.querySelectorAll('.aset-harga').forEach(el => formatRibuan(el));
+
+        // 🔹 Hapus titik ribuan sebelum submit
+        document.getElementById('pengadaan-form').addEventListener('submit', function(e) {
+            const cleanNumber = (str) => str.replace(/\./g, '');
+            this.querySelector('[name="biaya"]').value = cleanNumber(this.querySelector('[name="biaya"]').value);
+            this.querySelector('[name="jumlah"]').value = cleanNumber(this.querySelector('[name="jumlah"]').value);
+
+            this.querySelectorAll('.aset-harga').forEach(el => {
+                el.value = cleanNumber(el.value);
+            });
         });
     </script>
 </x-app-layout>
