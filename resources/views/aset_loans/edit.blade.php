@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-            ✅ {{ __('Konfirmasi Peminjaman Aset') }}
+             {{ __('Konfirmasi Peminjaman Aset') }}
         </h2>
     </x-slot>
 
@@ -37,11 +37,11 @@
                         <label for="status" class="block font-semibold text-gray-700 mb-2">Status</label>
                         <select name="status" id="status"
                             class="w-full border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
-                            <option value="Menunggu Konfirmasi" @selected($asetLoan->status == 'Menunggu Konfirmasi')>
-                                Menunggu Konfirmasi
-                            </option>
                             <option value="Disetujui" @selected($asetLoan->status == 'Disetujui')>
                                 Disetujui
+                            </option>
+                            <option value="Menunggu Konfirmasi" @selected($asetLoan->status == 'Menunggu Konfirmasi')>
+                                Menunggu Konfirmasi
                             </option>
                             <option value="Ditolak" @selected($asetLoan->status == 'Ditolak')>
                                 Ditolak

@@ -15,6 +15,7 @@ class Atk extends Model
         'stok',
         'stok_minimum',
         'harga_satuan',
+        'total_harga',
         'kondisi',
         'tanggal_masuk',
         'keterangan',

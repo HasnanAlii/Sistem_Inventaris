@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('stok')->default(0);
             $table->integer('stok_minimum')->default(5);
             $table->integer('harga_satuan')->nullable();
+            $table->integer('total_harga')->default(0);
             $table->date('tanggal_masuk')->nullable();
             $table->text('keterangan')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();

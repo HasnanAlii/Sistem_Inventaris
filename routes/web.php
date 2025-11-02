@@ -9,18 +9,25 @@ use App\Http\Controllers\{
     AtkLogController,
     AtkProcurementController,
     AtkRequestController,
+    DashboardController,
     KategoriController,
     LokasiController,
     MaintenanceLogController,
     ProfileController
 };
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // =========================
 // 🔹 PUBLIC ROUTES
 // =========================
 Route::get('/', fn() => view('welcome'));
-Route::get('/dashboard', fn() => view('dashboard'))->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // =========================
 // 🔹 PROFILE ROUTES (AUTH)
@@ -89,6 +96,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [AsetLogController::class, 'create'])->name('aset_logs.create');
         Route::post('/store', [AsetLogController::class, 'store'])->name('aset_logs.store');
         Route::get('/{asetLog}', [AsetLogController::class, 'show'])->name('aset_logs.show');
+        Route::get('/{id}/print', [AsetLogController::class, 'print'])->name('aset_logs.print');
+
 
     });
     // ---------- ATK ----------
@@ -110,6 +119,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [AtkProcurementController::class, 'create'])->name('create');
         Route::post('/store', [AtkProcurementController::class, 'store'])->name('store');
         Route::get('/{atkProcurement}', [AtkProcurementController::class, 'show'])->name('show');
+        Route::get('/{atkProcurement}/print', [AtkProcurementController::class, 'print'])->name('print');
 
     });
     // ---------- LOGS ----------

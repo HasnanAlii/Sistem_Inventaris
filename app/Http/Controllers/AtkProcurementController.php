@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Atk;
 use App\Models\AtkProcurement;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class AtkProcurementController extends Controller
     }
 
     // Simpan pengadaan ATK
-  public function store(Request $request)
+public function store(Request $request)
 {
     $request->validate([
         'nama_pengadaan' => 'required|string|max:255',
@@ -37,23 +38,29 @@ class AtkProcurementController extends Controller
     ]);
 
     DB::transaction(function () use ($request) {
+        // 🔹 Simpan pengadaan ATK
         $procurement = AtkProcurement::create([
             'nama_barang' => $request->nama_pengadaan,
             'jumlah' => array_sum(array_column($request->atk_items, 'stok')),
-            'biaya' => array_sum(array_map(fn($item) => $item['harga_satuan'] ?? 0, $request->atk_items)),
+            'biaya' => array_sum(array_map(fn($item) => ($item['harga_satuan'] ?? 0) * $item['stok'], $request->atk_items)),
             'tanggal_pengadaan' => now()->toDateString(),
         ]);
 
+        // 🔹 Simpan semua ATK terkait
         foreach ($request->atk_items as $item) {
             $lastId = Atk::max('id') ?? 0;
             $kodeBarang = 'ATK-' . ($lastId + 1);
 
+            $hargaSatuan = $item['harga_satuan'] ?? 0;
+            $stok = $item['stok'];
+
             Atk::create([
                 'kode_barang' => $kodeBarang,
                 'nama_barang' => $item['nama_barang'],
-                'stok' => $item['stok'],
+                'stok' => $stok,
                 'stok_minimum' => $item['stok_minimum'] ?? 5,
-                'harga_satuan' => $item['harga_satuan'] ?? 0,
+                'harga_satuan' => $hargaSatuan,
+                'total_harga' => $stok * $hargaSatuan, 
                 'tanggal_masuk' => $item['tanggal_masuk'] ?? now()->toDateString(),
                 'keterangan' => $item['keterangan'] ?? null,
                 'created_by' => Auth::id(),
@@ -84,5 +91,20 @@ class AtkProcurementController extends Controller
         ]);
     }
 
+    public function print(AtkProcurement $atkProcurement)
+    {
+   {
+    $atkProcurement->load('atks'); // Load data ATK
+
+    $pdf = Pdf::loadView('atks.procurements.pdf', [
+        'procurement' => $atkProcurement
+    ])->setPaper('a4', 'portrait'); // ukuran kertas A4
+
+    // Bisa langsung download
+    return $pdf->download('Laporan_Pengadaan_ATK_'.$atkProcurement->id.'.pdf');
+
+    
+}
+    }
 
 }

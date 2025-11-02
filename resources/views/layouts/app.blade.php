@@ -88,13 +88,13 @@
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">
-        <header class="bg-white border-b border-sky-300 shadow-sm flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <header class="bg-white border-b border-sky-300 shadow-sm flex items-center justify-between px-4 sm:px-6 lg:px-8 h-24">
             <div class="flex items-center gap-3">
                 <button @click="sidebarOpen = true" class="sm:hidden text-sky-700 hover:text-sky-900">
                     ☰
                 </button>
                 @isset($header)
-                    <h2 class="text-lg font-semibold text-sky-800">{{ $header }}</h2>
+                    <h2 class="text-lg font-semibold text-sky-800 ">{{ $header }}</h2>
                 @endisset
             </div>
 

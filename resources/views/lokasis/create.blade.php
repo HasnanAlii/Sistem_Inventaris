@@ -28,38 +28,6 @@
                         @enderror
                     </div>
 
-                    {{-- Kode --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Kode Lokasi</label>
-                        <input type="text" name="kode"
-                               class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                               placeholder="Masukkan kode lokasi (opsional)">
-                        @error('kode')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Gedung --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Gedung</label>
-                        <input type="text" name="gedung"
-                               class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                               placeholder="Masukkan nama gedung (opsional)">
-                        @error('gedung')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    {{-- Lantai --}}
-                    <div>
-                        <label class="block font-semibold text-gray-700 mb-2">Lantai</label>
-                        <input type="text" name="lantai"
-                               class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                               placeholder="Masukkan nomor lantai (opsional)">
-                        @error('lantai')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
 
                     {{-- Keterangan --}}
                     <div>

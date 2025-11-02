@@ -22,9 +22,7 @@ class LokasiController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|unique:lokasis,nama|max:255',
-            'kode' => 'nullable|string|max:10',
-            'gedung' => 'nullable|string|max:255',
-            'lantai' => 'nullable|string|max:50',
+            
             'keterangan' => 'nullable|string',
         ]);
 
@@ -42,9 +40,7 @@ class LokasiController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|max:255|unique:lokasis,nama,' . $lokasi->id,
-            'kode' => 'nullable|string|max:10',
-            'gedung' => 'nullable|string|max:255',
-            'lantai' => 'nullable|string|max:50',
+          
             'keterangan' => 'nullable|string',
         ]);
 

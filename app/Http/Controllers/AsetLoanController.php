@@ -49,7 +49,7 @@ class AsetLoanController extends Controller
             'user_id' => Auth::id(),
             'jumlah' => $request->jumlah,
             'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
+            // 'tanggal_kembali' => null,
             'status' => 'Menunggu Konfirmasi',
         ]);
 
@@ -69,32 +69,32 @@ class AsetLoanController extends Controller
             return view('aset_loans.edit', compact('asetLoan'));
         }
 
-public function updateStatus(Request $request, AsetLoan $asetLoan)
-{
-    $request->validate([
-        'status' => 'required|in:Menunggu Konfirmasi,Disetujui,Ditolak',
-    ]);
+    public function updateStatus(Request $request, AsetLoan $asetLoan)
+    {
+        $request->validate([
+            'status' => 'required|in:Menunggu Konfirmasi,Disetujui,Ditolak',
+        ]);
 
-    $asetLoan->update(['status' => $request->status]);
+        $asetLoan->update(['status' => $request->status]);
 
-    return redirect()->route('aset_loans.index')->with('success', 'Status peminjaman berhasil diperbarui.');
-}
-
-public function return(AsetLoan $asetLoan)
-{
-    // Hanya peminjam sendiri yang bisa mengembalikan
-    if(auth()->id() !== $asetLoan->user_id){
-        return back()->with('error', 'Anda tidak memiliki izin mengembalikan aset ini.');
+        return redirect()->route('aset_loans.index')->with('success', 'Status peminjaman berhasil diperbarui.');
     }
 
-    // Update status
-    $asetLoan->update([
-        'status' => 'Dikembalikan',
-        'tanggal_kembali' => now(),
-    ]);
+    public function return(AsetLoan $asetLoan)
+    {
+        // Hanya peminjam sendiri yang bisa mengembalikan
+        if(auth()->id() !== $asetLoan->user_id){
+            return back()->with('error', 'Anda tidak memiliki izin mengembalikan aset ini.');
+        }
 
-    return back()->with('success', 'Aset berhasil dikembalikan.');
-}
+        // Update status
+        $asetLoan->update([
+            'status' => 'Dikembalikan',
+            'tanggal_kembali' => now(),
+        ]);
+
+        return back()->with('success', 'Aset berhasil dikembalikan.');
+    }
 
 
 }

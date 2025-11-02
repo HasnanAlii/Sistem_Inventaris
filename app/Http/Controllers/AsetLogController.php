@@ -7,6 +7,7 @@ use App\Models\Aset;
 use App\Models\Assessment;
 use App\Models\Kategori;
 use App\Models\Lokasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,6 +104,21 @@ public function store(Request $request)
 
         return view('aset_logs.show', compact('asetLog'));
     }
+
+    public function print($id)
+{
+    $asetLog = AsetLog::with(['asets.kategori', 'asets.lokasi'])->findOrFail($id);
+
+    $pdf = Pdf::loadView('aset_logs.print', compact('asetLog'))
+              ->setPaper('a4', 'portrait');
+
+    // return $pdf->download('Detail_Pengadaan_Aset_' . $asetLog->nama_barang . '.pdf');
+    return $pdf->stream('Detail_Pengadaan_Aset_' . $asetLog->nama_barang . '.pdf');
+
+
+
+    
+}
 
 
 

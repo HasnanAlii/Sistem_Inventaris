@@ -1,89 +1,91 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('Data Lokasi Aset') }}
         </h2>
     </x-slot>
 
     <!-- 🔹 Navigasi Halaman -->
-    <nav class="bg-white shadow-md border border-gray-200 px-6 py-3 flex flex-wrap items-center gap-3 rounded-xl mb-8">
+    <nav class="bg-white shadow-md border border-gray-200 px-6 py-4 flex flex-wrap items-center gap-4 rounded-xl mb-8">
+
         <a href="{{ route('kategoris.index') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+           class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('kategoris.*')
-                      ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-sm'
+                      ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg'
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
-            <i data-feather="layers" class="w-5 h-5"></i>
+            <i data-feather="layers" class="w-6 h-6"></i>
             Kategori
         </a>
 
         <a href="{{ route('lokasis.index') }}"
-           class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-medium text-sm transition-all duration-200
+           class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('lokasis.*')
-                      ? 'bg-purple-200 border-purple-600 text-purple-900 shadow-sm'
+                      ? 'bg-purple-200 border-purple-600 text-purple-900 shadow-lg'
                       : 'border-purple-400 text-purple-700 bg-purple-50 hover:bg-purple-100 hover:border-purple-500 hover:text-purple-800' }}">
-            <i data-feather="map-pin" class="w-5 h-5"></i>
+            <i data-feather="map-pin" class="w-6 h-6"></i>
             Lokasi
         </a>
     </nav>
 
+    <!-- 🔹 Konten -->
     <div class="py-6">
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-100">
 
                 <!-- Header Tabel -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 p-6 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50">
-                    <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                    <i data-feather="map-pin" class="w-5 h-5 text-purple-600"></i>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 border-b border-gray-200 
+                    bg-gradient-to-r from-purple-50 to-pink-50 rounded-t-2xl shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                        <i data-feather="map-pin" class="w-6 h-6 text-purple-600"></i>
                         Daftar Lokasi Aset
                     </h3>
 
-                    <div class="flex flex-col sm:flex-row gap-3 items-center w-full sm:w-auto">
-                 
-                        @hasrole('petugas')
-                        <a href="{{ route('lokasis.create') }}"
-                           class="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 hover:shadow-lg transition-all duration-200">
-                            <i data-feather="plus-circle" class="w-5 h-5"></i>
-                            Tambah Lokasi
-                        </a>
-                        @endhasrole
-                    </div>
+                    @hasrole('petugas')
+                    <a href="{{ route('lokasis.create') }}"
+                       class="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg font-medium 
+                       hover:bg-purple-700 hover:shadow-md transition-all duration-200">
+                        <i data-feather="plus-circle" class="w-5 h-5"></i>
+                        Tambah Lokasi
+                    </a>
+                    @endhasrole
                 </div>
 
-                <!-- Pesan sukses -->
+                <!-- ✅ Pesan Sukses -->
                 @if(session('success'))
-                    <div class="p-4 mx-6 my-4 text-green-700 bg-green-50 border border-green-200 rounded-lg shadow-sm">
+                    <div class="p-4 mx-6 my-4 text-green-800 bg-green-50 border border-green-200 rounded-lg shadow-sm text-base">
                         {{ session('success') }}
                     </div>
                 @endif
 
                 <!-- 📋 Tabel Data -->
                 <div class="overflow-x-auto p-6">
-                    <table class="min-w-[800px] w-full border border-gray-200 divide-y divide-gray-200 text-sm">
-                        <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                    <table class="min-w-[900px] w-full border border-gray-200 divide-y divide-gray-200 text-base">
+                        <thead class="bg-gray-100 text-gray-700 uppercase text-sm">
                             <tr>
-                                <th class="px-4 py-3 text-left">#</th>
-                                <th class="px-4 py-3 text-left">Nama</th>
-                                <th class="px-4 py-3 text-left">Kode</th>
-                                <th class="px-4 py-3 text-left">Gedung</th>
-                                <th class="px-4 py-3 text-left">Lantai</th>
-                                <th class="px-4 py-3 text-left">Keterangan</th>
+                                <th class="px-5 py-3 text-left">#</th>
+                                <th class="px-5 py-3 text-left">Nama Lokasi</th>
+                                {{-- <th class="px-5 py-3 text-left">Kode</th> --}}
+                                {{-- <th class="px-5 py-3 text-left">Gedung</th>
+                                <th class="px-5 py-3 text-center">Lantai</th> --}}
+                                <th class="px-5 py-3 text-left">Keterangan</th>
                                 @hasrole('petugas')
-                                <th class="px-4 py-3 text-center">Aksi</th>
+                                    <th class="px-5 py-3 text-center">Aksi</th>
                                 @endhasrole
                             </tr>
                         </thead>
+
                         <tbody>
                             @forelse ($lokasis as $i => $lokasi)
                                 <tr class="hover:bg-purple-50 transition duration-150">
-                                    <td class="px-4 py-3">{{ $i + 1 + ($lokasis->currentPage() - 1) * $lokasis->perPage() }}</td>
-                                    <td class="px-4 py-3 font-medium text-gray-800">{{ $lokasi->nama }}</td>
-                                    <td class="px-4 py-3">{{ $lokasi->kode }}</td>
-                                    <td class="px-4 py-3">{{ $lokasi->gedung }}</td>
-                                    <td class="px-4 py-3">{{ $lokasi->lantai }}</td>
-                                    <td class="px-4 py-3 text-gray-600">{{ $lokasi->keterangan ?? '-' }}</td>
+                                    <td class="px-5 py-3 font-medium text-gray-800">{{ $i + 1 + ($lokasis->currentPage() - 1) * $lokasis->perPage() }}</td>
+                                    <td class="px-5 py-3 text-gray-700">{{ $lokasi->nama }}</td>
+                                    {{-- <td class="px-5 py-3 text-gray-700">{{ $lokasi->kode }}</td> --}}
+                                    {{-- <td class="px-5 py-3 text-gray-700">{{ $lokasi->gedung }}</td>
+                                    <td class="px-5 py-3 text-center text-gray-700">{{ $lokasi->lantai }}</td> --}}
+                                    <td class="px-5 py-3 text-gray-600">{{ $lokasi->keterangan ?? '-' }}</td>
 
                                     @hasrole('petugas')
-                                    <td class="px-4 py-3 text-center flex justify-center gap-3">
+                                    <td class="px-5 py-3 text-center flex justify-center gap-3">
                                         <a href="{{ route('lokasis.edit', $lokasi) }}"
                                            class="text-yellow-600 hover:text-yellow-800 font-medium transition">Edit</a>
                                         <form action="{{ route('lokasis.destroy', $lokasi) }}" method="POST"
@@ -98,15 +100,17 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center text-gray-500 py-6">Belum ada data lokasi aset.</td>
+                                    <td colspan="7" class="text-center text-gray-500 py-6">
+                                        Belum ada data lokasi aset.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                <div class="p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+                <!-- 📄 Pagination -->
+                <div class="p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl text-base">
                     {{ $lokasis->links() }}
                 </div>
             </div>
