@@ -2,26 +2,153 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Pengadaan Aset</title>
+    <title>Surat Pengadaan Aset</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; color: #333; font-size: 12pt; }
-        h2 { text-align: center; color: #1d4ed8; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #e0e7ff; color: #111; }
+        body { 
+            font-family: "Times New Roman", serif; 
+            color: #000; 
+            font-size: 12pt; 
+            line-height: 1.5; 
+            margin: 40px;
+        }
+
+        /* ===== KOP SURAT ===== */
+        .kop-surat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .kop-surat .logo {
+            position: absolute;
+            left: 0;
+        }
+
+        .kop-surat .logo img {
+            width: 130px;
+            height: auto;
+        }
+
+        .kop-surat .text {
+            flex: 1;
+        }
+
+        .kop-surat h1 {
+            margin: 0;
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .kop-surat h2 {
+            margin: 0;
+            font-size: 13pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .kop-surat h3 {
+            margin: 0;
+            font-size: 11pt;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        .kop-surat p {
+            margin: 2px 0;
+            font-size: 10pt;
+        }
+
+        /* Garis ganda bawah header */
+        .garis {
+            border-bottom: 2px solid #000;
+            margin-top: 4px;
+            margin-bottom: 15px;
+        }
+        .garis::after {
+            content: "";
+            display: block;
+            border-bottom: 1px solid #000;
+            margin-top: 1px;
+        }
+
+        /* ===== ISI SURAT ===== */
         .info { margin-bottom: 20px; }
-        .info div { margin: 5px 0; }
+        .info div { margin: 3px 0; }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+        }
+
+        th, td { 
+            border: 1px solid #444; 
+            padding: 8px; 
+            text-align: left; 
+            font-size: 10pt;
+        }
+
+        th { 
+            background-color: #f5f5f5; 
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 11pt;
+        }
+
+        .signature {
+            margin-top: 60px;
+            text-align: right;
+        }
+
+        .signature p {
+            margin: 3px 0;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <h2>📄 Detail Pengadaan Aset</h2>
+
+    <!-- ===== KOP SURAT ===== -->
+    <div class="kop-surat">
+        <div class="logo">
+            <img src="{{ public_path('storage/Logo.png') }}" alt="Logo Dinas">
+        </div>
+        <div class="text">
+            <h1>PEMERINTAH KABUPATEN CIANJUR</h1>
+            <h2>DINAS ARSIP DAN PERPUSTAKAAN</h2>
+            <p>Jl. Siliwangi No. 40, Cianjur 43211</p>
+            <p>Telp. (0263) 261269 | Email: dinas.arpus@cianjurkab.go.id</p>
+        </div>
+    </div>
+    <div class="garis"></div>
+
+    <!-- ===== ISI SURAT ===== -->
+    <p style="text-align: right;">Cianjur, {{ now()->format('d F Y') }}</p>
 
     <div class="info">
-        <div><strong>Nama Pengadaan:</strong> {{ $asetLog->nama_barang }}</div>
-        <div><strong>Jumlah Barang:</strong> {{ $asetLog->jumlah }}</div>
-        <div><strong>Biaya:</strong> Rp {{ number_format($asetLog->biaya, 0, ',', '.') }}</div>
-        <div><strong>Tanggal Pengadaan:</strong> {{ $asetLog->tanggal_pengadaan ? $asetLog->tanggal_pengadaan->format('d F Y') : '-' }}</div>
+        <div><strong>Nomor:</strong> 004/DAP/{{ now()->year }}</div>
+        <div><strong>Lampiran:</strong> -</div>
+        <div><strong>Hal:</strong> Laporan Pengadaan Aset</div>
     </div>
+
+    <p>Kepada Yth.<br>
+    Kepala Dinas Arsip dan Perpustakaan<br>
+    Kabupaten Cianjur<br>
+    di Tempat</p>
+
+    <p>Dengan hormat,</p>
+    <p>Bersama surat ini kami sampaikan laporan hasil pengadaan aset pada Dinas Arsip dan Perpustakaan Kabupaten Cianjur sebagai berikut:</p>
 
     <table>
         <thead>
@@ -49,5 +176,27 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="info">
+        <div><strong>Nama Pengadaan:</strong> {{ $asetLog->nama_barang }}</div>
+        <div><strong>Jumlah Barang:</strong> {{ $asetLog->jumlah }}</div>
+        <div><strong>Biaya:</strong> Rp {{ number_format($asetLog->biaya, 0, ',', '.') }}</div>
+        <div><strong>Tanggal Pengadaan:</strong> {{ $asetLog->tanggal_pengadaan ? $asetLog->tanggal_pengadaan->format('d F Y') : '-' }}</div>
+    </div>
+
+    <!-- ===== PENUTUP ===== -->
+    <div class="footer">
+        <p>Demikian laporan pengadaan aset ini kami sampaikan untuk dapat digunakan sebagaimana mestinya. Besar harapan kami laporan ini dapat menjadi acuan dalam pengelolaan dan pendataan aset di lingkungan Dinas Arsip dan Perpustakaan Kabupaten Cianjur.</p>
+
+        <div class="signature">
+            <p>Hormat kami,</p>
+            <p><strong>Kepala Dinas Arsip dan Perpustakaan</strong></p>
+            <p>Kabupaten Cianjur</p>
+            <br><br><br>
+            <p><strong>{{ $pimpinan ?? 'Drs. H. Sutisna, M.Si' }}</strong><br>
+            NIP. 19650110 199003 1 002</p>
+        </div>
+    </div>
+
 </body>
-</html>  
+</html>

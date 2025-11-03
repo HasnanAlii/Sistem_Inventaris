@@ -21,7 +21,7 @@
                 <img src="{{ asset('storage/Logo.png') }}" alt="Logo" class="h-12 w-auto">
                 <span class="font-bold text-lg text-gray-900">Dinas Arsip & Perpustakaan Cianjur</span>
             </div>
-            <div class="flex items-center gap-4">
+            {{-- <div class="flex items-center gap-4">
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ url('/dashboard') }}" class="px-5 py-2 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition font-medium">Dashboard</a>
@@ -29,7 +29,7 @@
                         <a href="{{ route('login') }}" class="px-5 py-2 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition font-medium">Login</a>
                     @endauth
                 @endif
-            </div>
+            </div> --}}
         </div>
     </nav>
 

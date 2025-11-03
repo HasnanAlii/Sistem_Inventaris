@@ -70,7 +70,7 @@ class AssessmentController extends Controller
         $pdf = Pdf::loadView('assessments.pdf', compact('assessments'))
                 ->setPaper('a4', 'portrait');
 
-        return $pdf->download('Daftar_Penilaian_Aset_' . date('Y-m-d') . '.pdf');
+        return $pdf->stream('Daftar_Penilaian_Aset_' . date('Y-m-d') . '.pdf');
     }
 
 }

@@ -41,7 +41,7 @@ class AtkController extends Controller
     public function update(Request $request, Atk $atk)
     {
         $validated = $request->validate([
-            'nama_barang' => 'required|string|max:255',
+            'nama_barang' => 'nullable|string|max:255',
             'stok' => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
             'harga_satuan' => 'nullable|numeric|min:0',

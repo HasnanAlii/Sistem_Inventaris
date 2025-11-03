@@ -98,7 +98,7 @@ public function store(Request $request)
         'procurement' => $atkProcurement
     ])->setPaper('a4', 'portrait'); 
 
-    return $pdf->download('Laporan_Pengadaan_ATK_'.$atkProcurement->id.'.pdf');
+    return $pdf->stream('Laporan_Pengadaan_ATK_'.$atkProcurement->id.'.pdf');
 
     
 }
