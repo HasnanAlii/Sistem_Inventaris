@@ -2,7 +2,7 @@
     {{-- 🧭 Header --}}
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800 flex items-center gap-3">
-            📦 {{ __('Detail Barang ATK') }}
+             {{ __('Detail Barang ATK') }}
         </h2>
     </x-slot>
 

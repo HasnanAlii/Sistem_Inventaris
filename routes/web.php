@@ -44,7 +44,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
 
         Route::get('/asets/{aset}/label', [AsetController::class, 'printLabel'])->name('asets.printLabel');
-        Route::get('/aset-loans', [AsetLoanController::class, 'index'])->name('aset_loans.index');
         Route::get('/aset-loans/create', [AsetLoanController::class, 'create'])->name('aset_loans.create');
         Route::post('/aset-loans', [AsetLoanController::class, 'store'])->name('aset_loans.store');
         Route::post('aset_loans/{asetLoan}/return', [AsetLoanController::class, 'return'])->name('aset_loans.return');
@@ -53,6 +52,7 @@ Route::middleware('auth')->group(function () {
         
 
     Route::prefix('asets')->group(function () {
+        Route::get('/loans', [AsetLoanController::class, 'index'])->name('aset_loans.index');
         Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
         Route::get('/maintenance', [MaintenanceLogController::class, 'index'])->name('maintenance.index');
         Route::get('/', [AsetController::class, 'index'])->name('asets.index');

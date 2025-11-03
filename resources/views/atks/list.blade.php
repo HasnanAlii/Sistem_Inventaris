@@ -7,6 +7,7 @@
 
     <!-- 🔹 Navigasi Halaman -->
     <nav class="bg-white shadow-md border border-gray-200 px-6 py-4 flex flex-wrap items-center gap-4 rounded-xl mb-8">
+        @hasrole('petugas')
         <a href="{{ route('atks.index') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('atks.*') 
@@ -15,6 +16,7 @@
             <i data-feather='package' class="w-6 h-6"></i>
             List ATK
         </a>
+        @endhasrole
 
         <a href="{{ route('logs.list') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
@@ -24,6 +26,7 @@
             <i data-feather="tool" class="w-6 h-6"></i>
             Permintaan ATK
         </a>
+
     </nav>
 
     <!-- 🔹 Konten -->

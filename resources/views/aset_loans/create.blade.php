@@ -24,42 +24,43 @@
                     @csrf
 
                     {{-- Pilih Aset --}}
-                    <div>
-                        <label for="asetSelect" class="block text-base font-semibold text-gray-700 mb-2">
-                            Pilih Aset
-                        </label>
-                        <select name="aset_id" id="asetSelect"
-                            class="w-full text-base border-gray-300 rounded-lg py-2.5  focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
-                            <option value="">-- Pilih Aset --</option>
-                            @foreach($asets as $aset)
-                                <option value="{{ $aset->id }}">{{ $aset->nama }}</option>
-                            @endforeach
-                        </select>
+                 <div>
+                    <label for="asetSelect" class="block text-base font-semibold text-gray-700 mb-2">
+                        Pilih Aset
+                    </label>
+                    <select name="aset_id" id="asetSelect"
+                        class="w-full text-base border-gray-300 rounded-lg py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
+                        <option value="">-- Pilih Aset --</option>
+                        @foreach($asets->where('status', 'aktif') as $aset)
+                            <option value="{{ $aset->id }}">{{ $aset->nama }}</option>
+                        @endforeach
+                    </select>
 
-                        @error('aset_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @error('aset_id')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                    {{-- Tom Select --}}
-                    @push('scripts')
-                        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
-                        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+                {{-- Tom Select --}}
+                @push('scripts')
+                    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+                    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
-                        <script>
-                            new TomSelect('#asetSelect', {
-                                create: false,
-                                sortField: { field: 'text', direction: 'asc' },
-                                placeholder: '-- Pilih atau cari aset --',
-                                maxOptions: 100,
-                                render: {
-                                    no_results: function(data, escape) {
-                                        return '<div class="no-results text-gray-500 px-3 py-2">Aset tidak ditemukan</div>';
-                                    }
+                    <script>
+                        new TomSelect('#asetSelect', {
+                            create: false,
+                            sortField: { field: 'text', direction: 'asc' },
+                            placeholder: '-- Pilih atau cari aset --',
+                            maxOptions: 100,
+                            render: {
+                                no_results: function(data, escape) {
+                                    return '<div class="no-results text-gray-500 px-3 py-2">Aset tidak ditemukan</div>';
                                 }
-                            });
-                        </script>
-                    @endpush
+                            }
+                        });
+                    </script>
+                @endpush
+
 
                     {{-- Jumlah --}}
                     <div>

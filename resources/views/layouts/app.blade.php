@@ -36,10 +36,10 @@
                 class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
                 <i data-feather="home" class="w-5 h-5"></i> {{ __('Dashboard') }}
             </x-nav-link>
-
+            @hasrole('petugas')
             <x-nav-link :href="route('asets.index')" :active="request()->is('asets*')"
                 class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
-                <i data-feather="layers" class="w-5 h-5"></i> {{ __('Inventaris') }}
+                <i data-feather="package" class="w-5 h-5"></i> {{ __('Inventaris') }}
             </x-nav-link>
 
             <x-nav-link :href="route('atks.index')" :active="request()->is('atks*')"
@@ -53,7 +53,6 @@
                     </span>
                 @endif
             </x-nav-link>
-            @hasrole('petugas')
             <x-nav-link :href="route('logs.atk')" :active="request()->is('logs*')"
                 class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
                 <i data-feather="clipboard" class="w-5 h-5"></i> {{ __('Riwayat') }}
@@ -64,6 +63,19 @@
                 <i data-feather="grid" class="w-5 h-5"></i> {{ __('Kelola Kategori/Lokasi') }}
             </x-nav-link>    
             @endhasrole
+
+            @hasrole('pegawai')
+            <x-nav-link :href="route('aset_loans.index')" :active="request()->is('asets*')"
+                class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
+                <i data-feather="package" class="w-5 h-5"></i> {{ __('Peminjaman Aset') }}
+            </x-nav-link>
+            
+            <x-nav-link :href="route('logs.list')" :active="request()->is('atks*')"
+                class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
+                <i data-feather="archive" class="w-5 h-5"></i> {{ __('Permintaan ATK') }}
+            </x-nav-link>
+            @endhasrole
+
 
            
         </nav>

@@ -16,8 +16,8 @@
             <i data-feather='package' class="w-6 h-6"></i>
             List Inventaris
         </a>
-
         @hasrole('petugas')
+
         <a href="{{ route('maintenance.index') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold transition-all duration-200
                   {{ request()->routeIs('maintenance.*') 
@@ -111,9 +111,9 @@
                                 <th class="px-5 py-3 text-left">Kategori</th>
                                 <th class="px-5 py-3 text-left">Lokasi</th>
                                 <th class="px-5 py-3 text-left">Kondisi</th>
-                                {{-- <th class="px-5 py-3 text-center">Umur</th> --}}
-                                <th class="px-5 py-3 text-center">Tanggal Perolehan</th>
+                                <th class="px-5 py-3 text-center">Status</th>
                                 <th class="px-5 py-3 text-right">Harga</th>
+                                <th class="px-5 py-3 text-center">Tanggal Perolehan</th>
                                 @hasrole('petugas')
                                 <th class="px-5 py-3 text-center">Aksi</th>
                                 @endhasrole
@@ -128,9 +128,41 @@
                                     <td class="px-5 py-4">{{ $aset->kategori->nama ?? '-' }}</td>
                                     <td class="px-5 py-4">{{ $aset->lokasi->nama ?? '-' }}</td>
                                     <td class="px-5 py-4 capitalize">{{ str_replace('_', ' ', $aset->kondisi) }}</td>
-                                    {{-- <td class="px-5 py-4 text-center">{{ $aset->umur_ekonomis }} Bulan</td> --}}
-                                    <td class="px-5 py-4 text-center">{{ $aset->tanggal_perolehan->format('d/m/Y') }}</td>
+                                    <td class="px-5 py-4 text-center">
+                                    @switch($aset->status)
+                                        @case('aktif')
+                                            <span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-700">
+                                                Tersedia
+                                            </span>
+                                            @break
+
+                                        @case('dipinjam')
+                                            <span class="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-700">
+                                                Dipinjam
+                                            </span>
+                                            @break
+
+                                        @case('diperbaiki')
+                                            <span class="px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-700">
+                                                Diperbaiki
+                                            </span>
+                                            @break
+
+                                        @case('dihapuskan')
+                                            <span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-700">
+                                                Dihapuskan
+                                            </span>
+                                            @break
+
+                                        @default
+                                            <span class="px-3 py-1 text-sm font-semibold rounded-full bg-gray-100 text-gray-700">
+                                                Tidak Diketahui
+                                            </span>
+                                    @endswitch
+                                </td>
+
                                     <td class="px-5 py-4 text-right font-medium">Rp {{ number_format($aset->harga, 0, ',', '.') }}</td>
+                                    <td class="px-5 py-4 text-center">{{ $aset->tanggal_perolehan->format('d/m/Y') }}</td>
 
                                     @hasrole('petugas')
                                     <td class="px-5 py-4 text-center">
