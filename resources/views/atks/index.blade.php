@@ -39,7 +39,7 @@
 
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="package" class="w-6 h-6 text-amber-600"></i>
-                        Data ATK (Alat Tulis Kantor)
+                        Daftar ATK (Alat Tulis Kantor)
                     </h3>
 
                     <div class="flex flex-wrap items-center gap-3">

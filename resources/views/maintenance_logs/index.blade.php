@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Riwayat Perbaikan Aset') }}
+            {{ __('Daftar Perbaikan Aset') }}
         </h2>
     </x-slot>
 
@@ -23,7 +23,7 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="tool" class="w-6 h-6"></i>
-            Riwayat Perbaikan
+             Perbaikan Aset
         </a>
 
         <a href="{{ route('assessments.index') }}"
@@ -58,7 +58,7 @@
                     bg-gradient-to-r from-green-50 to-emerald-50 rounded-t-2xl shadow-sm">
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="tool" class="w-6 h-6 text-green-600"></i>
-                        Daftar Riwayat Perbaikan Aset
+                        Daftar Perbaikan Aset
                     </h3>
 
                     <a href="{{ route('maintenance.create') }}"

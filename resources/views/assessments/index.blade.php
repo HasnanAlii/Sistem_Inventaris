@@ -23,7 +23,7 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="tool" class="w-6 h-6"></i>
-            Riwayat Perbaikan
+             Perbaikan Aset
         </a>
 
         <a href="{{ route('assessments.index') }}"

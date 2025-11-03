@@ -57,7 +57,6 @@ public function store(Request $request)
     // 🔹 Inisialisasi counter untuk nomor inventaris per kategori per tahun
     $nomorCounters = [];
 
-    // 🔹 Simpan aset terkait dan buat Assessment otomatis
     foreach ($request->asets as $asetData) {
         if (empty($asetData['tanggal_perolehan'])) {
             $asetData['tanggal_perolehan'] = now()->toDateString();
@@ -67,7 +66,6 @@ public function store(Request $request)
         $year = Carbon::parse($asetData['tanggal_perolehan'])->year;
         $kategoriKey = $kategori->id . '-' . $year;
 
-        // Ambil nomor terakhir dari database jika belum ada counter
         if (!isset($nomorCounters[$kategoriKey])) {
             $lastAset = Aset::where('kategori_id', $kategori->id)
                 ->whereYear('tanggal_perolehan', $year)
@@ -82,28 +80,22 @@ public function store(Request $request)
             $nomorCounters[$kategoriKey] = $lastNumber;
         }
 
-        // Increment counter untuk aset baru
         $nomorCounters[$kategoriKey]++;
         $seq = str_pad($nomorCounters[$kategoriKey], 4, '0', STR_PAD_LEFT);
 
-        // Jika ingin format ribuan (misal 1.234) bisa pakai:
-        // $seq = number_format($nomorCounters[$kategoriKey], 0, '', '.');
+
 
         $asetData['nomor_inventaris'] = 'INV-' . strtoupper(substr($kategori->nama, 0, 3)) . "/{$year}/{$seq}";
 
-        // Hubungkan dengan pengadaan
         $asetData['aset_log_id'] = $asetLog->id;
         $asetData['created_by'] = Auth::id();
 
-        // 🔹 Hitung umur ekonomis dalam bulan
         $tanggalPerolehan = Carbon::parse($asetData['tanggal_perolehan']);
         $umurBulan = $tanggalPerolehan->diffInMonths(now());
         $asetData['umur_ekonomis'] = $umurBulan;
 
-        // Simpan aset
         $aset = Aset::create($asetData);
 
-        // 🔹 Buat Assessment otomatis untuk aset ini
         Assessment::create([
             'aset_id'     => $aset->id,
             'condition'   => $aset->kondisi ?? 'baru',
