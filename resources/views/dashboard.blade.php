@@ -68,7 +68,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="5" class="text-center py-3 text-gray-500">Belum ada data peminjaman</td></tr>
+                            <tr><td colspan="5" class="text-center py-3 text-gray-500">Belum ada Peminjaman Aset</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -76,7 +76,7 @@
 
             <!-- 🔹 Tabel Permintaan ATK -->
             <div class="flex-1 bg-white shadow-md rounded-2xl p-6">
-                <h3 class="text-xl font-semibold text-amber-700 mb-4">Riwayat Permintaan ATK</h3>
+                <h3 class="text-xl font-semibold text-amber-700 mb-4">Riwayat Permintaan Alat Kantor</h3>
                 <table class="w-full text-sm text-left text-gray-600 border border-gray-200 rounded-lg overflow-hidden">
                     <thead class="bg-amber-100 text-amber-900">
                         <tr>
@@ -107,7 +107,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="5" class="text-center py-3 text-gray-500">Belum ada permintaan ATK</td></tr>
+                            <tr><td colspan="5" class="text-center py-3 text-gray-500">Belum ada permintaan Alat Kantor</td></tr>
                         @endforelse
                     </tbody>
                 </table>

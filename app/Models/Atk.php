@@ -13,6 +13,8 @@ class Atk extends Model
         'kode_barang',
         'nama_barang',
         'stok',
+        'satuan',
+        'kategori_id',
         'stok_minimum',
         'harga_satuan',
         'total_harga',
@@ -27,6 +29,11 @@ class Atk extends Model
         'harga_satuan' => 'integer',
         'tanggal_masuk' => 'date',
     ];
+
+      public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 
     public function creator()
     {

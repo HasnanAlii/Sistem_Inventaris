@@ -45,7 +45,7 @@
             <x-nav-link :href="route('atks.index')" :active="request()->is('atks*')"
                 class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
                 <div class="flex items-center gap-2">
-                    <i data-feather="archive" class="w-5 h-5"></i> {{ __('Barang (ATK)') }}
+                    <i data-feather="archive" class="w-5 h-5"></i> {{ __('Alat Kantor') }}
                 </div>
                 @if(isset($stokMenipis) && $stokMenipis > 0)
                     <span class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -72,7 +72,7 @@
             
             <x-nav-link :href="route('logs.list')" :active="request()->is('atks*')"
                 class="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-sky-200 hover:text-sky-800 transition">
-                <i data-feather="archive" class="w-5 h-5"></i> {{ __('Permintaan ATK') }}
+                <i data-feather="archive" class="w-5 h-5"></i> {{ __('Permintaan Alat Kantor') }}
             </x-nav-link>
             @endhasrole
 

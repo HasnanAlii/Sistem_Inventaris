@@ -14,7 +14,7 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="clipboard" class="w-6 h-6"></i>
-            Riwayat Permintaan ATK
+            Riwayat Permintaan Alat Kantor
         </a>
 
         <a href="{{ route('logs.aset') }}"
@@ -32,7 +32,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather="archive" class="w-6 h-6"></i>
-            Riwayat Pengadaan ATK
+            Riwayat Pengadaan Alat Kantor
         </a>
     </nav>
 

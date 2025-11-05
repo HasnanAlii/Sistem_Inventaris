@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Surat Laporan Pengadaan ATK</title>
+    <title>Surat Laporan Pengadaan Alat Kantor</title>
     <style>
         body { 
             font-family: "Times New Roman", serif; 
@@ -127,7 +127,7 @@
     <div class="info">
         <div><strong>Nomor:</strong> 004/DAP/{{ now()->year }}</div>
         <div><strong>Lampiran:</strong> -</div>
-        <div><strong>Hal:</strong> Laporan Pengadaan Alat Tulis Kantor (ATK)</div>
+        <div><strong>Hal:</strong> Laporan Pengadaan Alat Kantor</div>
     </div>
 
     <p>Kepada Yth.<br>
@@ -167,14 +167,14 @@
 
     <div class="info">
         <div><strong>Nama Pengadaan:</strong> {{ $procurement->nama_barang }}</div>
-        <div><strong>Jumlah Barang:</strong> {{ $procurement->jumlah }}</div>
+        <div><strong>Jumlah Barang:</strong> {{ $procurement->jumlah }} {{$procurement->satuan }}</div>
         <div><strong>Total Biaya:</strong> Rp {{ number_format($procurement->biaya,0,',','.') }}</div>
         <div><strong>Tanggal Pengadaan:</strong> {{ $procurement->tanggal_pengadaan ? $procurement->tanggal_pengadaan->format('d F Y') : '-' }}</div>
     </div>
 
     <!-- ===== PENUTUP ===== -->
     <div class="footer">
-        <p>Demikian laporan pengadaan ATK ini kami sampaikan untuk dapat digunakan sebagaimana mestinya. Besar harapan kami laporan ini dapat menjadi bahan pertimbangan dalam pengelolaan dan pendataan perlengkapan kantor di lingkungan Dinas Arsip dan Perpustakaan Kabupaten Cianjur.</p>
+        <p>Demikian laporan pengadaan Alat Kantor ini kami sampaikan untuk dapat digunakan sebagaimana mestinya. Besar harapan kami laporan ini dapat menjadi bahan pertimbangan dalam pengelolaan dan pendataan perlengkapan kantor di lingkungan Dinas Arsip dan Perpustakaan Kabupaten Cianjur.</p>
 
         <div class="signature">
             <p>Hormat kami,</p>

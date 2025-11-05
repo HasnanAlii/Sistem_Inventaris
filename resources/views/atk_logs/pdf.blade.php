@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Surat Riwayat Permintaan ATK</title>
+    <title>Surat Riwayat Permintaan Alat Kantor</title>
     <style>
         body { 
             font-family: "Times New Roman", serif; 
@@ -138,7 +138,7 @@
     <div class="info">
         <div><strong>Nomor:</strong> 005/DAP/{{ now()->year }}</div>
         <div><strong>Lampiran:</strong> -</div>
-        <div><strong>Hal:</strong> Laporan Riwayat Permintaan ATK</div>
+        <div><strong>Hal:</strong> Laporan Riwayat Permintaan Alat Kantor</div>
     </div>
 
     <p>Kepada Yth.<br>
@@ -147,7 +147,7 @@
     di Tempat</p>
 
     <p>Dengan hormat,</p>
-    <p>Bersama surat ini kami sampaikan laporan riwayat permintaan Alat Tulis Kantor (ATK) oleh pegawai Dinas Arsip dan Perpustakaan Kabupaten Cianjur, dengan rincian sebagai berikut:</p>
+    <p>Bersama surat ini kami sampaikan laporan riwayat permintaan Alat Kantor oleh pegawai Dinas Arsip dan Perpustakaan Kabupaten Cianjur, dengan rincian sebagai berikut:</p>
 
     <table>
         <thead>
@@ -175,7 +175,7 @@
 
     <!-- ===== PENUTUP ===== -->
     <div class="footer">
-        <p>Demikian laporan riwayat permintaan ATK ini kami sampaikan. Semoga laporan ini dapat digunakan sebagai bahan evaluasi dan perencanaan kebutuhan perlengkapan kantor di masa mendatang.</p>
+        <p>Demikian laporan riwayat permintaan Alat Kantor ini kami sampaikan. Semoga laporan ini dapat digunakan sebagai bahan evaluasi dan perencanaan kebutuhan perlengkapan kantor di masa mendatang.</p>
 
         <div class="signature">
             <p>Hormat kami,</p>

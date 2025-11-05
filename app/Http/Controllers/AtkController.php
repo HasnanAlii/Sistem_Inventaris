@@ -13,16 +13,20 @@ class AtkController extends Controller
 {
    public function index(Request $request)
 {
-    $stokMenipis = Atk::whereColumn('stok', '<=', 'stok_minimum')->count();
-
-    $query = Atk::query();
+    $query = \App\Models\Atk::with('kategori');
 
     if ($request->filled('search')) {
-        $query->where('nama_barang', 'like', '%' . $request->search . '%');
+        $query->where('nama_barang', 'like', '%'.$request->search.'%');
     }
 
-    $atks = $query->orderBy('nama_barang')->paginate(10);
-    return view('atks.index', compact('atks', 'stokMenipis'));
+    if ($request->filled('kategori_id')) {
+        $query->where('kategori_id', $request->kategori_id);
+    }
+
+    $atks = $query->latest()->paginate(10);
+    $kategoris = \App\Models\Kategori::all();
+
+    return view('atks.index', compact('atks', 'kategoris'));
 }
 
 
@@ -50,13 +54,13 @@ class AtkController extends Controller
 
         $atk->update($validated);
 
-        return redirect()->route('atks.index')->with('success', 'Data ATK berhasil diperbarui.');
+        return redirect()->route('atks.index')->with('success', 'Data Alat Kantor berhasil diperbarui.');
     }
 
     public function destroy(Atk $atk)
     {
         $atk->delete();
-        return redirect()->route('atks.index')->with('success', 'Data ATK berhasil dihapus.');
+        return redirect()->route('atks.index')->with('success', 'Data Alat Kantor berhasil dihapus.');
     }
 
     
@@ -87,7 +91,7 @@ class AtkController extends Controller
                 'status' => 'Menunggu Konfirmasi',
             ]);
 
-            return redirect()->route('logs.list')->with('success', 'Permintaan ATK berhasil dikirim!');
+            return redirect()->route('logs.list')->with('success', 'Permintaan Alat Kantor berhasil dikirim!');
         }
 
 

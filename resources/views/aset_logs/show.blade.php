@@ -33,7 +33,7 @@
                 {{-- 📋 Daftar Aset --}}
                 <div class="overflow-x-auto mb-10">
                     <h3 class="text-2xl font-semibold text-blue-700 mb-5 flex items-center gap-3">
-                        🗂 Daftar Aset
+                         Daftar Aset
                     </h3>
                     <table class="min-w-full w-full border border-gray-300 divide-y divide-gray-200 text-lg">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-base">

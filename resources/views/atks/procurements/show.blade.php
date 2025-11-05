@@ -2,7 +2,7 @@
     {{-- 🧭 Header --}}
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800 flex items-center gap-3">
-             {{ __('Detail Pengadaan ATK: ') . $procurement->nama_barang }}
+             {{ __('Detail Pengadaan Alat Kantor: ') . $procurement->nama_barang }}
         </h2>
     </x-slot>
 
@@ -14,10 +14,10 @@
                 {{-- 🧾 Informasi Pengadaan --}}
                 <div class="mb-10 border-b pb-6">
                     <h3 class="text-2xl font-semibold text-blue-700 flex items-center gap-3">
-                        📌 Informasi Pengadaan ATK
+                        📌 Informasi Pengadaan Alat Kantor
                     </h3>
                     <p class="text-base text-gray-500 mt-2">
-                        Detail lengkap pengadaan alat tulis kantor yang telah dilakukan.
+                        Detail lengkap pengadaan alat kantor yang telah dilakukan.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mt-6 text-lg">
@@ -33,7 +33,7 @@
                 {{-- 📋 Daftar ATK --}}
                 <div class="overflow-x-auto mb-10">
                     <h3 class="text-2xl font-semibold text-blue-700 mb-5 flex items-center gap-3">
-                        🗂 Daftar ATK
+                         Daftar Barang
                     </h3>
                     <table class="min-w-full w-full border border-gray-300 divide-y divide-gray-200 text-lg">
                         <thead class="bg-gray-100 text-gray-700 uppercase text-base">
@@ -41,6 +41,7 @@
                                 <th class="px-6 py-4 text-left">#</th>
                                 <th class="px-6 py-4 text-left">Kode Barang</th>
                                 <th class="px-6 py-4 text-left">Nama Barang</th>
+                                <th class="px-6 py-4 text-left">Kategori</th>
                                 <th class="px-6 py-4 text-left">Jumlah</th>
                                 <th class="px-6 py-4 text-left">Harga Satuan</th>
                                 <th class="px-6 py-4 text-left">Total Harga</th>
@@ -53,7 +54,8 @@
                                     <td class="px-6 py-4 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 text-gray-800">{{ $atk->kode_barang }}</td>
                                     <td class="px-6 py-4 text-gray-800">{{ $atk->nama_barang }}</td>
-                                    <td class="px-6 py-4 text-gray-800">{{ $atk->stok }}</td>
+                                    <td class="px-6 py-4 text-gray-800">{{ $atk->kategori->nama }}</td>
+                                    <td class="px-6 py-4 text-gray-800">{{ $atk->stok }} {{ $atk->satuan }}</td>
                                     <td class="px-6 py-4 text-green-700 font-semibold">Rp {{ number_format($atk->harga_satuan ?? 0,0,',','.') }}</td>
                                     <td class="px-6 py-4 text-green-700 font-semibold">Rp {{ number_format($atk->total_harga ?? 0,0,',','.') }}</td>
                                     <td class="px-6 py-4 text-gray-700">{{ $atk->tanggal_masuk ? $atk->tanggal_masuk->format('d F Y') : '-' }}</td>

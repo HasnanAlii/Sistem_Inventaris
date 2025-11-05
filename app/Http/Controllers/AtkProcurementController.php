@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Atk;
 use App\Models\AtkProcurement;
+use App\Models\Kategori;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,54 +22,60 @@ class AtkProcurementController extends Controller
     // Form tambah pengadaan
     public function create()
     {
-        return view('atks.procurements.create');
+        $kategoris = Kategori::all(); 
+        return view('atks.procurements.create', compact('kategoris'));
     }
 
-    // Simpan pengadaan ATK
-public function store(Request $request)
-{
-    $request->validate([
-        'nama_pengadaan' => 'required|string|max:255',
-        'atk_items' => 'required|array|min:1',
-        'atk_items.*.nama_barang' => 'required|string|max:255',
-        'atk_items.*.stok' => 'required|integer|min:1',
-        'atk_items.*.harga_satuan' => 'nullable|numeric|min:0',
-        'atk_items.*.tanggal_masuk' => 'nullable|date',
-    ]);
 
-    DB::transaction(function () use ($request) {
-        // 🔹 Simpan pengadaan ATK
-        $procurement = AtkProcurement::create([
-            'nama_barang' => $request->nama_pengadaan,
-            'jumlah' => array_sum(array_column($request->atk_items, 'stok')),
-            'biaya' => $request->biaya,
-            'tanggal_pengadaan' => now()->toDateString(),
+    // Simpan pengadaan ATK
+ public function store(Request $request)
+    {
+        $request->validate([
+            'nama_pengadaan' => 'required|string|max:255',
+            'atk_items' => 'required|array|min:1',
+            'atk_items.*.nama_barang' => 'required|string|max:255',
+            'atk_items.*.stok' => 'required|integer|min:1',
+            'atk_items.*.harga_satuan' => 'nullable|numeric|min:0',
+            'atk_items.*.tanggal_masuk' => 'nullable|date',
+            'atk_items.*.kategori_id' => 'required|exists:kategoris,id',
+            'atk_items.*.satuan' => 'required|string|max:50',
         ]);
 
-        // 🔹 Simpan semua ATK terkait
-        foreach ($request->atk_items as $item) {
-            $lastId = Atk::max('id') ?? 0;
-            $kodeBarang = 'ATK-' . ($lastId + 1);
-
-            $hargaSatuan = $item['harga_satuan'] ?? 0;
-            $stok = $item['stok'];
-
-            Atk::create([
-                'kode_barang' => $kodeBarang,
-                'nama_barang' => $item['nama_barang'],
-                'stok' => $stok,
-                'stok_minimum' => $item['stok_minimum'] ?? 5,
-                'harga_satuan' => $hargaSatuan,
-                'total_harga' => $stok * $hargaSatuan, 
-                'tanggal_masuk' => $item['tanggal_masuk'] ?? now()->toDateString(),
-                'created_by' => Auth::id(),
-                'procurement_id' => $procurement->id,
+        DB::transaction(function () use ($request) {
+            // 🔸 Simpan data pengadaan utama
+            $procurement = AtkProcurement::create([
+                'nama_barang' => $request->nama_pengadaan,
+                'jumlah' => array_sum(array_column($request->atk_items, 'stok')),
+                'biaya' => $request->biaya,
+                'tanggal_pengadaan' => now()->toDateString(),
             ]);
-        }
-    });
 
-    return redirect()->route('logs.addatk')->with('success', 'Pengadaan dan ATK berhasil ditambahkan.');
-}
+            // 🔸 Simpan setiap item ATK
+            foreach ($request->atk_items as $item) {
+                $lastId = Atk::max('id') ?? 0;
+                $kodeBarang = 'ATK-' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT);
+
+                $hargaSatuan = $item['harga_satuan'] ?? 0;
+                $stok = $item['stok'];
+
+                Atk::create([
+                    'kode_barang'   => $kodeBarang,
+                    'nama_barang'   => $item['nama_barang'],
+                    'stok'          => $stok,
+                    'kategori_id'   => $item['kategori_id'],
+                    'satuan'        => $item['satuan'],
+                    'stok_minimum'  => $item['stok_minimum'] ?? 5,
+                    'harga_satuan'  => $hargaSatuan,
+                    'total_harga'   => $stok * $hargaSatuan,
+                    'tanggal_masuk' => $item['tanggal_masuk'] ?? now()->toDateString(),
+                    'created_by'    => Auth::id(),
+                    'procurement_id'=> $procurement->id,
+                ]);
+            }
+        });
+
+        return redirect()->route('logs.addatk')->with('success', 'Pengadaan dan Alat Kantor berhasil ditambahkan.');
+    }
 
     // Update status (Disetujui / Ditolak / Selesai)
     public function updateStatus(Request $request, AtkProcurement $procurement)
@@ -79,15 +86,25 @@ public function store(Request $request)
 
         $procurement->update(['status' => $request->status]);
 
-        return back()->with('success', 'Status pengadaan ATK berhasil diperbarui.');
+        return back()->with('success', 'Status pengadaan Alat Kantor berhasil diperbarui.');
     }
     
     public function show(AtkProcurement $atkProcurement)
     {
+        // Ambil data ATK berdasarkan procurement ini, urutkan berdasarkan nama kategori
+        $atks = $atkProcurement->atks()
+            ->with('kategori') // supaya nama kategori bisa diakses
+            ->join('kategoris', 'atks.kategori_id', '=', 'kategoris.id')
+            ->orderBy('kategoris.nama', 'asc')
+            ->select('atks.*')
+            ->get();
+
         return view('atks.procurements.show', [
-            'procurement' => $atkProcurement
+            'procurement' => $atkProcurement,
+            'atks' => $atks
         ]);
-    }
+}
+
 
     public function print(AtkProcurement $atkProcurement)
     {
@@ -98,7 +115,7 @@ public function store(Request $request)
         'procurement' => $atkProcurement
     ])->setPaper('a4', 'portrait'); 
 
-    return $pdf->stream('Laporan_Pengadaan_ATK_'.$atkProcurement->id.'.pdf');
+    return $pdf->stream('Laporan_Pengadaan_Alat_Kantor_'.$atkProcurement->id.'.pdf');
 
     
 }

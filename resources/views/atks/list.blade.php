@@ -1,22 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Riwayat Permintaan ATK') }}
+            {{ __('Riwayat Permintaan Alat Kantor') }}
         </h2>
     </x-slot>
 
     <!-- 🔹 Navigasi Halaman -->
     <nav class="bg-white shadow-md border border-gray-200 px-6 py-4 flex flex-wrap items-center gap-4 rounded-xl mb-8">
         @hasrole('petugas')
-        <a href="{{ route('atks.index') }}"
+          <a href="{{ route('atks.index') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('atks.*') 
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather='package' class="w-6 h-6"></i>
-            List ATK
+            List Alat Kantor
         </a>
         @endhasrole
+
 
         <a href="{{ route('logs.list') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
@@ -24,9 +25,8 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="tool" class="w-6 h-6"></i>
-            Permintaan ATK
+            Permintaan Alat Kantor
         </a>
-
     </nav>
 
     <!-- 🔹 Konten -->
@@ -40,7 +40,7 @@
 
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="clock" class="w-6 h-6 text-green-600"></i>
-                        Riwayat Permintaan ATK
+                        Riwayat Permintaan Alat Kantor
                     </h3>
 
                     <div class="flex flex-wrap items-center gap-3">
@@ -83,7 +83,7 @@
                                     <td class="px-5 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="px-5 py-3 text-gray-700">{{ $log->atk->nama_barang ?? '-' }}</td>
                                     <td class="px-5 py-3 text-gray-700">{{ $log->user->name ?? 'Tidak diketahui' }}</td>
-                                    <td class="px-5 py-3 text-center text-gray-700">{{ $log->jumlah }}</td>
+                                    <td class="px-5 py-3 text-center text-gray-700">{{ $log->jumlah }} {{ $log->satuan }}</td>
                                     <td class="px-5 py-3 text-center text-gray-600">
                                         {{ $log->tanggal_permintaan ? $log->tanggal_permintaan->format('d/m/Y') : '-' }}
                                     </td>
@@ -113,7 +113,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="text-center text-gray-500 py-6 text-base">
-                                        Belum ada permintaan ATK.
+                                        Belum ada permintaan Alat Kantor.
                                     </td>
                                 </tr>
                             @endforelse

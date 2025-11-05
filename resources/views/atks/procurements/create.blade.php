@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-            {{ __('Tambah Pengadaan ATK') }}
+            {{ __('Tambah Pengadaan Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -12,10 +12,10 @@
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2 pl-4 border-l-4 border-blue-500">
-                        Form Tambah Pengadaan ATK
+                        Form Tambah Pengadaan Alat Kantor
                     </h3>
                     <p class="text-sm text-gray-500">
-                        Lengkapi data berikut untuk menambahkan pengadaan alat tulis kantor baru.
+                        Lengkapi data berikut untuk menambahkan pengadaan alat kantor baru.
                     </p>
                 </div>
 
@@ -66,12 +66,13 @@
 
                     {{-- Daftar ATK --}}
                     <div>
-                        <label class="block text-base font-semibold text-gray-700 mb-2">Daftar ATK</label>
+                        <label class="block text-base font-semibold text-gray-700 mb-2">Daftar Barang</label>
                         <div id="atks-container" class="space-y-5">
                             <div class="atk-item border border-gray-200 p-5 rounded-xl relative bg-gray-50">
                                 <button type="button"
                                     class="remove-atk absolute top-2 right-3 text-red-500 font-bold text-xl">×</button>
 
+                                {{-- Nama & Kategori --}}
                                 <div class="grid grid-cols-2 gap-6">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang</label>
@@ -80,13 +81,19 @@
                                             required>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">Kode Barang</label>
-                                        <input type="text" name="atk_items[0][kode_barang]"
-                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 bg-gray-100 text-gray-600 cursor-not-allowed shadow-sm"
-                                            readonly placeholder="Otomatis">
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                                        <select name="atk_items[0][kategori_id]"
+                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                                            required>
+                                            <option value="">-- Pilih Kategori --</option>
+                                            @foreach($kategoris as $kategori)
+                                                <option value="{{ $kategori->id }}">{{ $kategori->nama}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
+                                {{-- Satuan & Stok --}}
                                 <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah</label>
@@ -95,14 +102,21 @@
                                             required>
                                     </div>
                                     <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Satuan</label>
+                                        <input type="text" name="atk_items[0][satuan]"
+                                            class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                                            placeholder="misal: pcs, box, rim" required>
+                                    </div>
+                                </div>
+
+                                {{-- Harga dan Tanggal --}}
+                                <div class="grid grid-cols-2 gap-6 mt-4">
+                                    <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Harga Satuan (Rp)</label>
                                         <input type="text" name="atk_items[0][harga_satuan]"
                                             class="harga-ribuan w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                             required>
                                     </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-6 mt-4">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Masuk</label>
                                         <input type="date" name="atk_items[0][tanggal_masuk]"
@@ -110,14 +124,14 @@
                                             class="w-full text-base border-gray-300 rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                                             required>
                                     </div>
-                                 
                                 </div>
                             </div>
                         </div>
 
+                        {{-- Tombol Tambah ATK --}}
                         <button type="button" id="add-atk"
                             class="mt-3 px-5 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md transition text-base font-semibold">
-                            + Tambah ATK
+                            + Tambah Barang
                         </button>
                     </div>
 
@@ -146,7 +160,6 @@
         let atkIndex = 1;
         const container = document.getElementById('atks-container');
 
-        // Format ribuan
         function formatRibuan(input) {
             input.addEventListener('input', function() {
                 let value = this.value.replace(/\D/g, '');
@@ -154,7 +167,6 @@
             });
         }
 
-        // Terapkan format ribuan pada input awal
         document.querySelectorAll('.jumlah-ribuan, .stok-ribuan, .harga-ribuan, #biaya').forEach(el => formatRibuan(el));
 
         // Hapus titik sebelum submit
@@ -162,7 +174,6 @@
             const cleanNumber = (str) => str.replace(/\./g, '');
             this.querySelector('[name="jumlah"]').value = cleanNumber(this.querySelector('[name="jumlah"]').value);
             this.querySelector('[name="biaya"]').value = cleanNumber(this.querySelector('[name="biaya"]').value);
-
             this.querySelectorAll('.stok-ribuan').forEach(el => el.value = cleanNumber(el.value));
             this.querySelectorAll('.harga-ribuan').forEach(el => el.value = cleanNumber(el.value));
         });
@@ -170,12 +181,12 @@
         // Tambah ATK
         document.getElementById('add-atk').addEventListener('click', function() {
             const template = container.querySelector('.atk-item').cloneNode(true);
-            template.querySelectorAll('input').forEach(el => {
+            template.querySelectorAll('input, select').forEach(el => {
                 const name = el.getAttribute('name');
                 el.setAttribute('name', name.replace(/\d+/, atkIndex));
 
-                if (el.hasAttribute('readonly')) {
-                    el.value = 'Otomatis';
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
                 } else if (el.type === 'date') {
                     el.value = new Date().toISOString().split('T')[0];
                 } else {
@@ -183,10 +194,7 @@
                 }
             });
             container.appendChild(template);
-
-            // Terapkan format ribuan pada input baru
             template.querySelectorAll('.stok-ribuan, .harga-ribuan').forEach(el => formatRibuan(el));
-
             atkIndex++;
         });
 

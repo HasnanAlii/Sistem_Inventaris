@@ -2,7 +2,7 @@
     {{-- 🧭 Header --}}
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800 flex items-center gap-3">
-             {{ __('Detail Barang ATK') }}
+             {{ __('Detail Barang Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -14,10 +14,10 @@
                 {{-- 🧾 Informasi Barang --}}
                 <div class="mb-8 border-b pb-4">
                     <h3 class="text-2xl font-semibold text-blue-700 flex items-center gap-3">
-                        🧾 Informasi Barang ATK
+                        🧾 Informasi Barang Alat Kantor
                     </h3>
                     <p class="text-base text-gray-500 mt-2">
-                        Berikut adalah detail lengkap dari data barang alat tulis kantor.
+                        Berikut adalah detail lengkap dari data barang alat  kantor.
                     </p>
                 </div>
 
@@ -38,11 +38,11 @@
                         </tr>
                         <tr>
                             <th class="text-left py-4 text-gray-600 font-medium">Stok</th>
-                            <td class="py-4 text-gray-800">{{ $atk->stok ?? '-' }}</td>
+                            <td class="py-4 text-gray-800">{{ $atk->stok}} {{ $atk->satuan}}</td>
                         </tr>
                         <tr>
                             <th class="text-left py-4 text-gray-600 font-medium">Stok Minimum</th>
-                            <td class="py-4 text-gray-800">{{ $atk->stok_minimum ?? '-' }}</td>
+                            <td class="py-4 text-gray-800">{{ $atk->stok_minimum}} {{ $atk->satuan}}</td>
                         </tr>
                         <tr>
                             <th class="text-left py-4 text-gray-600 font-medium">Harga Satuan</th>

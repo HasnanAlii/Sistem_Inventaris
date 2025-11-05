@@ -2,7 +2,7 @@
     {{-- 🧭 Header --}}
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800 flex items-center gap-3">
-             {{ __('Detail Permintaan ATK') }}
+             {{ __('Detail Permintaan Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
                 {{-- 🧾 Informasi Permintaan --}}
                 <div class="mb-10 border-b pb-6">
                     <h3 class="text-2xl font-semibold text-blue-700 flex items-center gap-3">
-                         Informasi Permintaan ATK
+                         Informasi Permintaan Alat Kantor
                     </h3>
                     <p class="text-base text-gray-500 mt-2">
                         Detail lengkap permintaan alat tulis kantor oleh pegawai.
@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <th class="text-left py-4 text-gray-600 font-semibold">Jumlah Diminta</th>
-                            <td class="py-4 text-gray-900">{{ $atkLog->jumlah }}</td>
+                            <td class="py-4 text-gray-900">{{ $atkLog->jumlah }} {{ $atkLog->satuan }}</td>
                         </tr>
                         <tr>
                             <th class="text-left py-4 text-gray-600 font-semibold">Tanggal Permintaan</th>

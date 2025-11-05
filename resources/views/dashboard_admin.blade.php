@@ -15,10 +15,10 @@
                 </h3>
 
                 @if($stokMenipis > 0)
-                    <p class="text-gray-700 font-semibold mb-2"> Barang ATK dengan stok menipis:</p>
+                    <p class="text-gray-700 font-semibold mb-2"> Alat Kantor dengan stok menipis:</p>
                     <ul class="list-disc list-inside text-gray-700 mb-4">
                         @foreach($daftarStokMenipis as $atk)
-                            <li>{{ $atk->nama_barang }} — Stok: {{ $atk->stok }} (Min: {{ $atk->stok_minimum }})</li>
+                            <li>{{ $atk->nama_barang }} — Stok: {{ $atk->stok }} {{ $atk->satuan }}  (Min: {{ $atk->stok_minimum }} {{ $atk->satuan }} )</li>
                         @endforeach
                     </ul>
                 @endif
@@ -39,7 +39,7 @@
         <div class="w-full flex flex-wrap gap-4 px-2">
             <div class="flex-1 bg-blue-100 p-6 rounded-3xl shadow-lg flex items-center justify-between min-w-[180px]">
                 <div class="flex items-center gap-3">
-                    <i data-feather="layers" class="w-8 h-8 text-blue-600"></i>
+                    <i data-feather="package" class="w-8 h-8 text-blue-600"></i>
                     <h3 class="text-lg font-bold text-blue-800">Total Aset</h3>
                 </div>
                 <p class="text-4xl font-extrabold text-gray-900">{{ $totalAset }}</p>
@@ -48,7 +48,7 @@
             <div class="flex-1 bg-amber-100 p-6 rounded-3xl shadow-lg flex items-center justify-between min-w-[180px]">
                 <div class="flex items-center gap-3">
                     <i data-feather="archive" class="w-8 h-8 text-amber-600"></i>
-                    <h3 class="text-lg font-bold text-amber-700">Total ATK</h3>
+                    <h3 class="text-lg font-bold text-amber-700">Total Alat Kantor</h3>
                 </div>
                 <p class="text-4xl font-extrabold text-gray-900">{{ $totalAtk }}</p>
             </div>
@@ -80,7 +80,7 @@
         <div class="flex flex-col lg:flex-row gap-6 px-2">
             <!-- 🔹 Tabel Pengadaan ATK -->
             <div class="flex-1 bg-white shadow-md rounded-2xl p-6">
-                <h3 class="text-xl font-semibold text-amber-700 mb-4">Pengadaan ATK Terbaru</h3>
+                <h3 class="text-xl font-semibold text-amber-700 mb-4">Pengadaan Alat Kantor Terbaru</h3>
                 <table class="w-full text-sm text-left text-gray-600 border border-gray-200 rounded-lg overflow-hidden">
                     <thead class="bg-amber-100 text-amber-900">
                         <tr>

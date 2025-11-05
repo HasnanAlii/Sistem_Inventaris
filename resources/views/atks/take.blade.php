@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-2xl text-gray-800 flex items-center gap-2">
-            {{ __('Permintaan ATK') }}
+            {{ __('Permintaan Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -12,10 +12,10 @@
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
                      <h3 class="text-xl font-semibold text-gray-800 mb-6 pl-4 border-l-4 border-blue-500">
-                        Form Permintaan Alat Tulis Kantor
+                        Form Permintaan Alat Kantor
                     </h3>
                     <p class="text-sm text-gray-500 mt-1">
-                        Lengkapi data berikut untuk mengajukan permintaan alat tulis kantor.
+                        Lengkapi data berikut untuk mengajukan permintaan alat kantor.
                     </p>
                 </div>
 

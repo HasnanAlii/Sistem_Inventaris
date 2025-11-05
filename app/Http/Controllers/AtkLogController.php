@@ -40,13 +40,13 @@ class AtkLogController extends Controller
     public function approve(AtkLog $atkLog)
     {
         if (!$atkLog->atk) {
-            return back()->with('error', 'Data ATK tidak ditemukan.');
+            return back()->with('error', 'Data Alat Kantor tidak ditemukan.');
         }
 
         $atk = $atkLog->atk;
 
         if ($atk->stok < $atkLog->jumlah) {
-            return back()->with('error', 'Stok ATK tidak mencukupi untuk disetujui.');
+            return back()->with('error', 'Stok Alat Kantor tidak mencukupi untuk disetujui.');
         }
 
         $atk->stok -= $atkLog->jumlah;
@@ -57,14 +57,14 @@ class AtkLogController extends Controller
         'tanggal_persetujuan' => Carbon::now(), 
          ]);
 
-        return back()->with('success', 'Permintaan ATK telah disetujui dan stok berhasil dikurangi.');
+        return back()->with('success', 'Permintaan Alat Kantor telah disetujui dan stok berhasil dikurangi.');
     }
 
 
     public function reject(AtkLog $atkLog)
     {
         $atkLog->update(['status' => 'Ditolak']);
-        return back()->with('error', 'Permintaan ATK telah ditolak.');
+        return back()->with('error', 'Permintaan Alat Kantor telah ditolak.');
     }
     public function exportAtkPdf()
     {

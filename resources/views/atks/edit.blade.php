@@ -32,7 +32,7 @@
 
                         {{-- Stok --}}
                         <div>
-                            <label class="block font-semibold text-gray-700 mb-2">Stok</label>
+                            <label class="block font-semibold text-gray-700 mb-2">Stok ({{ old('satuan', $atk->satuan) }})</label>
                             <input type="number" name="stok" value="{{ old('stok', $atk->stok) }}"
                                 class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                                 placeholder="Masukkan jumlah stok" required>
@@ -40,7 +40,7 @@
 
                         {{-- Stok Minimum --}}
                         <div>
-                            <label class="block font-semibold text-gray-700 mb-2">Stok Minimum</label>
+                            <label class="block font-semibold text-gray-700 mb-2">Stok Minimum ({{ old('satuan', $atk->satuan) }})</label>
                             <input type="number" name="stok_minimum" value="{{ old('stok_minimum', $atk->stok_minimum) }}"
                                 class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                                 placeholder="Masukkan stok minimum" required>
