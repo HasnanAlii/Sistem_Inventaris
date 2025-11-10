@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -119,6 +119,143 @@
 
         <main class="flex-1 p-6 bg-sky-50 overflow-y-auto">
             <div class=" shadow-md rounded-xl p-6">
+                {{ $slot }}
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    feather.replace();
+</script>
+@stack('scripts')
+
+</body>
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/Logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/Logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('storage/Logo.png') }}">
+
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <style>
+     
+        .nav-link[aria-current="page"] {
+            background-color: #e0f2fe; 
+            color: #0369a1; 
+            font-weight: 600; 
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-gray-100 text-gray-800" x-data="{ sidebarOpen: false }" x-cloak>
+<div class="flex min-h-screen">
+
+    <aside
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        class="fixed inset-y-0 left-0 z-30 w-64 bg-white text-gray-800 transform transition-transform duration-200 ease-in-out sm:translate-x-0 sm:static sm:inset-0 shadow-lg"
+    >
+        <div class="flex flex-col items-center justify-center p-4 border-b border-gray-200">
+            <a href="{{ route('dashboard') }}" class="flex flex-col items-center gap-2">
+                <img src="{{ asset('storage/Logo.png') }}" alt="Logo" class="h-28 w-auto rounded-xl shadow-md  p-1">
+                <span class="font-bold text-sky-800 mt-2">Sistem Inventaris</span>
+                <span class="text-xs text-gray-500 -mt-1">Dinas Arsip & Perpustakaan</span>
+            </a>
+        </div>
+
+        <nav class="mt-4 px-3 space-y-1">
+            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="home" class="w-5 h-5"></i> {{ __('Dashboard') }}
+            </x-nav-link>
+            
+            @hasrole('petugas')
+            <x-nav-link :href="route('asets.index')" :active="request()->is('asets*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="package" class="w-5 h-5"></i> {{ __('Inventaris') }}
+            </x-nav-link>
+
+            <x-nav-link :href="route('atks.index')" :active="request()->is('atks*')"
+                class="nav-link flex items-center justify-between px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <div class="flex items-center gap-3">
+                    <i data-feather="archive" class="w-5 h-5"></i> {{ __('Alat Kantor') }}
+                </div>
+                @if(isset($stokMenipis) && $stokMenipis > 0)
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        {{ $stokMenipis }}
+                    </span>
+                @endif
+            </x-nav-link>
+
+            <x-nav-link :href="route('logs.atk')" :active="request()->is('logs*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="clipboard" class="w-5 h-5"></i> {{ __('Riwayat') }}
+            </x-nav-link>
+            
+            <x-nav-link :href="route('kategoris.index')" :active="request()->is('kategoris*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="grid" class="w-5 h-5"></i> {{ __('Kelola Kategori/Lokasi') }}
+            </x-nav-link>    
+            @endhasrole
+
+            @hasrole('pegawai')
+            <x-nav-link :href="route('aset_loans.index')" :active="request()->is('aset_loans*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="package" class="w-5 h-5"></i> {{ __('Peminjaman Aset') }}
+            </x-nav-link>
+            
+            <x-nav-link :href="route('logs.list')" :active="request()->is('logs.list*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="archive" class="w-5 h-5"></i> {{ __('Permintaan Alat Kantor') }}
+            </x-nav-link>
+            @endhasrole
+        </nav>
+
+        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+            <div class="text-sm text-gray-600 mb-2">
+                <span class="block font-semibold text-gray-900">{{ Auth::user()->name }}</span>
+                <span class="text-gray-500">{{ Auth::user()->email }}</span>
+            </div>
+            <div class="mt-2 flex gap-2">
+                <a href="{{ route('profile.edit') }}"
+                   class="flex-1 text-center text-gray-700 bg-gray-100 hover:bg-gray-200 py-1.5 rounded-md transition text-sm font-medium">
+                   <i data-feather="user" class="inline w-4 h-4 mr-1"></i> Profil
+                </a>
+                <form method="POST" action="{{ route('logout') }}" class="flex-1">
+                    @csrf
+                    <button type="submit"
+                        class="w-full text-center text-red-600 bg-red-50 hover:bg-red-100 py-1.5 rounded-md transition text-sm font-medium">
+                        <i data-feather="log-out" class="inline w-4 h-4 mr-1"></i> Keluar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+        <header class="bg-white border-b border-gray-200 shadow-sm flex items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
+            <div class="flex items-center gap-3">
+                <button @click="sidebarOpen = true" class="sm:hidden text-gray-600 hover:text-gray-900">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
+                @isset($header)
+                    <h2 class="text-xl font-semibold text-gray-900">{{ $header }}</h2>
+                @endisset
+            </div>
+        </header>
+
+        <main class="flex-1 p-6  overflow-y-auto">
+            <div class=" shadow-xl rounded-2xl p-6 md:p-8">
                 {{ $slot }}
             </div>
         </main>

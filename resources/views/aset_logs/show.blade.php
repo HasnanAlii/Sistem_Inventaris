@@ -71,7 +71,7 @@
 
                 {{-- 🔘 Tombol Aksi --}}
                 <div class="flex justify-between items-center mt-10">
-                    <a href="{{ route('aset_logs.index') }}" 
+                   <a href="javascript:history.back()"
                        class="flex items-center gap-2 text-gray-700 hover:text-gray-900 text-lg font-medium transition">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
