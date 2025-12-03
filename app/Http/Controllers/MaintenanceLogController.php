@@ -36,30 +36,33 @@ class MaintenanceLogController extends Controller
         'aset_id'         => 'required|exists:asets,id',
         'tanggal'         => 'required|date',
         'jenis_perbaikan' => 'nullable|string|max:255',
-        'biaya'           => 'nullable|numeric',
+        'biaya'           => 'nullable|numeric', 
     ]);
 
-    // 🔹 Simpan data perbaikan
-    MaintenanceLog::create($request->all());
+    $maintenance = MaintenanceLog::create([
+        'aset_id'         => $request->aset_id,
+        'tanggal'         => $request->tanggal,
+        'jenis_perbaikan' => $request->jenis_perbaikan,
+        'biaya'           => $request->biaya, 
+    ]);
 
-    // 🔹 Ambil aset terkait
     $aset = Aset::findOrFail($request->aset_id);
 
-    // 🔹 Hanya perbarui kondisi menjadi "baik"
-    $aset->kondisi = 'baik';
-    $aset->save();
+    $aset->update([
+        'kondisi' => 'baik'
+    ]);
 
-    // 🔹 Update atau buat assessment terakhir jika dibutuhkan
     $result = $this->assessmentService->assess($aset);
 
     $latestAssessment = $aset->assessments()->latest()->first();
+
     if ($latestAssessment) {
         $latestAssessment->update([
             'score'       => $result['skor'],
             'status'      => $result['status'],
             'usia_bulan'  => $aset->umur_ekonomis,
             'perbaikan'   => $aset->maintenanceLogs()->count(),
-            'condition'   => 'baik', // pastikan condition assessment juga baik
+            'condition'   => 'baik',
         ]);
     } else {
         $aset->assessments()->create([

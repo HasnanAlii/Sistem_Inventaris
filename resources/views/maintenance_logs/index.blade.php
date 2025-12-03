@@ -36,7 +36,7 @@
         </a>
         @endhasrole
 
-        @role('pegawai')
+        {{-- @role('pegawai') --}}
         <a href="{{ route('aset_loans.index') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('aset_loans.*') 
@@ -45,7 +45,7 @@
             <i data-feather="clipboard" class="w-6 h-6"></i>
             Peminjaman Aset
         </a>
-        @endhasrole
+        {{-- @endhasrole --}}
     </nav>
 
     <!-- 🔹 Konten Utama -->

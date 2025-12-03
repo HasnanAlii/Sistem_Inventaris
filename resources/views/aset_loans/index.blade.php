@@ -37,7 +37,6 @@
         </a>
         @endhasrole
 
-        @role('pegawai')
         <a href="{{ route('aset_loans.index') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('aset_loans.*') 
@@ -46,7 +45,6 @@
             <i data-feather="clipboard" class="w-6 h-6"></i>
             Peminjaman Aset
         </a>
-        @endhasrole
     </nav>
 
     <!-- 🔹 Konten -->
@@ -62,14 +60,16 @@
                         <i data-feather="clipboard" class="w-6 h-6 text-cyan-600"></i>
                         Daftar Peminjaman Aset
                     </h3>
-
+                    @role('pegawai')
                     <a href="{{ route('aset_loans.create') }}"
                        class="flex items-center gap-2 bg-cyan-600 text-white px-5 py-2 rounded-xl font-medium 
                               hover:bg-cyan-700 hover:shadow-lg transition-all duration-200">
                         <i data-feather="plus-circle" class="w-5 h-5"></i>
                         Tambah Peminjaman
                     </a>
+                    @endhasrole
                 </div>
+
 
                 <!-- ✅ Pesan sukses -->
                 @if(session('success'))

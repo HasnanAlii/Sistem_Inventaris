@@ -8,7 +8,7 @@
     <div class="min-h-screen">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-md rounded-2xl p-8 border border-gray-100">
-                
+
                 {{-- 🧾 Judul Form --}}
                 <div class="mb-6 border-b pb-4">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2 pl-4 border-l-4 border-blue-500">
@@ -86,9 +86,18 @@
                         <label for="biaya" class="block text-base font-semibold text-gray-700 mb-2">
                             Biaya (Rp)
                         </label>
-                        <input type="text" name="biaya" id="biaya"
+
+                        {{-- Input tampilan (pakai format titik) --}}
+                        <input type="text" id="biaya"
                             class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                             placeholder="Masukkan biaya perbaikan">
+
+                        {{-- Hidden input untuk angka asli --}}
+                        <input type="hidden" name="biaya" id="biaya_raw">
+
+                        @error('biaya')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Tombol Aksi --}}
@@ -116,12 +125,19 @@
     @push('scripts')
     <script>
         const biayaInput = document.getElementById('biaya');
+        const biayaRaw = document.getElementById('biaya_raw');
 
-        biayaInput.addEventListener('input', function(e) {
-            // Hapus semua karakter kecuali angka
-            let value = this.value.replace(/\D/g, '');
-            // Format ribuan
-            this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        // Format tampilan ribuan
+        biayaInput.addEventListener('input', function () {
+            let raw = this.value.replace(/\D/g, ''); 
+            this.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            biayaRaw.value = raw;
+        });
+
+        // Pastikan form kirim angka murni
+        document.querySelector('form').addEventListener('submit', function () {
+            let raw = biayaInput.value.replace(/\D/g, '');
+            biayaRaw.value = raw;
         });
     </script>
     @endpush
