@@ -26,11 +26,13 @@
                     </div>
 
                     {{-- Jumlah --}}
-                    <div>
+                    {{-- <div>
                         <label class="block font-semibold text-gray-700 mb-2">Jumlah</label>
                         <input type="text" value="{{ $asetLoan->jumlah }}"
                             class="w-full border-gray-300 rounded-lg py-2 px-3 bg-gray-100 focus:outline-none" disabled>
-                    </div>
+                    </div> --}}
+                    <input type="hidden" name="jumlah" id="jumlah" value="1">
+
 
                     {{-- Status --}}
                     <div>
@@ -38,13 +40,13 @@
                         <select name="status" id="status"
                             class="w-full border-gray-300 rounded-lg py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" required>
                             <option value="Disetujui" @selected($asetLoan->status == 'Disetujui')>
-                                Disetujui
+                                Setujui
                             </option>
-                            <option value="Menunggu Konfirmasi" @selected($asetLoan->status == 'Menunggu Konfirmasi')>
+                            {{-- <option value="Menunggu Konfirmasi" @selected($asetLoan->status == 'Menunggu Konfirmasi')>
                                 Menunggu Konfirmasi
-                            </option>
+                            </option> --}}
                             <option value="Ditolak" @selected($asetLoan->status == 'Ditolak')>
-                                Ditolak
+                                Tolak
                             </option>
                         </select>
                     </div>

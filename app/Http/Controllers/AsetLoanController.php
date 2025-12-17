@@ -6,20 +6,18 @@ use App\Models\Aset;
 use App\Models\AsetLoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AsetLoanController extends Controller
 {
-    // 📝 Daftar peminjaman
     public function index()
     {
         $query = AsetLoan::with('aset', 'user');
 
-        // Filter berdasarkan role
         if (!Auth::user()->hasRole('petugas')) {
             $query->where('user_id', Auth::id());
         }
 
-        // Urutkan agar 'Menunggu Konfirmasi' muncul di atas
         $loans = $query->orderByRaw("FIELD(status, 'Menunggu Konfirmasi') DESC")
                     ->latest()
                     ->paginate(10);
@@ -28,14 +26,12 @@ class AsetLoanController extends Controller
     }
 
 
-    // ➕ Form pengajuan peminjaman
     public function create()
     {
         $asets = Aset::all();
         return view('aset_loans.create', compact('asets'));
     }
 
-    // 💾 Simpan pengajuan
     public function store(Request $request)
     {
         $request->validate([
@@ -49,15 +45,14 @@ class AsetLoanController extends Controller
             'user_id' => Auth::id(),
             'jumlah' => $request->jumlah,
             'tanggal_pinjam' => $request->tanggal_pinjam,
-            // 'tanggal_kembali' => null,
             'status' => 'Menunggu Konfirmasi',
         ]);
 
         return redirect()->route('aset_loans.index')
-                         ->with('success', 'Peminjaman aset berhasil diajukan. Menunggu konfirmasi.');
+                        ->with('success', 'Peminjaman aset berhasil diajukan. Menunggu konfirmasi.');
     }
 
-    // 🔄 Edit peminjaman (hanya petugas/admin)
+
     public function edit(AsetLoan $asetLoan)
     {
             return view('aset_loans.edit', compact('asetLoan'));
@@ -77,24 +72,49 @@ class AsetLoanController extends Controller
 
         $asetLoan->update(['status' => $request->status]);
 
-        return redirect()->route('aset_loans.index')->with('success', 'Status peminjaman berhasil diperbarui.');
+        if ($request->status === 'Disetujui') {
+            $asetLoan->aset->update(['status' => 'dipinjam']);
+        } elseif ($request->status === 'Ditolak') {
+            $asetLoan->aset->update(['status' => 'aktif']);
+        } else {
+            $asetLoan->aset->update(['status' => 'aktif']);
+        }
+
+        return redirect()
+            ->route('aset_loans.index')
+            ->with('success', 'Status peminjaman dan status aset berhasil diperbarui.');
     }
 
-    public function return(AsetLoan $asetLoan)
+    public function return(Request $request, AsetLoan $asetLoan)
     {
-        // Hanya peminjam sendiri yang bisa mengembalikan
-        if(auth()->id() !== $asetLoan->user_id){
+        if (auth()->id() !== $asetLoan->user_id) {
             return back()->with('error', 'Anda tidak memiliki izin mengembalikan aset ini.');
         }
 
-        // Update status
-        $asetLoan->update([
-            'status' => 'Dikembalikan',
-            'tanggal_kembali' => now(),
+        $validated = $request->validate([
+            'bukti' => ['required', 'image', 'mimes:jpeg,jpg,png', 'max:12048'], 
         ]);
 
-        return back()->with('success', 'Aset berhasil dikembalikan.');
+        if ($asetLoan->bukti && Storage::disk('public')->exists($asetLoan->bukti)) {
+            Storage::disk('public')->delete($asetLoan->bukti);
+        }
+
+        $path = $request->file('bukti')->store('bukti_pengembalian', 'public');
+
+        $asetLoan->update([
+            'status'          => 'Dikembalikan',
+            'tanggal_kembali' => now(),
+            'bukti'           => $path,
+        ]);
+
+        $asetLoan->aset->update([
+            'status' => 'aktif', 
+            'kondisi' => $asetLoan->aset->kondisi 
+        ]);
+
+        return back()->with('success', 'Aset berhasil dikembalikan dengan bukti foto dan status aset diperbarui.');
     }
+
 
 
 }

@@ -21,14 +21,13 @@
                     {{-- Grid Input --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {{-- Nama Barang --}}
-                        {{-- <div>
+                        <div>
                             <label class="block font-semibold text-gray-700 mb-2">Nama Barang</label>
                             <input type="text" name="nama_barang" value="{{ old('nama_barang', $atk->nama_barang) }}"
                                 class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                                 placeholder="Masukkan nama barang..." required>
-                        </div> --}}
+                        </div>
 
-                   
 
                         {{-- Stok --}}
                         <div>
@@ -46,7 +45,6 @@
                                 placeholder="Masukkan stok minimum" required>
                         </div>
 
-                        {{-- Harga Satuan
                         <div>
                             <label class="block font-semibold text-gray-700 mb-2">Harga Satuan</label>
                             <input type="number" name="harga_satuan" value="{{ old('harga_satuan', $atk->harga_satuan) }}" step="0.01"
@@ -54,8 +52,8 @@
                                 placeholder="Masukkan harga per satuan">
                         </div>
 
-                    {{-- Tanggal Masuk --}}
-                    {{-- <div class="col-span-1 sm:col-span-2">
+               
+                    <div class="col-span-1 sm:col-span-2">
                         <label class="block font-semibold text-gray-700 mb-2">Tanggal Masuk</label>
                         <input 
                             type="date" 
@@ -63,7 +61,7 @@
                             value="{{ old('tanggal_masuk', optional($atk->tanggal_masuk)->format('Y-m-d')) }}"
                             class="w-full border-gray-300 rounded-lg py-2 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         >
-                    </div> --}} 
+                    </div> 
 
                     </div>
 

@@ -121,13 +121,14 @@
     <!-- ===== KOP SURAT ===== -->
     <div class="kop-surat">
         <div class="logo">
-            <img src="{{ public_path('storage/Logo.png') }}" alt="Logo Dinas">
+        <img src="{{ public_path('storage/logo.png') }}"alt="logo Dinas"style="width: 90px; height: auto;">
+
         </div>
-        <div class="text">
+   <div class="text">
             <h1>PEMERINTAH KABUPATEN CIANJUR</h1>
             <h2>DINAS ARSIP DAN PERPUSTAKAAN</h2>
-            <p>Jl. Siliwangi No. 40, Cianjur 43211</p>
-            <p>Telp. (0263) 261269 | Email: dinas.arpus@cianjurkab.go.id</p>
+            <p>Jalan : Selamet Riyadi No. 01 Kel. Pamoyanan Kec. Cianjur (43211) </p>
+            <p>Laman https://disarpus.cianjurkab.go.id e-mail disarpus@cianjurkab.go.id</p>
         </div>
     </div>
     <div class="garis"></div>
@@ -178,12 +179,11 @@
         <p>Demikian laporan riwayat permintaan Alat Kantor ini kami sampaikan. Semoga laporan ini dapat digunakan sebagai bahan evaluasi dan perencanaan kebutuhan perlengkapan kantor di masa mendatang.</p>
 
         <div class="signature">
-            <p>Hormat kami,</p>
             <p><strong>Kepala Dinas Arsip dan Perpustakaan</strong></p>
-            <p>Kabupaten Cianjur</p>
             <br><br><br>
-            <p><strong>{{ $pimpinan ?? 'Drs. H. Sutisna, M.Si' }}</strong><br>
-            NIP. 19650110 199003 1 002</p>
+            <p><strong>{{ $pimpinan ?? 'Asep Suparman, S.Sos.M.Si.' }}</strong><br>
+            NIP. 196806101994031012
+            </p>
         </div>
     </div>
 

@@ -33,7 +33,7 @@
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
-                <!-- Remember Me & Forgot Password -->
+                {{-- <!-- Remember Me & Forgot Password -->
                 <div class="flex items-center justify-between">
                     <label class="inline-flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" name="remember">
@@ -42,10 +42,10 @@
 
                     @if (Route::has('password.request'))
                         <a class="text-sm text-blue-500 hover:underline" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
+                            {{ __('Lupa Kata Sandi?') }}
                         </a>
                     @endif
-                </div>
+                </div> --}}
 
                 <!-- Buttons -->
                 <div class="flex flex-col gap-4">

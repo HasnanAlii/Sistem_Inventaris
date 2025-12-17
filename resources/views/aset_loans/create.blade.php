@@ -63,11 +63,13 @@
 
 
                     {{-- Jumlah --}}
-                    <div>
+                    {{-- <div>
                         <label for="jumlah" class="block text-base font-semibold text-gray-700 mb-2">Jumlah</label>
                         <input type="number" name="jumlah" id="jumlah" min="1" value="1"
                             class="w-full text-base border-gray-300 rounded-lg py-2.5 px-3 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm" required>
-                    </div>
+                    </div> --}}
+                    <input type="hidden" name="jumlah" id="jumlah" value="1">
+
 
                     {{-- Tanggal Pinjam --}}
                     <div>

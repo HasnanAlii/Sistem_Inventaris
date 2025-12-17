@@ -87,7 +87,7 @@
 
                         <select name="kondisi" class="border-gray-300 pr-10 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                             <option value="">Semua Kondisi</option>
-                            <option value="baru" {{ request('kondisi') == 'baru' ? 'selected' : '' }}>Baru</option>
+                            {{-- <option value="baru" {{ request('kondisi') == 'baru' ? 'selected' : '' }}>Baru</option> --}}
                             <option value="baik" {{ request('kondisi') == 'baik' ? 'selected' : '' }}>Baik</option>
                             <option value="rusak_ringan" {{ request('kondisi') == 'rusak_ringan' ? 'selected' : '' }}>Rusak Ringan</option>
                             <option value="rusak_berat" {{ request('kondisi') == 'rusak_berat' ? 'selected' : '' }}>Rusak Berat</option>

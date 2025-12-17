@@ -169,7 +169,13 @@
 
         /* JUMLAH BARANG OTOMATIS */
         function hitungJumlah() {
-            let total = document.querySelectorAll('.atk-item').length;
+            const clean = n => n.replace(/\./g, '') || 0;
+            let total = 0;
+
+            document.querySelectorAll('.stok-ribuan').forEach(el => {
+                total += parseInt(clean(el.value)) || 0;
+            });
+
             document.getElementById('jumlah').value = total;
         }
 

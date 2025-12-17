@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->nullable();
             $table->string('status')->default('Menunggu Konfirmasi'); 
+            $table->string('bukti')->nullable(); 
             $table->timestamps();
         });
     }

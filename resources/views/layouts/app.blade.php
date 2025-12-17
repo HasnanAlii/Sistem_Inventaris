@@ -169,7 +169,7 @@
             <a href="{{ route('dashboard') }}" class="flex flex-col items-center gap-2">
                 <img src="{{ asset('storage/Logo.png') }}" alt="Logo" class="h-28 w-auto rounded-xl shadow-md  p-1">
                 <span class="font-bold text-sky-800 mt-2">Sistem Inventaris</span>
-                <span class="text-xs text-gray-500 -mt-1">Dinas Arsip & Perpustakaan</span>
+                {{-- <span class="text-xs text-gray-500 -mt-1">Dinas Arsip & Perpustakaan</span> --}}
             </a>
         </div>
 

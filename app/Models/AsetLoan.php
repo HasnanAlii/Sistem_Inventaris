@@ -10,7 +10,7 @@ class AsetLoan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'aset_id', 'user_id', 'jumlah', 'tanggal_pinjam', 'tanggal_kembali', 'status'
+        'aset_id', 'user_id', 'jumlah', 'tanggal_pinjam', 'tanggal_kembali', 'status','bukti'
     ];
 
     protected $dates = [
