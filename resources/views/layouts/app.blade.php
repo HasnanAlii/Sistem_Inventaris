@@ -209,12 +209,12 @@
             @endhasrole
 
             @hasrole('pegawai')
-            <x-nav-link :href="route('aset_loans.index')" :active="request()->is('aset_loans*')"
+            <x-nav-link :href="route('aset_loans.index')" :active="request()->is('asets*')"
                 class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
                 <i data-feather="package" class="w-5 h-5"></i> {{ __('Peminjaman Aset') }}
             </x-nav-link>
-            
-            <x-nav-link :href="route('logs.list')" :active="request()->is('logs.list*')"
+
+            <x-nav-link :href="route('logs.list')" :active="request()->is('atks*')"
                 class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
                 <i data-feather="archive" class="w-5 h-5"></i> {{ __('Permintaan Alat Kantor') }}
             </x-nav-link>

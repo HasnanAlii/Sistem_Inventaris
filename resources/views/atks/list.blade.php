@@ -44,11 +44,13 @@
                     </h3>
 
                     <div class="flex flex-wrap items-center gap-3">
+                        @hasrole('petugas')
                         <a href="{{ route('logs.atk.pdf') }}" target="_blank"
                         class="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition shadow-sm">
                             <i data-feather="printer" class="w-4 h-4"></i>
                             Cetak PDF
                         </a>
+                        @endhasrole
                         <a href="{{ route('atks.take') }}"
                            class="flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-xl font-medium 
                            hover:bg-green-700 hover:shadow-md transition-all duration-200">
