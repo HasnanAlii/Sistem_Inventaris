@@ -13,7 +13,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather='package' class="w-6 h-6"></i>
-            List Inventaris
+        Daftar Aset
         </a>
 
         @hasrole('petugas')

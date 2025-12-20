@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('jumlah')->default(1);
             $table->date('tanggal_pinjam');
+            $table->date('tanggal_harus');
             $table->date('tanggal_kembali')->nullable();
             $table->string('status')->default('Menunggu Konfirmasi'); 
             $table->string('bukti')->nullable(); 

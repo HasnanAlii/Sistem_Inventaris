@@ -14,7 +14,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather='package' class="w-6 h-6"></i>
-            List Inventaris
+            Daftar Aset
         </a>
         @hasrole('petugas')
 
@@ -59,7 +59,7 @@
                     bg-gradient-to-r from-amber-50 to-yellow-50 rounded-t-2xl shadow-sm">
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="package" class="w-6 h-6 text-amber-600"></i>
-                        Daftar Aset Inventaris
+                        Daftar Aset 
                     </h3>
 
                     {{-- Form Filter --}}

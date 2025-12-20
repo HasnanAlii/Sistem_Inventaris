@@ -182,7 +182,7 @@
             @hasrole('petugas')
             <x-nav-link :href="route('asets.index')" :active="request()->is('asets*')"
                 class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
-                <i data-feather="package" class="w-5 h-5"></i> {{ __('Inventaris') }}
+                <i data-feather="package" class="w-5 h-5"></i> {{ __('Kelola Aset') }}
             </x-nav-link>
 
             <x-nav-link :href="route('atks.index')" :active="request()->is('atks*')"
@@ -197,9 +197,9 @@
                 @endif
             </x-nav-link>
 
-            <x-nav-link :href="route('logs.atk')" :active="request()->is('logs*')"
+            <x-nav-link :href="route('logs.aset')" :active="request()->is('logs*')"
                 class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
-                <i data-feather="clipboard" class="w-5 h-5"></i> {{ __('Riwayat') }}
+                <i data-feather="truck" class="w-5 h-5"></i> {{ __('Pengadaan') }}
             </x-nav-link>
             
             <x-nav-link :href="route('kategoris.index')" :active="request()->is('kategoris*')"

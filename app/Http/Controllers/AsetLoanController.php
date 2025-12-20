@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aset;
 use App\Models\AsetLoan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,7 @@ class AsetLoanController extends Controller
             'user_id' => Auth::id(),
             'jumlah' => $request->jumlah,
             'tanggal_pinjam' => $request->tanggal_pinjam,
+            'tanggal_harus' => Carbon::parse($request->tanggal_pinjam)->addDays(5),
             'status' => 'Menunggu Konfirmasi',
         ]);
 

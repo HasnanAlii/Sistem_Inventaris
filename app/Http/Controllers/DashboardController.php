@@ -10,6 +10,7 @@ use App\Models\AtkProcurement;
 use App\Models\AsetLoan;
 use App\Models\AsetLog;
 use App\Models\AtkLog;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -17,24 +18,17 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // ==============================
-        // 🔹 DASHBOARD UNTUK PETUGAS
-        // ==============================
         if ($user->hasRole('petugas')) {
-            // Statistik utama
             $totalAset = Aset::count();
             $totalAtk = Atk::count();
             $totalPeminjaman = AsetLoan::where('status', 'Disetujui')->count();
 
-            // Notifikasi stok menipis (stok < stok_minimum)
             $stokMenipis = Atk::whereColumn('stok', '<', 'stok_minimum')->count();
             $daftarStokMenipis = Atk::whereColumn('stok', '<', 'stok_minimum')->get();
 
-            // Notifikasi aset rusak
             $asetRusak = Aset::where('kondisi', 'Rusak')->count();
             $daftarAsetRusak = Aset::where('kondisi', 'Rusak')->get();
 
-            // Data pengadaan terbaru
             $pengadaanAtk = AtkProcurement::latest()->take(5)->get();
             $pengadaanAset = AsetLog::latest()->take(5)->get();
 
@@ -51,39 +45,47 @@ class DashboardController extends Controller
             ));
         }
 
-        // ==============================
-        // 🔹 DASHBOARD UNTUK PEGAWAI
-        // ==============================
+
         elseif ($user->hasRole('pegawai')) {
-            // Riwayat peminjaman aset oleh user
             $peminjamanAset = AsetLoan::where('user_id', $user->id)
                 ->with('aset')
                 ->latest()
                 ->take(5)
                 ->get();
 
-            // Riwayat permintaan ATK oleh user
             $permintaanAtk = AtkLog::where('user_id', $user->id)
                 ->with('atk')
                 ->latest()
                 ->take(5)
                 ->get();
 
-            // Hitung aset yang belum dikembalikan
-            $belumDikembalikan = AsetLoan::where('user_id', $user->id)
-                ->where('status', 'Belum Dikembalikan')
-                ->count();
+            $asetBelumDikembalikan = AsetLoan::where('user_id', $user->id)
+            ->where('status', 'Disetujui')
+            ->with('aset')
+            ->get();
+
+            $notifikasiAset = $asetBelumDikembalikan->map(function ($loan) {
+                return [
+                    'nama_aset' => $loan->aset->nama ?? 'Aset Tidak Diketahui',
+                    'sisa_hari' => (int) Carbon::now()->diffInDays(
+                    Carbon::parse($loan->tanggal_harus),
+                    false
+                ),
+
+                ];
+            });
+
+            $belumDikembalikan = $notifikasiAset->count();
 
             return view('dashboard', compact(
                 'peminjamanAset',
                 'permintaanAtk',
+                'notifikasiAset',
                 'belumDikembalikan'
             ));
         }
 
-        // ==============================
-        // 🔹 DEFAULT (tidak punya role)
-        // ==============================
+     
         abort(403, 'Anda tidak memiliki akses ke dashboard.');
     }
 }

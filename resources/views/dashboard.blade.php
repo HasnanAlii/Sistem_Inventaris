@@ -7,7 +7,6 @@
 
     <div class="py-6 space-y-8 px-2">
 
-        <!-- 👋 NOTIFIKASI SELAMAT DATANG -->
         <div id="welcome-alert" class="bg-green-100 border-l-4 border-green-500 p-4 rounded-2xl shadow-md flex justify-between items-start">
             <div class="flex items-center gap-3">
                 <i data-feather="smile" class="w-6 h-6 text-green-600"></i>
@@ -20,24 +19,56 @@
                 class="text-green-600 hover:text-green-800 font-bold text-xl leading-none px-2">×</button>
         </div>
 
-        <!-- 🔔 NOTIFIKASI PEMINJAMAN -->
         @if($belumDikembalikan > 0)
-            <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 rounded-2xl shadow-md">
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-5 rounded-2xl shadow-md space-y-4">
+
                 <div class="flex items-center gap-3">
-                    <i data-feather="bell" class="w-6 h-6 text-yellow-600"></i>
-                    <h3 class="font-semibold text-yellow-800">Notifikasi</h3>
+                    <i data-feather="alert-circle" class="w-6 h-6 text-yellow-600"></i>
+                    <h3 class="font-semibold text-yellow-800 text-lg">
+                        Notifikasi Peminjaman Aset
+                    </h3>
                 </div>
-                <p class="mt-2 text-gray-800">
+
+                <p class="text-sm text-gray-700">
                     Anda memiliki <strong>{{ $belumDikembalikan }}</strong> aset yang belum dikembalikan.
+                    Mohon segera melakukan pengembalian sesuai jadwal.
                 </p>
+
+                <ul class="space-y-3">
+                    @foreach($notifikasiAset as $item)
+                        <li class="flex justify-between items-start bg-white p-4 rounded-xl border shadow-sm">
+                            <div>
+                                <p class="font-semibold text-gray-800">
+                                    {{ $item['nama_aset'] }}
+                                </p>
+
+                                <p class="text-sm text-gray-600 mt-1">
+                                    @if($item['sisa_hari'] > 0)
+                                        Sisa waktu pengembalian:
+                                        <strong class="text-yellow-700">
+                                            {{ $item['sisa_hari'] }} hari lagi
+                                        </strong>
+                                    @else
+                                        <strong class="text-red-600">
+                                            Terlambat {{ abs($item['sisa_hari']) }} hari
+                                        </strong>
+                                    @endif
+                                </p>
+                            </div>
+
+                            <span class="text-xs px-3 py-1 rounded-full
+                                {{ $item['sisa_hari'] > 0
+                                    ? 'bg-yellow-100 text-yellow-700'
+                                    : 'bg-red-100 text-red-700' }}">
+                                {{ $item['sisa_hari'] > 0 ? 'Menunggu dikembalikan' : 'Terlambat' }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
-
-        <!-- 📦 TABEL PEMINJAMAN ASET & PERMINTAAN ATK -->
         <div class="flex flex-col lg:flex-row gap-6">
-
-            <!-- 🔹 Tabel Peminjaman Aset -->
             <div class="flex-1 bg-white shadow-md rounded-2xl p-6">
                 <h3 class="text-xl font-semibold text-blue-700 mb-4">Riwayat Peminjaman Aset</h3>
                 <table class="w-full text-sm text-left text-gray-600 border border-gray-200 rounded-lg overflow-hidden">
@@ -74,7 +105,6 @@
                 </table>
             </div>
 
-            <!-- 🔹 Tabel Permintaan ATK -->
             <div class="flex-1 bg-white shadow-md rounded-2xl p-6">
                 <h3 class="text-xl font-semibold text-amber-700 mb-4">Riwayat Permintaan Alat Kantor</h3>
                 <table class="w-full text-sm text-left text-gray-600 border border-gray-200 rounded-lg overflow-hidden">
@@ -114,8 +144,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        feather.replace();
-    </script>
 </x-app-layout>

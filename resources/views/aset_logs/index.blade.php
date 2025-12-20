@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Riwayat Pengadaan Aset') }}
+            {{ __(' Pengadaan Aset') }}
         </h2>
     </x-slot>
 
     <!-- 🔹 Navigasi Halaman -->
     <nav class="bg-white shadow-md border border-gray-200 px-6 py-4 flex flex-wrap items-center gap-4 rounded-xl mb-8">
 
-        <a href="{{ route('logs.atk') }}"
+        {{-- <a href="{{ route('logs.atk') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
                   {{ request()->routeIs('logs.atk') 
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="clipboard" class="w-6 h-6"></i>
-            Riwayat Permintaan Alat Kantor
-        </a>
+             Permintaan Alat Kantor
+        </a> --}}
 
         <a href="{{ route('logs.aset') }}"
            class="flex items-center gap-3 px-6 py-3 rounded-lg border-2 font-semibold text-base transition-all duration-200
@@ -23,7 +23,7 @@
                       ? 'bg-blue-200 border-blue-600 text-blue-900 shadow-lg' 
                       : 'border-blue-400 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-800' }}">
             <i data-feather="package" class="w-6 h-6"></i>
-            Riwayat Pengadaan Aset
+             Pengadaan Aset
         </a>
 
         <a href="{{ route('logs.addatk') }}"
@@ -32,7 +32,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather="archive" class="w-6 h-6"></i>
-            Riwayat Pengadaan Alat Kantor
+             Pengadaan Alat Kantor
         </a>
     </nav>
 
@@ -47,7 +47,7 @@
 
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="package" class="w-6 h-6 text-blue-600"></i>
-                        Riwayat Pengadaan Aset
+                        Daftar Pengadaan Aset
                     </h3>
 
                     <a href="{{ route('aset_logs.create') }}" 

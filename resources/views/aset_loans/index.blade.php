@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Daftar Peminjaman Aset') }}
+            {{ __(' Peminjaman Aset') }}
         </h2>
     </x-slot>
 
@@ -15,7 +15,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather='package' class="w-6 h-6"></i>
-            List Inventaris
+               Daftar Aset
         </a>
 
         <a href="{{ route('maintenance.index') }}"
@@ -24,7 +24,7 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="tool" class="w-6 h-6"></i>
-            Riwayat Perbaikan
+             Perbaikan Aset
         </a>
 
         <a href="{{ route('assessments.index') }}"
@@ -88,7 +88,9 @@
                                 <th class="px-5 py-3 text-left">Pemohon</th>
                                 {{-- <th class="px-5 py-3 text-center">Jumlah</th> --}}
                                 <th class="px-5 py-3 text-center">Tanggal Pinjam</th>
-                                <th class="px-5 py-3 text-center">Tanggal Kembali</th>
+                                <th class="px-5 py-3 text-center">Tanggal Harus Dikembalikan</th>
+                                <th class="px-5 py-3 text-center">Tanggal Dikembalikan</th>
+
                                 <th class="px-5 py-3 text-center">Status</th>
                                 <th class="px-5 py-3 text-center">Aksi</th>
                             </tr>
@@ -102,8 +104,12 @@
                                     {{-- <td class="px-5 py-3 text-center">{{ $loan->jumlah }}</td> --}}
                                     <td class="px-5 py-3 text-center text-gray-600">{{ \Carbon\Carbon::parse($loan->tanggal_pinjam)->format('d/m/Y') }}</td>
                                     <td class="px-5 py-3 text-center text-gray-600">
+                                        {{ $loan->tanggal_harus ? \Carbon\Carbon::parse($loan->tanggal_harus)->format('d/m/Y') : '-' }}
+                                    </td>
+                                       <td class="px-5 py-3 text-center text-gray-600">
                                         {{ $loan->tanggal_kembali ? \Carbon\Carbon::parse($loan->tanggal_kembali)->format('d/m/Y') : '-' }}
                                     </td>
+
 
                                     <td class="px-5 py-3 text-center">
                                         <span class="px-3 py-1 rounded-full text-sm font-semibold
@@ -171,7 +177,7 @@
                                                     <div class="mb-6 flex items-center justify-between">
                                                         <div>
                                                             <h2 class="text-2xl font-bold text-gray-800">Kembalikan Aset</h2>
-                                                            <p class="text-sm text-gray-500 mt-1">Unggah bukti kondisi aset saat ini.</p>
+                                                            {{-- <p class="text-sm text-gray-500 mt-1">Unggah bukti kondisi aset saat ini.</p> --}}
                                                         </div>
                                                         <button onclick="closeReturnModal()" class="rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
                                                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Riwayat Permintaan Alat Kantor') }}
+            {{ __('Permintaan Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather='package' class="w-6 h-6"></i>
-            List Alat Kantor
+            Daftar Alat Kantor
         </a>
         @endhasrole
 
@@ -40,10 +40,15 @@
 
                     <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                         <i data-feather="clock" class="w-6 h-6 text-green-600"></i>
-                        Riwayat Permintaan Alat Kantor
+                        Daftar Permintaan Alat Kantor
                     </h3>
 
                     <div class="flex flex-wrap items-center gap-3">
+                        <a href="{{ route('logs.atk.pdf') }}" target="_blank"
+                        class="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700 transition shadow-sm">
+                            <i data-feather="printer" class="w-4 h-4"></i>
+                            Cetak PDF
+                        </a>
                         <a href="{{ route('atks.take') }}"
                            class="flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-xl font-medium 
                            hover:bg-green-700 hover:shadow-md transition-all duration-200">

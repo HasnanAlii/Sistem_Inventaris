@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Riwayat Permintaan Alat Kantor') }}
+            {{ __(' Permintaan Alat Kantor') }}
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
                       ? 'bg-green-200 border-green-600 text-green-900 shadow-lg' 
                       : 'border-green-400 text-green-700 bg-green-50 hover:bg-green-100 hover:border-green-500 hover:text-green-800' }}">
             <i data-feather="clipboard" class="w-6 h-6"></i>
-            Riwayat Permintaan Alat Kantor
+             Permintaan Alat Kantor
         </a>
 
         <a href="{{ route('logs.aset') }}"
@@ -23,7 +23,7 @@
                       ? 'bg-blue-200 border-blue-600 text-blue-900 shadow-lg' 
                       : 'border-blue-400 text-blue-700 bg-blue-50 hover:bg-blue-100 hover:border-blue-500 hover:text-blue-800' }}">
             <i data-feather="package" class="w-6 h-6"></i>
-            Riwayat Pengadaan Aset
+             Pengadaan Aset
         </a>
 
         <a href="{{ route('logs.addatk') }}"
@@ -32,7 +32,7 @@
                       ? 'bg-amber-200 border-amber-600 text-amber-900 shadow-lg' 
                       : 'border-amber-400 text-amber-700 bg-amber-50 hover:bg-amber-100 hover:border-amber-500 hover:text-amber-800' }}">
             <i data-feather="archive" class="w-6 h-6"></i>
-            Riwayat Pengadaan Alat Kantor
+             Pengadaan Alat Kantor
         </a>
     </nav>
 
@@ -46,7 +46,7 @@
             bg-gradient-to-r from-green-50 to-emerald-50 rounded-t-2xl shadow-sm">
             <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
                 <i data-feather="clipboard" class="w-6 h-6 text-green-600"></i>
-                Riwayat Permintaan Alat Kantor
+                Daftar Permintaan Alat Kantor
             </h3>
             <a href="{{ route('logs.atk.pdf') }}" target="_blank"
             class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition shadow-sm">
