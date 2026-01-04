@@ -18,50 +18,39 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// =========================
-// 🔹 PUBLIC ROUTES
-// =========================
+
 Route::get('/', fn() => view('welcome'));
-
-
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// =========================
-// 🔹 PROFILE ROUTES (AUTH)
-// =========================
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// =========================
-// 🔹 ROUTES UNTUK SEMUA USER (Pegawai & Petugas)
-// =========================
 Route::middleware('auth')->group(function () {
 
         Route::get('/asets/{aset}/label', [AsetController::class, 'printLabel'])->name('asets.printLabel');
         Route::get('/asets/loans/create', [AsetLoanController::class, 'create'])->name('aset_loans.create');
         Route::post('/asets/add', [AsetLoanController::class, 'store'])->name('aset_loans.store');
         Route::post('/asets/{asetLoan}/return', [AsetLoanController::class, 'return'])->name('aset_loans.return');
-        Route::get('/asets/{asetLoan}/update', [AsetLoanController::class, 'edit'])->name('aset_loans.edit');
+        Route::get('/asets/{asetLoan}/konfirmasi', [AsetLoanController::class, 'edit'])->name('aset_loans.edit');
         Route::put('/asets/{asetLoan}', [AsetLoanController::class, 'updateStatus'])->name('aset_loans.update');
         
 
     Route::prefix('asets')->group(function () {
+        Route::put('/{aset}/update', [AsetController::class, 'update'])->name('asets.update');
         Route::get('/{aset}/edit', [AsetController::class, 'edit'])->name('asets.edit');
-        Route::put('/{aset}', [AsetController::class, 'update'])->name('asets.update');
         Route::get('loans', [AsetLoanController::class, 'index'])->name('aset_loans.index');
         Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
         Route::get('/maintenance', [MaintenanceLogController::class, 'index'])->name('maintenance.index');
         Route::get('/', [AsetController::class, 'index'])->name('asets.index');
         Route::get('/{aset}', [AsetController::class, 'show'])->name('asets.show');
         Route::delete('/{aset}', [AsetController::class, 'destroy'])->name('asets.destroy');
-
-
     });
 
     // ---------- KATEGORI & LOKASI ----------
