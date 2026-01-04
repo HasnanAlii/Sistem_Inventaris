@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Lokasi;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +30,7 @@ class AsetLogController extends Controller
         return view('aset_logs.create', compact('kategoris', 'lokasis'));
     }
 
+
 public function store(Request $request)
 {
     $request->validate([
@@ -45,70 +47,94 @@ public function store(Request $request)
         'asets.*.lokasi_id' => 'required|exists:lokasis,id',
     ]);
 
-    // 🔹 Simpan pengadaan
-    $asetLog = AsetLog::create([
-        'nama_barang' => $request->nama_barang,
-        'jumlah' => $request->jumlah,
-        'biaya' => $request->biaya,
-        'tanggal_pengadaan' => $request->tanggal_pengadaan ?? now()->toDateString(),
-        'created_by' => Auth::id(),
-    ]);
+    DB::transaction(function () use ($request) {
 
-    // 🔹 Inisialisasi counter untuk nomor inventaris per kategori per tahun
-    $nomorCounters = [];
+        /* =========================
+           SIMPAN LOG PENGADAAN
+        ========================= */
+        $asetLog = AsetLog::create([
+            'nama_barang' => $request->nama_barang,
+            'jumlah' => $request->jumlah,
+            'biaya' => $request->biaya,
+            'tanggal_pengadaan' => $request->tanggal_pengadaan ?? now()->toDateString(),
+            'created_by' => Auth::id(),
+        ]);
 
-    foreach ($request->asets as $asetData) {
-        if (empty($asetData['tanggal_perolehan'])) {
-            $asetData['tanggal_perolehan'] = now()->toDateString();
-        }
+        // Counter per kategori + tahun (dalam 1 request)
+        $nomorCounters = [];
 
-        $kategori = Kategori::find($asetData['kategori_id']);
-        $year = Carbon::parse($asetData['tanggal_perolehan'])->year;
-        $kategoriKey = $kategori->id . '-' . $year;
+        foreach ($request->asets as $asetData) {
 
-        if (!isset($nomorCounters[$kategoriKey])) {
-            $lastAset = Aset::where('kategori_id', $kategori->id)
-                ->whereYear('tanggal_perolehan', $year)
-                ->orderBy('id', 'desc')
-                ->first();
+            $tanggalPerolehan = !empty($asetData['tanggal_perolehan'])
+                ? Carbon::parse($asetData['tanggal_perolehan'])
+                : now();
 
-            $lastNumber = 0;
-            if ($lastAset && preg_match('/(\d{4,})$/', $lastAset->nomor_inventaris, $matches)) {
-                $lastNumber = (int) $matches[1];
+            $year = $tanggalPerolehan->year;
+            $kategoriId = $asetData['kategori_id'];
+            $counterKey = "{$kategoriId}-{$year}";
+
+            /* =========================================
+               AMBIL NOMOR TERAKHIR (LOCKED & AMAN)
+            ========================================= */
+            if (!isset($nomorCounters[$counterKey])) {
+
+                $lastNumber = Aset::where('kategori_id', $kategoriId)
+                    ->whereYear('tanggal_perolehan', $year)
+                    ->lockForUpdate() // 🔐 cegah duplikat paralel
+                    ->selectRaw("MAX(CAST(SUBSTRING_INDEX(nomor_inventaris, '/', -1) AS UNSIGNED)) as max_seq")
+                    ->value('max_seq') ?? 0;
+
+                $nomorCounters[$counterKey] = $lastNumber;
             }
 
-            $nomorCounters[$kategoriKey] = $lastNumber;
+            // Increment aman
+            $nomorCounters[$counterKey]++;
+            $seq = str_pad($nomorCounters[$counterKey], 4, '0', STR_PAD_LEFT);
+
+            $kategori = Kategori::find($kategoriId);
+            $kodeKategori = strtoupper(substr($kategori->nama, 0, 3));
+
+            $nomorInventaris = "INV-{$kodeKategori}/{$year}/{$seq}";
+
+            /* =========================
+               HITUNG UMUR EKONOMIS
+            ========================= */
+            $umurBulan = $tanggalPerolehan->diffInMonths(now());
+
+            /* =========================
+               SIMPAN ASET
+            ========================= */
+            $aset = Aset::create([
+                'nama' => $asetData['nama'],
+                'kategori_id' => $kategoriId,
+                'lokasi_id' => $asetData['lokasi_id'],
+                'harga' => $asetData['harga'],
+                'tanggal_perolehan' => $tanggalPerolehan->toDateString(),
+                'nomor_inventaris' => $nomorInventaris,
+                'umur_ekonomis' => $umurBulan,
+                'aset_log_id' => $asetLog->id,
+                'created_by' => Auth::id(),
+            ]);
+
+            /* =========================
+               SIMPAN ASSESSMENT
+            ========================= */
+            Assessment::create([
+                'aset_id'     => $aset->id,
+                'condition'   => 'baru',
+                'usia_bulan'  => $umurBulan,
+                'perbaikan'   => 0,
+                'score'       => 100,
+                'status'      => 'Layak',
+            ]);
         }
+    });
 
-        $nomorCounters[$kategoriKey]++;
-        $seq = str_pad($nomorCounters[$kategoriKey], 4, '0', STR_PAD_LEFT);
-
-
-
-        $asetData['nomor_inventaris'] = 'INV-' . strtoupper(substr($kategori->nama, 0, 3)) . "/{$year}/{$seq}";
-
-        $asetData['aset_log_id'] = $asetLog->id;
-        $asetData['created_by'] = Auth::id();
-
-        $tanggalPerolehan = Carbon::parse($asetData['tanggal_perolehan']);
-        $umurBulan = $tanggalPerolehan->diffInMonths(now());
-        $asetData['umur_ekonomis'] = $umurBulan;
-
-        $aset = Aset::create($asetData);
-
-        Assessment::create([
-            'aset_id'     => $aset->id,
-            'condition'   => $aset->kondisi ?? 'baru',
-            'usia_bulan'  => $aset->umur_ekonomis,
-            'perbaikan'   => 0,
-            'score'       => 100,
-            'status'      => 'Layak',
-        ]);
-    }
-
-    return redirect()->route('aset_logs.index')
-        ->with('success', 'Pengadaan, aset, dan assessment berhasil dibuat dengan umur ekonomis otomatis.');
+    return redirect()
+        ->route('aset_logs.index')
+        ->with('success', 'Pengadaan, aset, dan assessment berhasil dibuat tanpa duplikasi nomor inventaris.');
 }
+
 
     public function show(AsetLog $asetLog)
     {

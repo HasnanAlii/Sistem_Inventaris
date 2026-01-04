@@ -47,18 +47,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/asets/loans/create', [AsetLoanController::class, 'create'])->name('aset_loans.create');
         Route::post('/asets/add', [AsetLoanController::class, 'store'])->name('aset_loans.store');
         Route::post('/asets/{asetLoan}/return', [AsetLoanController::class, 'return'])->name('aset_loans.return');
-        Route::get('/asets/{asetLoan}/edit', [AsetLoanController::class, 'edit'])->name('aset_loans.edit');
+        Route::get('/asets/{asetLoan}/update', [AsetLoanController::class, 'edit'])->name('aset_loans.edit');
         Route::put('/asets/{asetLoan}', [AsetLoanController::class, 'updateStatus'])->name('aset_loans.update');
         
 
     Route::prefix('asets')->group(function () {
+        Route::get('/{aset}/edit', [AsetController::class, 'edit'])->name('asets.edit');
+        Route::put('/{aset}', [AsetController::class, 'update'])->name('asets.update');
         Route::get('loans', [AsetLoanController::class, 'index'])->name('aset_loans.index');
         Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
         Route::get('/maintenance', [MaintenanceLogController::class, 'index'])->name('maintenance.index');
         Route::get('/', [AsetController::class, 'index'])->name('asets.index');
         Route::get('/{aset}', [AsetController::class, 'show'])->name('asets.show');
-        Route::get('/{aset}/edit', [AsetController::class, 'edit'])->name('asets.edit');
-        Route::put('/{aset}', [AsetController::class, 'update'])->name('asets.update');
         Route::delete('/{aset}', [AsetController::class, 'destroy'])->name('asets.destroy');
 
 
