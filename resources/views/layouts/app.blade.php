@@ -197,6 +197,12 @@
                 @endif
             </x-nav-link>
 
+            <x-nav-link :href="route('employees.index')" :active="request()->is('employee*')"
+                class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
+                <i data-feather="users" class="w-5 h-5"></i> {{ __('Data Staff') }}
+            </x-nav-link>
+
+
             <x-nav-link :href="route('logs.aset')" :active="request()->is('logs*')"
                 class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-700 transition-all duration-150">
                 <i data-feather="truck" class="w-5 h-5"></i> {{ __('Pengadaan') }}

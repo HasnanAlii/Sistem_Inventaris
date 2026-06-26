@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     AtkProcurementController,
     AtkRequestController,
     DashboardController,
+    KaryawanController,
     KategoriController,
     LokasiController,
     MaintenanceLogController,
@@ -53,6 +54,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{aset}', [AsetController::class, 'destroy'])->name('asets.destroy');
     });
 
+
+    Route::get('/employee', [KaryawanController::class, 'index'])->name('employees.index');
+    Route::get('/employee/create', [KaryawanController::class, 'create'])->name('employees.create');
+    Route::post('/employee', [KaryawanController::class, 'store'])->name('employees.store');
+    Route::get('/employee/{karyawan}/edit', [KaryawanController::class, 'edit'])->name('employees.edit');
+    Route::put('/employee/{karyawan}', [KaryawanController::class, 'update'])->name('employees.update');
+    Route::delete('/employee/{karyawan}', [KaryawanController::class, 'destroy'])->name('employees.destroy');
+
+    
     // ---------- KATEGORI & LOKASI ----------
     Route::prefix('kategoris')->group(function () {
         Route::get('/lokasis', [LokasiController::class, 'index'])->name('lokasis.index');
